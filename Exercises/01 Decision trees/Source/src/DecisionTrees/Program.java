@@ -7,7 +7,7 @@ public class Program {
 
 	private static ArrayList attributes = new ArrayList();
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		
 		File input = new File("./data_exercise_1.csv");
 		BufferedReader reader = new BufferedReader(new FileReader(input));
@@ -24,7 +24,7 @@ public class Program {
 	}
 
 	private static AttributeDescriptor[] BuildAttributeDescriptors(
-			String descriptionLine) {
+			String descriptionLine) throws Exception {
 		// Split original string into parts dedicated to each attribute
 		String[] attributes = descriptionLine.split(",");
 		
@@ -43,16 +43,18 @@ public class Program {
 		return null;
 	}
 
-	private static AttributeType ConvertLetterToAttributeType(String letter) {
+	private static AttributeType ConvertLetterToAttributeType(String letter) throws Exception {
 		switch(letter){
 		case "n":
 			return AttributeType.Numeric;
 		case "c":
 			return AttributeType.Catagorical;
+		case "b":
+			return AttributeType.Boolean;
 		case "t":
 			return AttributeType.Target;
-			//default:
-				//throw new 
+		default:
+				throw new Exception("Unknown attribute type: " + letter);
 		}
 	}
 }
