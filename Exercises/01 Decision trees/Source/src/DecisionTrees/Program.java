@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Program {
-
-	private static ArrayList attributes = new ArrayList();
+	private static ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
+	private static ArrayList<Example> examples = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -16,8 +16,10 @@ public class Program {
 		
 		while(true){
 			String line = reader.readLine();
-			if(line != null)
+			if(line != null){
+				examples.add(new Example(line));
 				System.out.println(line);
+			}
 			else
 				break;
 		}
@@ -35,12 +37,14 @@ public class Program {
 			
 			// First part of attribute description contains Attribute name: "a:n" -> "a"
 			descriptor.name = attributes[i].split(":")[0];
+			// second part contains attribute type
 			descriptor.type = ConvertLetterToAttributeType(attributes[i].split(":")[1]);
+			descriptor.position = i;
 			result[i] = descriptor;
 			System.out.println(attributes[i]);
 		}
 		
-		return null;
+		return result;
 	}
 
 	private static AttributeType ConvertLetterToAttributeType(String letter) throws Exception {
