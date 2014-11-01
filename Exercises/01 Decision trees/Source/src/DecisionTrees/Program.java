@@ -14,15 +14,24 @@ public class Program {
 		
 		AttributeDescriptor[] descriptors = BuildAttributeDescriptors(reader.readLine());
 		
+		for(AttributeDescriptor attDesc : descriptors) attributes.add(attDesc);
+
 		while(true){
 			String line = reader.readLine();
 			if(line != null){
-				examples.add(new Example(line));
+				examples.add(new Example(line, attributes));
 				System.out.println(line);
 			}
 			else
 				break;
 		}
+
+		// Build the decision tree.
+		DecisionTreeNode decisionTree = new DecisionTreeNode();
+		decisionTree = BranchDecisionTree(decisionTree, attributes, examples);
+
+		System.out.println(decisionTree.isLeafNode);
+		System.out.println(decisionTree.classify);
 	}
 
 	private static AttributeDescriptor[] BuildAttributeDescriptors(
@@ -52,7 +61,7 @@ public class Program {
 		case "n":
 			return AttributeType.Numeric;
 		case "c":
-			return AttributeType.Catagorical;
+			return AttributeType.Categorical;
 		case "b":
 			return AttributeType.Boolean;
 		case "t":
@@ -118,6 +127,56 @@ public class Program {
 		}
 
 		return entropy - conditionalEntropy;
+	}
+
+	private static DecisionTreeNode BranchDecisionTree(
+		DecisionTreeNode decisionTreeNode,
+		ArrayList<AttributeDescriptor> attributes,
+		ArrayList<Example> examples) {
+
+		double informationGain = 0;
+		int maxAttributeIndex;
+
+		// Loop over all attributes exept the target.
+		for(int k = 0; k < attributes.size() - 1; k++) {
+			AttributeDescriptor kAttribute = attributes.get(k);
+
+			if(kAttribute.type == AttributeType.Boolean) {
+				;
+			}
+			else if(kAttribute.type == AttributeType.Numeric) {
+				;
+			}
+			else if(kAttribute.type == AttributeType.Categorical) {
+				;
+			}
+			else {
+				; // It should not be possible to reach this.
+			}
+		}
+
+		if(informationGain > 0) {
+			;	// Add children to node and call function recursively.
+		}
+
+		else if(informationGain == 0) {
+			// This happens if either attributes only holds the 
+			// target attribute, the node allready classifies pefectly or the
+			// entropy can not be decreases by any attribute.
+			
+			// Count target values and make this node a leaf node.
+			decisionTreeNode.isLeafNode = true;
+			int nTrueTargets = 0;
+			int nFalseTargets = 0;
+			for(Example example : examples) {
+				if(example.GetTargetValue() == true) nTrueTargets++;
+				else nFalseTargets++;
+			}
+			if(nTrueTargets >= nFalseTargets) decisionTreeNode.classify = true;
+			else decisionTreeNode.classify = false;
+		}
+
+		return decisionTreeNode;
 	}
 
 }
