@@ -8,7 +8,7 @@ public class AttributeDescriptor {
 	public int position;
 	
 	// Used by Numeric
-	public int mean;
+	public int decisionValues;
 	// Used by Categorical
 	public ArrayList values;
 }
