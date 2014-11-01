@@ -61,4 +61,63 @@ public class Program {
 				throw new Exception("Unknown attribute type: " + letter);
 		}
 	}
+
+	// Returns the logarithm with respect to base 2.
+	// Note: log() returns the natural logarithm.
+	private static double log2(double arg) {
+		return Math.log(arg)/Math.log(2.0d);
+	}
+
+	/*
+	Returns the information gain for a binary test with binary target value.
+	Function arguments (n_ij naming scheme):
+	n11: Number of "yes" target values given a true test result.
+	n12: Number of "yes" target values given a false test result.
+	n21: Number of "no" target values given a true test result.
+	n22: Number of "no" target values given a false test result.
+	*/
+	private static double informationGain(int n11, int n12, int n21, int n22)
+		throws Exception {
+
+		int nTot = n11 + n12 + n21 + n22;
+
+		if (nTot == 0) throw new Exception("Function call to " +
+			"informationGain() with all zero arguments");
+
+		// Calulate target value probabilities (p_i's).
+		int nTarget1 = n11 + n12;
+		double pTarget1 = (double)nTarget1/nTot;
+		double pTarget2 = 1 - pTarget1;
+
+		// Calulate attribute value probabilities (p_j's).
+		int nAttribute1 = n11 + n21;
+		double pAttribute1 = (double)nAttribute1/nTot;
+		double pAttribute2 = 1 - pAttribute1;
+
+		// Calculate targed value probabilities conditioned on attribute value
+		// (p_ij's).
+		double p11 = (double)n11 / nAttribute1;
+		double p21 = (double)n21 / nAttribute1;
+		double p12 = (double)n12 / (nTot - nAttribute1);
+		double p22 = (double)n22 / (nTot - nAttribute1);
+
+		double entropy = 0;
+		// Handle zero probabilities separately in entropy calculations.
+		if(pTarget1 != 0) entropy += pTarget1 * log2(1/pTarget1);
+		if(pTarget2 != 0) entropy += pTarget2 * log2(1/pTarget2);
+
+		double conditionalEntropy = 0;
+		// Handle zero probabilities separately.
+		if(nAttribute1 != 0) {
+			if(p11 !=0) conditionalEntropy += pAttribute1 * p11 * log2(1/p11);
+			if(p21 !=0) conditionalEntropy += pAttribute1 * p21 * log2(1/p21);
+		}
+		if(nTot - nAttribute1 != 0) {
+			if(p12 !=0) conditionalEntropy += pAttribute2 * p12 * log2(1/p12);
+			if(p22 !=0) conditionalEntropy += pAttribute2 * p22 * log2(1/p22);
+		}
+
+		return entropy - conditionalEntropy;
+	}
+
 }
