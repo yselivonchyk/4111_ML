@@ -28,6 +28,11 @@ public class Example {
 		return (Boolean)t;
 	}
 
+	public Object GetAttributeValue(int index) {
+		// TODO: make this safer.
+		return attributeValues.get(index);
+	}
+
 	private Object ConvertToType(AttributeDescriptor attDesc, String value) {
 		Object result = 0; // Compiler wants the return value to be initialized.
 
