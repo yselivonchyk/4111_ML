@@ -27,8 +27,10 @@ public class Program {
 		}
 
 		// Build the decision tree.
-		DecisionTreeNode decisionTree = new DecisionTreeNode();
-		decisionTree = BranchDecisionTree(attributes, examples);
+		DecisionTreeNode decisionTree = BranchDecisionTree(attributes, examples);
+
+		System.out.println("== Decision tree output table ===");
+		printDecisionTree(decisionTree);
 	}
 
 	private static AttributeDescriptor[] BuildAttributeDescriptors(
@@ -143,7 +145,7 @@ public class Program {
 		int nFalseTargetTrueTest;
 		int nFalseTargetFalseTest;	
 
-		// Loop over all attributes exept the target.
+		// Loop over all attributes except the target.
 		for(int k = 0; k < attributes.size() - 1; k++) {
 
 			AttributeDescriptor kAttribute = attributes.get(k);
@@ -225,6 +227,8 @@ public class Program {
 				lExamples);
 			decisionTreeNode.rightChild = BranchDecisionTree(attributes,
 				rExamples);
+			decisionTreeNode.leftChild.parentTestResult = true;
+			decisionTreeNode.rightChild.parentTestResult = false;
 		}
 
 		else if(maxInformationGain == 0) {
@@ -247,4 +251,32 @@ public class Program {
 		return decisionTreeNode;
 	}
 
+	// Prints the decision table to the screen in a basic format.
+	public static void printDecisionTree(DecisionTreeNode node){
+		System.out.print(node.nodeId);
+		System.out.print("\t");
+		System.out.print(node.parentTestResult);
+		System.out.print("\t");
+
+		if(node.isLeafNode) {
+			System.out.println(node.classify);
+		}
+		else {
+			if(node.attribute.type == AttributeType.Boolean) {
+				System.out.print("b");
+			}
+			else {
+				System.out.print("x");
+			}
+
+			System.out.print("\t");
+			System.out.print(node.leftChild.nodeId);
+			System.out.print("\t");
+			System.out.print(node.rightChild.nodeId);
+			System.out.println();
+
+			printDecisionTree(node.leftChild);
+			printDecisionTree(node.rightChild);
+		}	
+	}
 }
