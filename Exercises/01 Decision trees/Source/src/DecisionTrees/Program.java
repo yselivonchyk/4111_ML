@@ -28,10 +28,7 @@ public class Program {
 
 		// Build the decision tree.
 		DecisionTreeNode decisionTree = new DecisionTreeNode();
-		decisionTree = BranchDecisionTree(decisionTree, attributes, examples);
-
-		System.out.println(decisionTree.isLeafNode);
-		System.out.println(decisionTree.classify);
+		decisionTree = BranchDecisionTree(attributes, examples);
 	}
 
 	private static AttributeDescriptor[] BuildAttributeDescriptors(
@@ -129,14 +126,14 @@ public class Program {
 	}
 
 	private static DecisionTreeNode BranchDecisionTree(
-		DecisionTreeNode decisionTreeNode,
 		ArrayList<AttributeDescriptor> attributes,
 		ArrayList<Example> examples) {
 
+		DecisionTreeNode decisionTreeNode = new DecisionTreeNode();
+
 		double informationGain = 0;
 		double maxInformationGain = 0;
-		int attributeIndex;
-		int maxAttributeIndex;
+		int maxAttributeIndex = 0;
 
 		Boolean targetValue;
 		Boolean testValue;
@@ -150,7 +147,6 @@ public class Program {
 		for(int k = 0; k < attributes.size() - 1; k++) {
 
 			AttributeDescriptor kAttribute = attributes.get(k);
-			attributeIndex = kAttribute.position;
 
 			// Count test results and target values.
 			nTrueTargetTrueTest = 0;
@@ -164,7 +160,7 @@ public class Program {
 
 					targetValue = example.GetTargetValue();
 					testValue = (Boolean)example.GetAttributeValue(
-						attributeIndex);
+						kAttribute.position);
 
 					// Increment the countervariables.
 					if(targetValue == true && testValue == true){
@@ -186,7 +182,7 @@ public class Program {
 
 				if(informationGain > maxInformationGain) {
 					maxInformationGain = informationGain;
-					maxAttributeIndex = attributeIndex;
+					maxAttributeIndex = k;
 
 					System.out.println("New maximum information gain");
 					System.out.println(maxInformationGain);
@@ -206,7 +202,29 @@ public class Program {
 		}
 
 		if(maxInformationGain > 0) {
-			;	// Add children to node and call function recursively.
+			decisionTreeNode.attribute = attributes.get(maxAttributeIndex);
+
+			attributes.remove(maxAttributeIndex);
+
+			// Split the examples to left and right branch. Left side examples
+			// give a true test result. Right side examples give a false test
+			// result.
+			ArrayList<Example> lExamples = new ArrayList<>();
+			ArrayList<Example> rExamples = new ArrayList<>();
+
+			if(decisionTreeNode.attribute.type == AttributeType.Boolean) {
+				for(Example example : examples) {
+					testValue = (Boolean)example.GetAttributeValue(
+						decisionTreeNode.attribute.position);
+					if(testValue == true) lExamples.add(example);
+					else rExamples.add(example);
+				}
+			}
+
+			decisionTreeNode.leftChild = BranchDecisionTree(attributes,
+				lExamples);
+			decisionTreeNode.rightChild = BranchDecisionTree(attributes,
+				rExamples);
 		}
 
 		else if(maxInformationGain == 0) {
