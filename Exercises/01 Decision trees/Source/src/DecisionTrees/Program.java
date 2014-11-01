@@ -76,13 +76,13 @@ public class Program {
 	n21: Number of "no" target values given a true test result.
 	n22: Number of "no" target values given a false test result.
 	*/
-	private static double informationGain(int n11, int n12, int n21, int n22)
+	private static double InformationGain(int n11, int n12, int n21, int n22)
 		throws Exception {
 
 		int nTot = n11 + n12 + n21 + n22;
 
 		if (nTot == 0) throw new Exception("Function call to " +
-			"informationGain() with all zero arguments");
+			"InformationGain() with all zero arguments");
 
 		// Calulate target value probabilities (p_i's).
 		int nTarget1 = n11 + n12;
