@@ -19,6 +19,7 @@ public class Program {
 		while(true){
 			String line = reader.readLine();
 			if(line != null){
+				// TODO: split data randomly in training  and test data.
 				examples.add(new Example(line, attributes));
 				System.out.println(line);
 			}
@@ -26,11 +27,13 @@ public class Program {
 				break;
 		}
 
-		// Build the decision tree.
+		// Builds the decision tree by recursevly calling itself.
 		DecisionTreeNode decisionTree = BranchDecisionTree(attributes, examples);
 
 		System.out.println("== Decision tree output table ===");
 		printDecisionTree(decisionTree);
+
+		// TODO: Implement evaluation of the code according to exercise sheet.
 	}
 
 	private static AttributeDescriptor[] BuildAttributeDescriptors(
@@ -135,22 +138,26 @@ public class Program {
 
 		double informationGain = 0;
 		double maxInformationGain = 0;
-		int maxAttributeIndex = 0;
+
+		// Index of the information gain maximizer attribute w.r.t 
+		// ArrayList<AttributeDescriptor> attributes.
+		int maxAttributeIndex = 0; 
 
 		Boolean targetValue;
 		Boolean testValue;
 
+		// Counter variables to estimate probabilities.
 		int nTrueTargetTrueTest;
 		int nTrueTargetFalseTest;
 		int nFalseTargetTrueTest;
 		int nFalseTargetFalseTest;	
 
-		// Loop over all attributes except the target.
+		// Loop over all attributes except the target and find the one that
+		// yields the biggest information gain.
 		for(int k = 0; k < attributes.size() - 1; k++) {
 
 			AttributeDescriptor kAttribute = attributes.get(k);
 
-			// Count test results and target values.
 			nTrueTargetTrueTest = 0;
 			nTrueTargetFalseTest = 0;
 			nFalseTargetTrueTest = 0;
@@ -193,13 +200,16 @@ public class Program {
 
 			}
 			else if(kAttribute.type == AttributeType.Numeric) {
-				;
+				; // TODO: Implementation.
 			}
 			else if(kAttribute.type == AttributeType.Categorical) {
-				;
+				; // TODO: Implementation. Note: requires to first implement 
+				  // a way to populate the ArrayList values field of the
+				  // AttributeDescriptor class.
 			}
 			else {
 				; // It should not be possible to reach this.
+				  // Maybe throw exeption. 
 			}
 		}
 
@@ -214,6 +224,7 @@ public class Program {
 			ArrayList<Example> lExamples = new ArrayList<>();
 			ArrayList<Example> rExamples = new ArrayList<>();
 
+			// Perform the split in case of a boolean maximizing attribute.
 			if(decisionTreeNode.attribute.type == AttributeType.Boolean) {
 				for(Example example : examples) {
 					testValue = (Boolean)example.GetAttributeValue(
@@ -222,6 +233,8 @@ public class Program {
 					else rExamples.add(example);
 				}
 			}
+
+			// TODO: Perform the split for non-boolean maximizing attributes.
 
 			decisionTreeNode.leftChild = BranchDecisionTree(attributes,
 				lExamples);

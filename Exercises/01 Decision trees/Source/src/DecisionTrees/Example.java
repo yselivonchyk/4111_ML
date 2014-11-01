@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Example {
 	public ArrayList<Object> attributeValues;
 
+	// Constructor; populates the attributeValues ArrayList with Objects.
 	public Example (String fileData, ArrayList<AttributeDescriptor> attributes)
 		throws Exception {
 
@@ -33,6 +34,7 @@ public class Example {
 		return attributeValues.get(index);
 	}
 
+	// Convert String type values to Objects based on an AttributeDescriptor.
 	private Object ConvertToType(AttributeDescriptor attDesc, String value) {
 		Object result = 0; // Compiler wants the return value to be initialized.
 
