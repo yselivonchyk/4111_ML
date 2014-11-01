@@ -85,13 +85,12 @@ public class Program {
 	n21: Number of "no" target values given a true test result.
 	n22: Number of "no" target values given a false test result.
 	*/
-	private static double InformationGain(int n11, int n12, int n21, int n22)
-		throws Exception {
+	private static double InformationGain(int n11, int n12, int n21, int n22) {
 
 		int nTot = n11 + n12 + n21 + n22;
 
-		if (nTot == 0) throw new Exception("Function call to " +
-			"InformationGain() with all zero arguments");
+		// if (nTot == 0) throw new Exception("Function call to " +
+		// 	"InformationGain() with all zero arguments");
 
 		// Calulate target value probabilities (p_i's).
 		int nTarget1 = n11 + n12;
@@ -135,14 +134,65 @@ public class Program {
 		ArrayList<Example> examples) {
 
 		double informationGain = 0;
+		double maxInformationGain = 0;
+		int attributeIndex;
 		int maxAttributeIndex;
+
+		Boolean targetValue;
+		Boolean testValue;
+
+		int nTrueTargetTrueTest;
+		int nTrueTargetFalseTest;
+		int nFalseTargetTrueTest;
+		int nFalseTargetFalseTest;	
 
 		// Loop over all attributes exept the target.
 		for(int k = 0; k < attributes.size() - 1; k++) {
-			AttributeDescriptor kAttribute = attributes.get(k);
 
+			AttributeDescriptor kAttribute = attributes.get(k);
+			attributeIndex = kAttribute.position;
+
+			// Count test results and target values.
+			nTrueTargetTrueTest = 0;
+			nTrueTargetFalseTest = 0;
+			nFalseTargetTrueTest = 0;
+			nFalseTargetFalseTest = 0;		
+
+			// The test used depends on the attribute type.
 			if(kAttribute.type == AttributeType.Boolean) {
-				;
+				for(Example example : examples) {
+
+					targetValue = example.GetTargetValue();
+					testValue = (Boolean)example.GetAttributeValue(
+						attributeIndex);
+
+					// Increment the countervariables.
+					if(targetValue == true && testValue == true){
+						nTrueTargetTrueTest++;
+					}
+					else if(targetValue == true && testValue == false){
+						nTrueTargetFalseTest++;
+					}
+					else if(targetValue == false && testValue == true){
+						nFalseTargetTrueTest++;
+					}
+					if(targetValue == false && testValue == false){
+						nFalseTargetFalseTest++;
+					}
+				}
+				informationGain = 
+					InformationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+					nFalseTargetTrueTest, nFalseTargetFalseTest);
+
+				if(informationGain > maxInformationGain) {
+					maxInformationGain = informationGain;
+					maxAttributeIndex = attributeIndex;
+
+					System.out.println("New maximum information gain");
+					System.out.println(maxInformationGain);
+					System.out.println();
+				}
+
 			}
 			else if(kAttribute.type == AttributeType.Numeric) {
 				;
@@ -155,11 +205,11 @@ public class Program {
 			}
 		}
 
-		if(informationGain > 0) {
+		if(maxInformationGain > 0) {
 			;	// Add children to node and call function recursively.
 		}
 
-		else if(informationGain == 0) {
+		else if(maxInformationGain == 0) {
 			// This happens if either attributes only holds the 
 			// target attribute, the node allready classifies pefectly or the
 			// entropy can not be decreases by any attribute.
