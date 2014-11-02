@@ -21,7 +21,7 @@ public class Program {
 			if(line != null){
 				// TODO: split data randomly in training  and test data.
 				examples.add(new Example(line, attributes));
-				System.out.println(line);
+				//System.out.println(line);
 			}
 			else
 				break;
@@ -31,7 +31,7 @@ public class Program {
 		DecisionTreeNode decisionTree = BranchDecisionTree(attributes, examples);
 
 		System.out.println("== Decision tree output table ===");
-		printDecisionTree(decisionTree);
+		decisionTree.print();
 
 		// TODO: Implement evaluation of the code according to exercise sheet.
 	}
@@ -52,7 +52,6 @@ public class Program {
 			descriptor.type = ConvertLetterToAttributeType(attributes[i].split(":")[1]);
 			descriptor.position = i;
 			result[i] = descriptor;
-			System.out.println(attributes[i]);
 		}
 		
 		return result;
@@ -262,34 +261,5 @@ public class Program {
 		}
 
 		return decisionTreeNode;
-	}
-
-	// Prints the decision table to the screen in a basic format.
-	public static void printDecisionTree(DecisionTreeNode node){
-		System.out.print(node.nodeId);
-		System.out.print("\t");
-		System.out.print(node.parentTestResult);
-		System.out.print("\t");
-
-		if(node.isLeafNode) {
-			System.out.println(node.classify);
-		}
-		else {
-			if(node.attribute.type == AttributeType.Boolean) {
-				System.out.print("b");
-			}
-			else {
-				System.out.print("x");
-			}
-
-			System.out.print("\t");
-			System.out.print(node.leftChild.nodeId);
-			System.out.print("\t");
-			System.out.print(node.rightChild.nodeId);
-			System.out.println();
-
-			printDecisionTree(node.leftChild);
-			printDecisionTree(node.rightChild);
-		}	
 	}
 }

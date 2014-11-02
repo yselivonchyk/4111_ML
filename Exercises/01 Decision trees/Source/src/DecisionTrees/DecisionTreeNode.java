@@ -25,4 +25,33 @@ public class DecisionTreeNode {
 		idCounter++;
 		isLeafNode = false;
 	}
+	
+	// Prints the decision table to the screen in a basic format.
+	public void print(){
+		System.out.print(this.nodeId);
+		System.out.print("\t");
+		System.out.print(this.parentTestResult);
+		System.out.print("\t");
+
+		if(this.isLeafNode) {
+			System.out.println(this.classify);
+		}
+		else {
+			if(this.attribute.type == AttributeType.Boolean) {
+				System.out.print("b");
+			}
+			else {
+				System.out.print("x");
+			}
+
+			System.out.print("\t");
+			System.out.print(this.leftChild.nodeId);
+			System.out.print("\t");
+			System.out.print(this.rightChild.nodeId);
+			System.out.println();
+
+			this.leftChild.print();
+			this.rightChild.print();
+		}	
+	}
 }
