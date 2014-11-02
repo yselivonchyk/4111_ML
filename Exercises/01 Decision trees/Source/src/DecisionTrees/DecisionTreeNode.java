@@ -28,11 +28,10 @@ public class DecisionTreeNode {
 	
 	// Prints the decision table to the screen in a basic format.
 	public void print(){
-		System.out.print(this.nodeId);
-		System.out.print("\t");
-		System.out.print(this.parentTestResult);
-		System.out.print("\t");
-
+		System.out.printf("%d\t%s\t", 
+				this.nodeId, 
+				this.parentTestResult != null ? this.parentTestResult.toString() : "null" );
+		
 		if(this.isLeafNode) {
 			System.out.println(this.classify);
 		}
@@ -44,11 +43,9 @@ public class DecisionTreeNode {
 				System.out.print("x");
 			}
 
-			System.out.print("\t");
-			System.out.print(this.leftChild.nodeId);
-			System.out.print("\t");
-			System.out.print(this.rightChild.nodeId);
-			System.out.println();
+			System.out.printf("\t%d\t%d\n", 
+					this.leftChild.nodeId, 
+					this.rightChild.nodeId);
 
 			this.leftChild.print();
 			this.rightChild.print();
