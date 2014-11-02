@@ -17,23 +17,23 @@ public class Example {
 			AttributeDescriptor jDescriptor = attributes.get(j);
 			String jValue = values[j];
 
-			attributeValues.add(ConvertToType(jDescriptor, jValue));
+			attributeValues.add(convertToType(jDescriptor, jValue));
 		}
 	}
 
-	public Boolean GetTargetValue() {
+	public Boolean getTargetValue() {
 		Object t = attributeValues.get(attributeValues.size() - 1);
 		// TODO: make this safer.
 		return (Boolean)t;
 	}
 
-	public Object GetAttributeValue(int index) {
+	public Object getAttributeValue(int index) {
 		// TODO: make this safer.
 		return attributeValues.get(index);
 	}
 
 	// Convert String type values to Objects based on an AttributeDescriptor.
-	private Object ConvertToType(AttributeDescriptor attDesc, String value) throws Exception {
+	private Object convertToType(AttributeDescriptor attDesc, String value) throws Exception {
 		switch(attDesc.type){
 		case  Numeric:
 			return Integer.parseInt(value);

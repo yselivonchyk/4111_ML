@@ -12,7 +12,7 @@ public class Program {
 		File input = new File("./data_exercise_1.csv");
 		BufferedReader reader = new BufferedReader(new FileReader(input));
 		
-		AttributeDescriptor[] descriptors = BuildAttributeDescriptors(reader.readLine());
+		AttributeDescriptor[] descriptors = buildAttributeDescriptors(reader.readLine());
 		
 		for(AttributeDescriptor attDesc : descriptors) attributes.add(attDesc);
 
@@ -28,7 +28,7 @@ public class Program {
 		}
 
 		// Builds the decision tree by recursevly calling itself.
-		DecisionTreeNode decisionTree = BranchDecisionTree(attributes, examples);
+		DecisionTreeNode decisionTree = branchDecisionTree(attributes, examples);
 
 		System.out.println("== Decision tree output table ===");
 		decisionTree.print();
@@ -36,7 +36,7 @@ public class Program {
 		// TODO: Implement evaluation of the code according to exercise sheet.
 	}
 
-	private static AttributeDescriptor[] BuildAttributeDescriptors(
+	private static AttributeDescriptor[] buildAttributeDescriptors(
 			String descriptionLine) throws Exception {
 		// Split original string into parts dedicated to each attribute
 		String[] attributes = descriptionLine.split(",");
@@ -49,7 +49,7 @@ public class Program {
 			// First part of attribute description contains Attribute name: "a:n" -> "a"
 			descriptor.name = attributes[i].split(":")[0];
 			// second part contains attribute type
-			descriptor.type = ConvertLetterToAttributeType(attributes[i].split(":")[1]);
+			descriptor.type = convertLetterToAttributeType(attributes[i].split(":")[1]);
 			descriptor.position = i;
 			result[i] = descriptor;
 		}
@@ -57,7 +57,7 @@ public class Program {
 		return result;
 	}
 
-	private static AttributeType ConvertLetterToAttributeType(String letter) throws Exception {
+	private static AttributeType convertLetterToAttributeType(String letter) throws Exception {
 		switch(letter){
 		case "n":
 			return AttributeType.Numeric;
@@ -86,7 +86,7 @@ public class Program {
 	n21: Number of "no" target values given a true test result.
 	n22: Number of "no" target values given a false test result.
 	*/
-	private static double InformationGain(int n11, int n12, int n21, int n22) {
+	private static double informationGain(int n11, int n12, int n21, int n22) {
 
 		int nTot = n11 + n12 + n21 + n22;
 
@@ -129,7 +129,7 @@ public class Program {
 		return entropy - conditionalEntropy;
 	}
 
-	private static DecisionTreeNode BranchDecisionTree(
+	private static DecisionTreeNode branchDecisionTree(
 		ArrayList<AttributeDescriptor> attributes,
 		ArrayList<Example> examples) {
 
@@ -166,8 +166,8 @@ public class Program {
 			if(kAttribute.type == AttributeType.Boolean) {
 				for(Example example : examples) {
 
-					targetValue = example.GetTargetValue();
-					testValue = (Boolean)example.GetAttributeValue(
+					targetValue = example.getTargetValue();
+					testValue = (Boolean)example.getAttributeValue(
 						kAttribute.position);
 
 					// Increment the countervariables.
@@ -185,7 +185,7 @@ public class Program {
 					}
 				}
 				informationGain = 
-					InformationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+					informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
 					nFalseTargetTrueTest, nFalseTargetFalseTest);
 
 				if(informationGain > maxInformationGain) {
@@ -226,7 +226,7 @@ public class Program {
 			// Perform the split in case of a boolean maximizing attribute.
 			if(decisionTreeNode.attribute.type == AttributeType.Boolean) {
 				for(Example example : examples) {
-					testValue = (Boolean)example.GetAttributeValue(
+					testValue = (Boolean)example.getAttributeValue(
 						decisionTreeNode.attribute.position);
 					if(testValue == true) lExamples.add(example);
 					else rExamples.add(example);
@@ -235,9 +235,9 @@ public class Program {
 
 			// TODO: Perform the split for non-boolean maximizing attributes.
 
-			decisionTreeNode.leftChild = BranchDecisionTree(attributes,
+			decisionTreeNode.leftChild = branchDecisionTree(attributes,
 				lExamples);
-			decisionTreeNode.rightChild = BranchDecisionTree(attributes,
+			decisionTreeNode.rightChild = branchDecisionTree(attributes,
 				rExamples);
 			decisionTreeNode.leftChild.parentTestResult = true;
 			decisionTreeNode.rightChild.parentTestResult = false;
@@ -253,7 +253,7 @@ public class Program {
 			int nTrueTargets = 0;
 			int nFalseTargets = 0;
 			for(Example example : examples) {
-				if(example.GetTargetValue() == true) nTrueTargets++;
+				if(example.getTargetValue() == true) nTrueTargets++;
 				else nFalseTargets++;
 			}
 			if(nTrueTargets >= nFalseTargets) decisionTreeNode.classify = true;
