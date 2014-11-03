@@ -1,5 +1,6 @@
 package DecisionTrees;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 // Class that describes single experiment i.e. contains attribute values and results (target value)
 public class Example {

@@ -37,10 +37,10 @@ public class DecisionTreeNode {
 		}
 		else {
 			if(this.attribute.type == AttributeType.Boolean) {
-				System.out.print("b");
+				System.out.print(this.attribute.name);
 			}
-			else {
-				System.out.print("x");
+			else if (this.attribute.type ==AttributeType.Numeric){
+				System.out.printf( "%s < %d" ,this.attribute.name,this.attribute.decisionValues);
 			}
 
 			System.out.printf("\t%d\t%d\n", 

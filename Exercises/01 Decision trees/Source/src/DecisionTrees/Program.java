@@ -8,7 +8,6 @@ public class Program {
 	private static ArrayList<Example> examples = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
-		
 		File input = new File("./data_exercise_1.csv");
 		BufferedReader reader = new BufferedReader(new FileReader(input));
 		
@@ -27,14 +26,14 @@ public class Program {
 				break;
 		}
 
-		// Builds the decision tree by recursevly calling itself.
+		// Builds the decision tree by recursively calling itself.
 		DecisionTreeNode decisionTree = branchDecisionTree(attributes, examples);
 
 		System.out.println("== Decision tree output table ===");
 		decisionTree.print();
 
 		// TODO: Implement evaluation of the code according to exercise sheet.
-	}
+	}	// End of main
 
 	private static AttributeDescriptor[] buildAttributeDescriptors(
 			String descriptionLine) throws Exception {
@@ -93,17 +92,17 @@ public class Program {
 		// if (nTot == 0) throw new Exception("Function call to " +
 		// 	"InformationGain() with all zero arguments");
 
-		// Calulate target value probabilities (p_i's).
+		// Calculate target value probabilities (p_i's).
 		int nTarget1 = n11 + n12;
 		double pTarget1 = (double)nTarget1/nTot;
 		double pTarget2 = 1 - pTarget1;
 
-		// Calulate attribute value probabilities (p_j's).
+		// Calculate attribute value probabilities (p_j's).
 		int nAttribute1 = n11 + n21;
 		double pAttribute1 = (double)nAttribute1/nTot;
 		double pAttribute2 = 1 - pAttribute1;
 
-		// Calculate targed value probabilities conditioned on attribute value
+		// Calculate target value probabilities conditioned on attribute value
 		// (p_ij's).
 		double p11 = (double)n11 / nAttribute1;
 		double p21 = (double)n21 / nAttribute1;
@@ -144,6 +143,7 @@ public class Program {
 
 		Boolean targetValue;
 		Boolean testValue;
+		double	numericTestValue=0;
 
 		// Counter variables to estimate probabilities.
 		int nTrueTargetTrueTest;
@@ -170,7 +170,7 @@ public class Program {
 					testValue = (Boolean)example.getAttributeValue(
 						kAttribute.position);
 
-					// Increment the countervariables.
+					// Increment the counter-variables.
 					if(targetValue == true && testValue == true){
 						nTrueTargetTrueTest++;
 					}
@@ -191,16 +191,79 @@ public class Program {
 				if(informationGain > maxInformationGain) {
 					maxInformationGain = informationGain;
 					maxAttributeIndex = k;
-
-					System.out.println("New maximum information gain");
-					System.out.println(maxInformationGain);
-					System.out.println();
 				}
 
 			}
 			else if(kAttribute.type == AttributeType.Numeric) {
-				; // TODO: Implementation.
+					
+				// Bubble sort:
+				int j;
+				boolean flag=true;
+			
+				Example example1;
+				Example example2;
+				while (flag) {
+					flag=false;
+					for(j=0;j<examples.size()-1;j++) {
+						example1 = examples.get(j);
+						example2 = examples.get(j+1);
+						if ((int)example1.getAttributeValue(kAttribute.position) 
+								> (int)example2.getAttributeValue(kAttribute.position)) {
+							examples.set(j,example2);
+							examples.set(j+1,example1);
+							flag=true;
+						}
+					}
+						
+				}
+				// end of sort
+				
+				// we increase the values of nTrueTargetFalseTest, nFalseTargetFalseTest,
+				// because at the 
+				// start all the test values are false
+				for(Example example : examples) {
+					if (example.getTargetValue() == true) {
+						nTrueTargetFalseTest++;
+					}
+					else {
+						nFalseTargetFalseTest++;
+					}
+				}
+				
+				Example tempExample;
+				
+				j=0;
+				for(Example example : examples) {
+					if (j>0){
+						tempExample = examples.get(j-1);
+						// Increment the countervariables.
+						if(tempExample.getTargetValue() == true){
+							nTrueTargetTrueTest++;
+							nTrueTargetFalseTest--;
+						}
+						else {
+							nFalseTargetTrueTest++;
+							nFalseTargetFalseTest--;
+						}
+						
+						if(example.getTargetValue()
+								!=tempExample.getTargetValue()){
+							informationGain = 
+								informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+								nFalseTargetTrueTest, nFalseTargetFalseTest);
+							if(informationGain > maxInformationGain) {
+								maxInformationGain = informationGain;
+								maxAttributeIndex = k;
+								numericTestValue = 
+									((int)example.getAttributeValue(kAttribute.position)
+										+(int)tempExample.getAttributeValue(kAttribute.position))/2;
+							}
+						}
+					}
+					j++;
+				}
 			}
+			
 			else if(kAttribute.type == AttributeType.Categorical) {
 				; // TODO: Implementation. Note: requires to first implement 
 				  // a way to populate the ArrayList values field of the
@@ -208,11 +271,16 @@ public class Program {
 			}
 			else {
 				; // It should not be possible to reach this.
-				  // Maybe throw exeption. 
+				  // Maybe throw exception. 
 			}
 		}
 
 		if(maxInformationGain > 0) {
+			System.out.println("New maximum information gain");
+			System.out.println(maxInformationGain);
+			System.out.println();
+			
+			
 			decisionTreeNode.attribute = attributes.get(maxAttributeIndex);
 
 			attributes.remove(maxAttributeIndex);
@@ -232,6 +300,18 @@ public class Program {
 					else rExamples.add(example);
 				}
 			}
+			else if(decisionTreeNode.attribute.type == AttributeType.Numeric) {
+				int tempTestValue;
+				decisionTreeNode.attribute.decisionValues = (int) numericTestValue;
+				for(Example example : examples) {
+					tempTestValue = (int)example.getAttributeValue(
+							decisionTreeNode.attribute.position);
+					if(tempTestValue<numericTestValue) lExamples.add(example);
+					else rExamples.add(example);
+						
+				}
+				
+			}
 
 			// TODO: Perform the split for non-boolean maximizing attributes.
 
@@ -245,7 +325,7 @@ public class Program {
 
 		else if(maxInformationGain == 0) {
 			// This happens if either attributes only holds the 
-			// target attribute, the node allready classifies pefectly or the
+			// target attribute, the node already classifies perfectly or the
 			// entropy can not be decreases by any attribute.
 			
 			// Count target values and make this node a leaf node.
