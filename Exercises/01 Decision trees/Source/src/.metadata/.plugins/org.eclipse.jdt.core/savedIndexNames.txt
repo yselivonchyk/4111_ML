@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+C:\Users\Luke\workspace\Machine Learning task 1\Exercises\01 Decision trees\Source\src\.metadata\.plugins\org.eclipse.jdt.core
+3508751082.index
