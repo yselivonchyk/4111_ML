@@ -1,7 +1,7 @@
 package DecisionTrees;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Program {
 	private static ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
@@ -163,7 +163,8 @@ public class Program {
 			nFalseTargetFalseTest = 0;		
 
 			// The test used depends on the attribute type.
-			if(kAttribute.type == AttributeType.Boolean) {
+			switch(kAttribute.type){
+			case Boolean:
 				for(Example example : examples) {
 
 					targetValue = example.getTargetValue();
@@ -192,10 +193,8 @@ public class Program {
 					maxInformationGain = informationGain;
 					maxAttributeIndex = k;
 				}
-
-			}
-			else if(kAttribute.type == AttributeType.Numeric) {
-					
+				break;
+			case Numeric:
 				// Bubble sort:
 				int j;
 				boolean flag=true;
@@ -262,22 +261,58 @@ public class Program {
 					}
 					j++;
 				}
-			}
-			
-			else if(kAttribute.type == AttributeType.Categorical) {
-				; // TODO: Implementation. Note: requires to first implement 
-				  // a way to populate the ArrayList values field of the
-				  // AttributeDescriptor class.
-			}
-			else {
-				; // It should not be possible to reach this.
-				  // Maybe throw exception. 
+				break;
+			case Categorical:
+				// prepocess input
+				HashMap<String,Vector<Integer>> valuesStatistics = new HashMap<>();
+				int totalPositive = 0;
+				int totalNegative = 0;
+				
+				for(Example example : examples) {
+					String attrValue = (String)example.getAttributeValue(kAttribute.position);
+					
+					if(!valuesStatistics.containsKey(attrValue)){
+						Vector<Integer> initial = new Vector<Integer>(2);
+						initial.add(0);
+						initial.add(0);
+						valuesStatistics.put(attrValue, initial);
+					}
+					
+					Vector<Integer> record = valuesStatistics.get(attrValue);
+					if (example.getTargetValue()) {
+						record.set(0, record.get(0) + 1); 
+						totalPositive++;
+					}
+					else {
+						record.set(1, record.get(1) + 1); 
+						totalNegative++;
+					}
+				}
+				
+				for(String key : valuesStatistics.keySet()){
+					System.out.println(key);
+					double gain = informationGain(
+							valuesStatistics.get(key).get(0), 
+							valuesStatistics.get(key).get(0), 
+							totalPositive - valuesStatistics.get(key).get(0), 
+							totalNegative - valuesStatistics.get(key).get(0));
+					System.out.println(gain);
+					// TODO: implement factorial arifmetics to generate decision compbinations here 
+				}
+				
+				
+				
+				break;
+			default:
+					System.out.println("unexpected attribute type: " + kAttribute.type);
 			}
 		}
 
 		if(maxInformationGain > 0) {
-			System.out.println("New maximum information gain");
-			System.out.println(maxInformationGain);
+			System.out.printf("New maximum information gain (%s, %s)", 
+					attributes.get(maxAttributeIndex).type.toString(),
+					attributes.get(maxAttributeIndex).name.toString());
+			System.out.println("\n" + maxInformationGain);
 			System.out.println();
 			
 			

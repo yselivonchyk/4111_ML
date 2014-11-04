@@ -24,7 +24,6 @@ public class Example {
 
 	public Boolean getTargetValue() {
 		Object t = attributeValues.get(attributeValues.size() - 1);
-		// TODO: make this safer.
 		return (Boolean)t;
 	}
 
