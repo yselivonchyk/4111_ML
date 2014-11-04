@@ -263,21 +263,22 @@ public class Program {
 				}
 				break;
 			case Categorical:
-				// prepocess input
+				// preprocess input
 				HashMap<String,Vector<Integer>> valuesStatistics = new HashMap<>();
 				int totalPositive = 0;
 				int totalNegative = 0;
 				
+				// Count initial data for each attribute value
 				for(Example example : examples) {
 					String attrValue = (String)example.getAttributeValue(kAttribute.position);
-					
+					// initialize value if didn;t appear yet
 					if(!valuesStatistics.containsKey(attrValue)){
 						Vector<Integer> initial = new Vector<Integer>(2);
 						initial.add(0);
 						initial.add(0);
 						valuesStatistics.put(attrValue, initial);
 					}
-					
+					// increment total counter and value specific counter
 					Vector<Integer> record = valuesStatistics.get(attrValue);
 					if (example.getTargetValue()) {
 						record.set(0, record.get(0) + 1); 
@@ -289,17 +290,17 @@ public class Program {
 					}
 				}
 				
+				// iterate through all possible decisions
 				for(String key : valuesStatistics.keySet()){
 					System.out.println(key);
 					double gain = informationGain(
 							valuesStatistics.get(key).get(0), 
-							valuesStatistics.get(key).get(0), 
+							valuesStatistics.get(key).get(1), 
 							totalPositive - valuesStatistics.get(key).get(0), 
-							totalNegative - valuesStatistics.get(key).get(0));
+							totalNegative - valuesStatistics.get(key).get(1));
 					System.out.println(gain);
-					// TODO: implement factorial arifmetics to generate decision compbinations here 
+					// TODO: implement factorial arifmetics to generate decision combinations here 
 				}
-				
 				
 				
 				break;
