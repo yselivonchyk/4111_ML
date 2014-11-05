@@ -268,10 +268,10 @@ public class Program {
 				int totalPositive = 0;
 				int totalNegative = 0;
 				
-				// Count initial data for each attribute value
+				// >> Count positive/negative tests for each attribute value
 				for(Example example : examples) {
 					String attrValue = (String)example.getAttributeValue(kAttribute.position);
-					// initialize value if didn;t appear yet
+					// initialize statistics record if it didn;t appear yet
 					if(!valuesStatistics.containsKey(attrValue)){
 						Vector<Integer> initial = new Vector<Integer>(2);
 						initial.add(0);
@@ -296,9 +296,6 @@ public class Program {
 				Object[] valuesArray = values.toArray();
 				// total number of combinations. Exclude overflow value and value that considers every element.
 				int combinations = (int)Math.pow(2, nValues) - 1 - 1;
-				
-				ArrayList<String> bestDecision = null;
-				double bestGain = 0;
 				
 				// >> iterate through each possible combination
 				while(combinations > 0){
@@ -325,7 +322,7 @@ public class Program {
 							currentNegative, 
 							totalPositive - currentPositive, 
 							totalNegative - currentNegative);
-					//System.out.printf("combination %5d \tgain:  %10.9f \t%s\n", combinations,  gain, currentDecision.toString());
+					//System.out.printf("combination %5d \t gain:  %10.9f \t%s\n", combinations,  gain, currentDecision.toString());
 					
 					if(gain > maxInformationGain) {
 						maxInformationGain = informationGain;
@@ -335,11 +332,7 @@ public class Program {
 					}
 					
 					combinations--;
-				}
-//				if(bestDecision != null)
-//					System.out.printf("Best gain:  %10.9f \t%s\n", bestGain, bestDecision.toString());
-				
-				
+				}		
 				break;
 			default:
 					System.out.println("unexpected attribute type: " + kAttribute.type);
