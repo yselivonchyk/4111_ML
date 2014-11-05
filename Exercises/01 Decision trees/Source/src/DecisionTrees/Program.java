@@ -144,6 +144,7 @@ public class Program {
 		Boolean targetValue;
 		Boolean testValue;
 		double	numericTestValue=0;
+		ArrayList<String> categoricalDecisionValues = null;
 
 		// Counter variables to estimate probabilities.
 		int nTrueTargetTrueTest;
@@ -263,7 +264,6 @@ public class Program {
 				}
 				break;
 			case Categorical:
-				// preprocess input
 				HashMap<String,Vector<Integer>> valuesStatistics = new HashMap<>();
 				int totalPositive = 0;
 				int totalNegative = 0;
@@ -290,17 +290,54 @@ public class Program {
 					}
 				}
 				
-				// iterate through all possible decisions
-				for(String key : valuesStatistics.keySet()){
-					System.out.println(key);
+				// Get total number of possible combinations
+				Set<String> values = valuesStatistics.keySet();
+				int nValues = values.size();
+				Object[] valuesArray = values.toArray();
+				// total number of combinations. Exclude overflow value and value that considers every element.
+				int combinations = (int)Math.pow(2, nValues) - 1 - 1;
+				
+				ArrayList<String> bestDecision = null;
+				double bestGain = 0;
+				
+				// >> iterate through each possible combination
+				while(combinations > 0){
+					int currentPositive = 0;
+					int currentNegative = 0;
+					ArrayList<String> currentDecision = new ArrayList<>();
+					
+					// >> Build combination of values based on combination number
+					int combinationsCopy = combinations;
+					for(int i = 0; i < nValues && combinationsCopy > 0; i++){
+						boolean takeValueAtI = (combinationsCopy % 2) == 1;
+						if(takeValueAtI){
+							currentDecision.add((String)valuesArray[i]);
+							Vector<Integer> statisticsToAdd = valuesStatistics.get(valuesArray[i]);
+							currentPositive += statisticsToAdd.get(0);
+							currentNegative += statisticsToAdd.get(1);
+						}
+						combinationsCopy = combinationsCopy / 2;
+					}
+					
+					// >> Calculate gain and update maximum gain if needed
 					double gain = informationGain(
-							valuesStatistics.get(key).get(0), 
-							valuesStatistics.get(key).get(1), 
-							totalPositive - valuesStatistics.get(key).get(0), 
-							totalNegative - valuesStatistics.get(key).get(1));
-					System.out.println(gain);
-					// TODO: implement factorial arifmetics to generate decision combinations here 
+							currentPositive, 
+							currentNegative, 
+							totalPositive - currentPositive, 
+							totalNegative - currentNegative);
+					//System.out.printf("combination %5d \tgain:  %10.9f \t%s\n", combinations,  gain, currentDecision.toString());
+					
+					if(gain > maxInformationGain) {
+						maxInformationGain = informationGain;
+						maxAttributeIndex = k;
+						categoricalDecisionValues = currentDecision;
+						
+					}
+					
+					combinations--;
 				}
+//				if(bestDecision != null)
+//					System.out.printf("Best gain:  %10.9f \t%s\n", bestGain, bestDecision.toString());
 				
 				
 				break;
@@ -328,26 +365,42 @@ public class Program {
 			ArrayList<Example> rExamples = new ArrayList<>();
 
 			// Perform the split in case of a boolean maximizing attribute.
-			if(decisionTreeNode.attribute.type == AttributeType.Boolean) {
+			switch(decisionTreeNode.attribute.type) {
+			case Boolean:
 				for(Example example : examples) {
 					testValue = (Boolean)example.getAttributeValue(
 						decisionTreeNode.attribute.position);
 					if(testValue == true) lExamples.add(example);
 					else rExamples.add(example);
 				}
-			}
-			else if(decisionTreeNode.attribute.type == AttributeType.Numeric) {
+				break;
+			case Numeric:
 				int tempTestValue;
-				decisionTreeNode.attribute.decisionValues = (int) numericTestValue;
+				decisionTreeNode.numericDecisionValue = (int) numericTestValue;
 				for(Example example : examples) {
 					tempTestValue = (int)example.getAttributeValue(
 							decisionTreeNode.attribute.position);
-					if(tempTestValue<numericTestValue) lExamples.add(example);
+					if(tempTestValue < numericTestValue) lExamples.add(example);
 					else rExamples.add(example);
 						
 				}
-				
+				break;
+			case Categorical:
+				decisionTreeNode.categoricalDecisoinValues = categoricalDecisionValues;
+				for(Example example : examples) {
+					String testCatValue = (String)example.getAttributeValue(
+							decisionTreeNode.attribute.position);
+					
+					(categoricalDecisionValues.contains(testCatValue) 
+						? lExamples 
+						: rExamples)
+					.add(example);
+				}
+				break;
+			case Target:
+				System.out.println("Target Attribute can not be the best gain decision!!!");
 			}
+
 
 			// TODO: Perform the split for non-boolean maximizing attributes.
 
