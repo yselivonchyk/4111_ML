@@ -3,7 +3,7 @@ clear all; close all; clc
 examplesHeader = {'a:b', 'b:b', 'c:n', 'd:c', 'e:t'};
 
 nSamplePerCategory = 300;
-wrongClassifiedFraction = 0;    % This switch is untested so far!
+wrongClassifiedFraction = 0.05;
 
 shuffleExamples = false;
 shuffleAttributes = false;
@@ -13,7 +13,7 @@ numRandRange = 50;
 
 categories = {'x', 'y', 'z'};
 
-rng(0)
+rng(1)
 
 %% Define Prototy Examples which Act as a Model for the Real Examples
 
@@ -97,9 +97,9 @@ end
 for k = 1:length(examples)
     if rand() < wrongClassifiedFraction;
         if strcmp(examples{k}(end), 'yes');
-            examples{k}(end) = 'no';
+            examples{k}{end} = 'no';
         elseif strcmp(examples{k}(end), 'no');
-            examples{k}(end) = 'yes';
+            examples{k}{end} = 'yes';
         else
             disp('WARNING: Something wrong!')
         end
