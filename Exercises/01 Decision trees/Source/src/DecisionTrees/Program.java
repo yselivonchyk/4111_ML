@@ -45,10 +45,9 @@ public class Program {
 		}
 
 		// Builds the decision tree by recursively calling itself.
-		DecisionTreeNode decisionTree = branchDecisionTree(attributes, trainingExamples);
-
-		System.out.println("== Decision tree output table ===");
-		decisionTree.print();
+		DecisionTreeNode decisionTree = branchDecisionTree(attributes, trainingExamples);	
+		printResults(decisionTree);
+		
 		System.out.println("Training data correctness result:");
 		checkCorrectness(decisionTree, trainingExamples);
 		
@@ -56,6 +55,20 @@ public class Program {
 			System.out.println("Test data correctness:");
 			checkCorrectness(decisionTree, testExamples);
 		}
+	}
+
+	private static void printResults(DecisionTreeNode decisionTree)
+			throws UnsupportedEncodingException, FileNotFoundException,
+			IOException {
+		System.out.println("== Decision tree output table ===");
+		OutputStreamWriter out = new OutputStreamWriter(
+		          new FileOutputStream("output.txt"), "utf-8");
+		decisionTree.printTree(out);
+		out.close();
+		
+		OutputStreamWriter out2 = new OutputStreamWriter(System.out);
+		decisionTree.printTree(out2);
+		out2.close();
 	}
 
 	private static void checkCorrectness(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) throws Exception {

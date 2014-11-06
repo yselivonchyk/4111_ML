@@ -1,5 +1,7 @@
 package DecisionTrees;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class DecisionTreeNode {
@@ -17,6 +19,7 @@ public class DecisionTreeNode {
 
 	// reference to root of tree
 	public DecisionTreeNode root;
+	public DecisionTreeNode parent;
 	public DecisionTreeNode leftChild;
 	public DecisionTreeNode rightChild;
 	// Base decision on attribute and particular value of it
@@ -35,15 +38,17 @@ public class DecisionTreeNode {
 		isLeafNode = false;
 	}
 
-	// adds left child
+	// adds leftChild child
 	public void addLeftChild(DecisionTreeNode leftChild) {
 		this.leftChild = leftChild;
+		this.leftChild.root = this;
 		this.leftChild.root = this.root;
 	}
 
-	// adds right child
+	// adds rightChild child
 	public void addRightChild(DecisionTreeNode rightChild) {
 		this.rightChild = rightChild;
+		this.rightChild.parent = this;
 		this.rightChild.root = this.root;
 	}
 
@@ -109,4 +114,65 @@ public class DecisionTreeNode {
 			this.rightChild.print();
 		}
 	}
+	
+	public void printTree(OutputStreamWriter out) throws IOException {
+        if (rightChild != null) {
+            rightChild.printTree(out, true, "");
+        }
+        printNodeValue(out);
+        if (leftChild != null) {
+            leftChild.printTree(out, false, "");
+        }
+    }
+	
+    private void printNodeValue(OutputStreamWriter out) throws IOException {
+        if (toString() == null) {
+            out.write("<null>");
+        } else {
+            out.write(toString());
+        }
+        out.write('\n');
+    }
+    
+    // use string and not stringbuffer on purpose as we need to change the indent at each recursion
+    private void printTree(OutputStreamWriter out, boolean isRight, String indent) throws IOException {
+        if (rightChild != null) {
+            rightChild.printTree(out, true, indent + (isRight ? "        " : " |      "));
+        }
+        out.write(indent);
+        if (isRight) {
+            out.write(" /");
+        } else {
+            out.write(" \\");
+        }
+        out.write("----- ");
+        printNodeValue(out);
+        if (leftChild != null) {
+            leftChild.printTree(out, false, indent + (isRight ? " |      " : "        "));
+        }
+    }
+
+    // Used only for print purpose
+    public boolean isRightChild(){
+    	if(this.parent == null)
+    		return false;
+    	else
+    		return (this.parent.rightChild == this);
+    }
+    
+    // used only for print purpose
+    public String toString(){
+    	if(this.isLeafNode)
+    		return "[" + this.classify.toString() + "]";
+    	switch (this.attribute.type) {
+		case Boolean:
+			return this.attribute.name;
+		case Numeric:
+			return this.attribute.name + " < " + this.numericDecisionValue;
+		case Categorical:
+			return this.attribute.name + " in " +  this.categoricalDecisoinValues.toString();
+		default:
+			return "You look pretty today";
+		}
+    }
 }
