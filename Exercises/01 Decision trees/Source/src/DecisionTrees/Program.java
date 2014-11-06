@@ -5,7 +5,8 @@ import java.util.*;
 
 public class Program {
 	private static ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
-	private static ArrayList<Example> examples = new ArrayList<>();
+	private static ArrayList<Example> trainingExamples = new ArrayList<>();
+	private static ArrayList<Example> testExamples = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		File input = new File("./data_exercise_1.csv");
@@ -14,25 +15,36 @@ public class Program {
 		AttributeDescriptor[] descriptors = buildAttributeDescriptors(reader.readLine());
 		
 		for(AttributeDescriptor attDesc : descriptors) attributes.add(attDesc);
-
+		
+		//instantiate random number generator
+		Random randGen = new Random();
+		int randomInt;
 		while(true){
 			String line = reader.readLine();
 			if(line != null){
-				// TODO: split data randomly in training  and test data.
-				examples.add(new Example(line, attributes));
-				//System.out.println(line);
+				
+				//generate random integer 0 <=randomInt <= 8
+			    randomInt = randGen.nextInt(9);
+				
+			    if (randomInt < 6)  trainingExamples.add(new Example(line, attributes));
+			    else testExamples.add(new Example(line, attributes));
 			}
 			else
 				break;
 		}
 
 		// Builds the decision tree by recursively calling itself.
-		DecisionTreeNode decisionTree = branchDecisionTree(attributes, examples);
+		DecisionTreeNode decisionTree = branchDecisionTree(attributes, trainingExamples);
 
 		System.out.println("== Decision tree output table ===");
 		decisionTree.print();
 
-		// TODO: Implement evaluation of the code according to exercise sheet.
+		
+		int numTests = testExamples.size();
+		int numPosTests = evaluate(decisionTree, testExamples);
+		double percentage = ((int)(numPosTests/(float)numTests * 10000 +0.5))/100.0;
+		System.out.println("== Evalutation ===");
+		System.out.println(numPosTests+" out of "+ numTests+" tests were correct, i.e. "+percentage+"%");
 	}	// End of main
 
 	private static AttributeDescriptor[] buildAttributeDescriptors(
@@ -127,6 +139,8 @@ public class Program {
 
 		return entropy - conditionalEntropy;
 	}
+	
+
 
 	private static DecisionTreeNode branchDecisionTree(
 		ArrayList<AttributeDescriptor> attributes,
@@ -397,10 +411,10 @@ public class Program {
 
 			// TODO: Perform the split for non-boolean maximizing attributes.
 
-			decisionTreeNode.leftChild = branchDecisionTree(attributes,
-				lExamples);
-			decisionTreeNode.rightChild = branchDecisionTree(attributes,
-				rExamples);
+			decisionTreeNode.addLeftChild( branchDecisionTree(attributes,
+				lExamples));
+			decisionTreeNode.addRightChild ( branchDecisionTree(attributes,
+				rExamples));
 			decisionTreeNode.leftChild.parentTestResult = true;
 			decisionTreeNode.rightChild.parentTestResult = false;
 		}
@@ -423,5 +437,21 @@ public class Program {
 		}
 
 		return decisionTreeNode;
+	}
+	
+	
+	
+	private static int evaluate(DecisionTreeNode decisionTree, ArrayList<Example> testExamples){
+
+		int numPosTests = 0;
+		
+		for (Example test: testExamples){
+			boolean targetResult = (boolean) test.getTargetValue();
+			boolean myResult = decisionTree.decide(test);
+			numPosTests = myResult == targetResult ? numPosTests +1 : numPosTests;
+		}
+		
+		return numPosTests;
+		
 	}
 }

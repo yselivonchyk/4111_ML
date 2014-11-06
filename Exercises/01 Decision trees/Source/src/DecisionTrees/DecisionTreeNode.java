@@ -15,6 +15,8 @@ public class DecisionTreeNode {
 	public int nodeId;
 	public Boolean parentTestResult;
 
+	//reference to root of tree
+	public DecisionTreeNode root;
 	public DecisionTreeNode leftChild;
 	public DecisionTreeNode rightChild;
 	// Base decision on attribute and particular value of it
@@ -27,10 +29,66 @@ public class DecisionTreeNode {
 
 	// Constructor; isLeafNode defaults to false.
 	public DecisionTreeNode() {
+		root = this;
 		nodeId = idCounter;
 		idCounter++;
 		isLeafNode = false;
 	}
+	
+	//adds left child
+	public void addLeftChild(DecisionTreeNode leftChild){
+		this.leftChild = leftChild;
+		this.leftChild.root = this.root;
+	}
+	
+	//adds right child
+	public void addRightChild(DecisionTreeNode rightChild){
+		this.rightChild = rightChild;
+		this.rightChild.root = this.root;
+	}
+	
+	public boolean decide(Example example){
+		//start from root
+		DecisionTreeNode temp = this.root;
+		
+		boolean decision = true;
+		boolean boolUsed = false; // to check if decision was actually used
+		
+		//Traverse Tree 
+		while (!temp.isLeafNode){
+			 boolUsed = false;
+			int index = temp.attribute.position;
+			switch(temp.attribute.type){
+			case Numeric:
+				double val = (double)((Integer)example.getAttributeValue(index));
+				decision = (val < numericDecisionValue);
+				boolUsed = true;
+				break;
+			case Boolean:
+				decision = (boolean)example.getAttributeValue(index);
+				boolUsed = true;
+				break;
+			case Categorical:
+				String category = (String)example.getAttributeValue(index);
+				String categorySet = temp.categoricalDecisoinValues.toString();
+				decision = categorySet.contains(category);
+				boolUsed = true;
+				break;
+			case Target:
+				boolUsed = true;
+				throw new IllegalArgumentException("Target Attribute in non Leaf node!!");
+			}
+			if (boolUsed)
+				temp = decision ? temp.leftChild : temp.rightChild; 
+			else
+				throw new IllegalArgumentException("Trapped in Loop - check attributes");
+			
+		}
+		return decision;
+		
+	}
+	
+	//TODO: writing print to text file 
 	
 	// Prints the decision table to the screen in a basic format.
 	public void print(){
