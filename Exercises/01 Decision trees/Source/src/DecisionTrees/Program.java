@@ -60,15 +60,20 @@ public class Program {
 	private static void printResults(DecisionTreeNode decisionTree)
 			throws UnsupportedEncodingException, FileNotFoundException,
 			IOException {
-		System.out.println("== Decision tree output table ===");
+		
+		String outputFile = "output.txt";
+		
 		OutputStreamWriter out = new OutputStreamWriter(
-		          new FileOutputStream("output.txt"), "utf-8");
+		          new FileOutputStream(outputFile), "utf-8");
 		decisionTree.printTree(out);
 		out.close();
 		
-		OutputStreamWriter out2 = new OutputStreamWriter(System.out);
-		decisionTree.printTree(out2);
-		out2.close();
+		File input = new File(outputFile);
+		BufferedReader reader = new BufferedReader(new FileReader(input));
+		String line = null;
+		while((line = reader.readLine()) != null)
+			System.out.println(line);
+		reader.close();
 	}
 
 	private static void checkCorrectness(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) throws Exception {
