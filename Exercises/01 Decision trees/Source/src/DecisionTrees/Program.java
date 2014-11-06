@@ -8,7 +8,7 @@ public class Program {
 		buildTreeAndCheckCorrectness("./data_exercise_1.csv", true);
 		//buildTreeAndCheckCorrectness("./bool_1.csv", false);
 		//buildTreeAndCheckCorrectness("./numeric_1.csv", false);
-		//buildTreeAndCheckCorrectness("./categorical_1.csv", false);
+		//buildTreeAndCheckCorrectness("./categorical_2.csv", false);
 	}	// End of main
 
 	private static void buildTreeAndCheckCorrectness(String inputFileName, boolean checkCorrectness)
@@ -186,7 +186,7 @@ public class Program {
 		DecisionTreeNode decisionTreeNode = new DecisionTreeNode();
 
 		double informationGain = 0;
-		double maxInformationGain = 0;
+		double maxInformationGain = -1;
 
 		// Index of the information gain maximizer attribute w.r.t 
 		// ArrayList<AttributeDescriptor> attributes.
@@ -379,7 +379,6 @@ public class Program {
 						maxInformationGain = gain;
 						maxAttributeIndex = k;
 						categoricalDecisionValues = currentDecision;
-						
 					}
 					
 					combinations--;
