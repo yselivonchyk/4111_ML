@@ -8,14 +8,14 @@ public class DecisionTreeNode {
 	public int numericDecisionValue;
 	// Used by Categorical
 	public ArrayList<String> categoricalDecisoinValues;
-	
+
 	// Static counter variable is shared by all class instances.
 	static int idCounter = 0;
 	// Each node has an unique ID.
 	public int nodeId;
 	public Boolean parentTestResult;
 
-	//reference to root of tree
+	// reference to root of tree
 	public DecisionTreeNode root;
 	public DecisionTreeNode leftChild;
 	public DecisionTreeNode rightChild;
@@ -34,92 +34,79 @@ public class DecisionTreeNode {
 		idCounter++;
 		isLeafNode = false;
 	}
-	
-	//adds left child
-	public void addLeftChild(DecisionTreeNode leftChild){
+
+	// adds left child
+	public void addLeftChild(DecisionTreeNode leftChild) {
 		this.leftChild = leftChild;
 		this.leftChild.root = this.root;
 	}
-	
-	//adds right child
-	public void addRightChild(DecisionTreeNode rightChild){
+
+	// adds right child
+	public void addRightChild(DecisionTreeNode rightChild) {
 		this.rightChild = rightChild;
 		this.rightChild.root = this.root;
 	}
-	
-	public boolean decide(Example example){
-		//start from root
-		DecisionTreeNode temp = this.root;
+
+	public boolean testExample(Example example) throws Exception{
+		if(this.isLeafNode)
+			return this.classify;
 		
-		boolean decision = true;
-		boolean boolUsed = false; // to check if decision was actually used
-		
-		//Traverse Tree 
-		while (!temp.isLeafNode){
-			 boolUsed = false;
-			int index = temp.attribute.position;
-			switch(temp.attribute.type){
+		Object value = example.getAttributeValue(this.attribute.position);
+		boolean leftBranch = false;
+			switch(this.attribute.type){
 			case Numeric:
-				double val = (double)((Integer)example.getAttributeValue(index));
-				decision = (val < numericDecisionValue);
-				boolUsed = true;
+				double val = (double)(int)value;
+				leftBranch = (val < numericDecisionValue);
 				break;
 			case Boolean:
-				decision = (boolean)example.getAttributeValue(index);
-				boolUsed = true;
+				leftBranch = (boolean)value;
 				break;
 			case Categorical:
-				String category = (String)example.getAttributeValue(index);
-				String categorySet = temp.categoricalDecisoinValues.toString();
-				decision = categorySet.contains(category);
-				boolUsed = true;
+				String categorySet = this.categoricalDecisoinValues.toString();
+				leftBranch = categorySet.contains((String)value);
 				break;
 			case Target:
-				boolUsed = true;
-				throw new IllegalArgumentException("Target Attribute in non Leaf node!!");
+				throw new Exception("Unexpected usage of Target attribute within decision tree");
 			}
-			if (boolUsed)
-				temp = decision ? temp.leftChild : temp.rightChild; 
-			else
-				throw new IllegalArgumentException("Trapped in Loop - check attributes");
 			
-		}
-		return decision;
-		
+		return (leftBranch ? this.leftChild : this.rightChild)
+				.testExample(example);
 	}
-	
-	//TODO: writing print to text file 
-	
+
+	// TODO: writing print to text file
+
 	// Prints the decision table to the screen in a basic format.
-	public void print(){
-		System.out.printf("%d\t%s\t", 
-				this.nodeId, 
-				this.parentTestResult != null ? this.parentTestResult.toString() : "null" );
-		
-		if(this.isLeafNode) {
+	public void print() {
+		System.out.printf(
+				"%d\t%s\t",
+				this.nodeId,
+				this.parentTestResult != null ? this.parentTestResult
+						.toString() : "null");
+
+		if (this.isLeafNode) {
 			System.out.printf(">>%b<<\n", this.classify);
-		}
-		else {
-			switch(this.attribute.type) {
+		} else {
+			switch (this.attribute.type) {
 			case Boolean:
 				System.out.printf("boolen\t\t%s\t", this.attribute.name);
 				break;
 			case Numeric:
-				System.out.printf("numeric\t\t%s < %d\t" ,this.attribute.name, this.numericDecisionValue);
+				System.out.printf("numeric\t\t%s < %d\t", this.attribute.name,
+						this.numericDecisionValue);
 				break;
 			case Categorical:
-				System.out.printf("categorical\t%s in %s" ,this.attribute.name, this.categoricalDecisoinValues.toString());
+				System.out.printf("categorical\t%s in %s", this.attribute.name,
+						this.categoricalDecisoinValues.toString());
 				break;
 			case Target:
 				break;
 			}
 
-			System.out.printf("\t%d\t%d\n", 
-					this.leftChild.nodeId, 
+			System.out.printf("\t%d\t%d\n", this.leftChild.nodeId,
 					this.rightChild.nodeId);
 
 			this.leftChild.print();
 			this.rightChild.print();
-		}	
+		}
 	}
 }

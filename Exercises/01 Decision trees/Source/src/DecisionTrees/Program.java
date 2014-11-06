@@ -30,14 +30,15 @@ public class Program {
 		while(true){
 			String line = reader.readLine();
 			if(line != null){
-				
+				//System.out.println(line);
+				Example example = new Example(line, attributes);
 				//generate random integer 0 <=randomInt <= 8
 			    randomInt = randGen.nextInt(9);
 				
 			    if (randomInt < 6 || !checkCorrectness)  
-			    	trainingExamples.add(new Example(line, attributes));
+			    	trainingExamples.add(example);
 			    else 
-			    	testExamples.add(new Example(line, attributes));
+			    	testExamples.add(example);
 			}
 			else
 				break;
@@ -57,7 +58,7 @@ public class Program {
 		}
 	}
 
-	private static void checkCorrectness(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) {
+	private static void checkCorrectness(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) throws Exception {
 		int numTests = testExamples.size();
 		int numPosTests = evaluate(decisionTree, testExamples);
 		double percentage = ((int)(numPosTests/(float)numTests * 10000 +0.5))/100.0;
@@ -357,7 +358,7 @@ public class Program {
 					//System.out.printf("combination %5d \t gain:  %10.9f \t%s\n", combinations,  gain, currentDecision.toString());
 					
 					if(gain > maxInformationGain) {
-						maxInformationGain = informationGain;
+						maxInformationGain = gain;
 						maxAttributeIndex = k;
 						categoricalDecisionValues = currentDecision;
 						
@@ -459,13 +460,13 @@ public class Program {
 	
 	
 	
-	private static int evaluate(DecisionTreeNode decisionTree, ArrayList<Example> testExamples){
+	private static int evaluate(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) throws Exception{
 
 		int numPosTests = 0;
 		
 		for (Example test: testExamples){
 			boolean targetResult = (boolean) test.getTargetValue();
-			boolean myResult = decisionTree.decide(test);
+			boolean myResult = decisionTree.testExample(test);
 			numPosTests = myResult == targetResult ? numPosTests +1 : numPosTests;
 		}
 		
