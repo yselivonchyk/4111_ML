@@ -185,6 +185,10 @@ public class Program {
 
 		DecisionTreeNode decisionTreeNode = new DecisionTreeNode();
 
+		System.out.print("Branching node ");
+		System.out.print(decisionTreeNode.nodeId);
+		System.out.println(" of the decision tree.");
+
 		double informationGain = 0;
 		double maxInformationGain = 0;
 		double maxNumericGain = 0;
