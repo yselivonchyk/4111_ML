@@ -186,7 +186,7 @@ public class Program {
 		DecisionTreeNode decisionTreeNode = new DecisionTreeNode();
 
 		double informationGain = 0;
-		double maxInformationGain = -1;
+		double maxInformationGain = 0;
 
 		// Index of the information gain maximizer attribute w.r.t 
 		// ArrayList<AttributeDescriptor> attributes.
