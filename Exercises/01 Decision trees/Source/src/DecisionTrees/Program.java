@@ -347,11 +347,6 @@ public class Program {
 											+(int)tempExample.getAttributeValue(kAttribute.position))/2;
 								}
 								// Update maxNumericGain.
-								System.out.printf(kAttribute.name);
-								System.out.print(informationGain);
-								System.out.println();
-								System.out.print(example.getAttributeValue(kAttribute.position));
-								System.out.println();
 								if(informationGain > maxNumericGain) {
 									maxNumericGain = informationGain;
 								}
