@@ -263,7 +263,7 @@ public class Program {
 				// Reset. So we can find the best gain for this attribute and print to screen.
 				maxNumericGain = 0;
 
-				// Bubble sort:
+				// Bubble sort: sorting the whole array according to the output (Target Value)
 				int j;
 				boolean flag=true;
 			
@@ -283,7 +283,7 @@ public class Program {
 					}
 						
 				}
-				// Bubble sort:
+				// Bubble sort: sorting the whole array according to our numeric test value
 				
 				flag=true;
 			
@@ -460,7 +460,9 @@ public class Program {
 			
 			
 			decisionTreeNode.attribute = attributes.get(maxAttributeIndex);
-
+			
+			// removing the attribute from the list:
+			attributes.remove(maxAttributeIndex);
 			
 
 			// Split the examples to left and right branch. Left side examples
@@ -472,9 +474,6 @@ public class Program {
 			// Perform the split in case of a boolean maximizing attribute.
 			switch(decisionTreeNode.attribute.type) {
 			case Boolean:
-				// only in this case remove the attribute:
-				attributes.remove(maxAttributeIndex);
-				
 				for(Example example : examples) {
 					testValue = (Boolean)example.getAttributeValue(
 						decisionTreeNode.attribute.position);
