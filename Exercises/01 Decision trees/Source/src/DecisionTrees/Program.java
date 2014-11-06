@@ -274,6 +274,24 @@ public class Program {
 					for(j=0;j<examples.size()-1;j++) {
 						example1 = examples.get(j);
 						example2 = examples.get(j+1);
+						if ((example1.getTargetValue()
+								&& !(example2.getTargetValue()))) {
+							examples.set(j,example2);
+							examples.set(j+1,example1);
+							flag=true;
+						}
+					}
+						
+				}
+				// Bubble sort:
+				
+				flag=true;
+			
+				while (flag) {
+					flag=false;
+					for(j=0;j<examples.size()-1;j++) {
+						example1 = examples.get(j);
+						example2 = examples.get(j+1);
 						if ((int)example1.getAttributeValue(kAttribute.position) 
 								> (int)example2.getAttributeValue(kAttribute.position)) {
 							examples.set(j,example2);
@@ -312,23 +330,31 @@ public class Program {
 							nFalseTargetTrueTest++;
 							nFalseTargetFalseTest--;
 						}
-						
-						if(example.getTargetValue()
-								!=tempExample.getTargetValue()){
-							informationGain = 
-								informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
-								nFalseTargetTrueTest, nFalseTargetFalseTest);
-							// Check if a new maximum information gain is found.
-							if(informationGain > maxInformationGain) {
-								maxInformationGain = informationGain;
-								maxAttributeIndex = k;
-								numericTestValue = 
-									((int)example.getAttributeValue(kAttribute.position)
-										+(int)tempExample.getAttributeValue(kAttribute.position))/2;
-							}
-							// Update maxNumericGain.
-							if(informationGain > maxNumericGain) {
-								maxNumericGain = informationGain;
+						if (example.getAttributeValue(kAttribute.position)
+							!=tempExample.getAttributeValue(kAttribute.position)){
+							
+							if(example.getTargetValue()
+									!=tempExample.getTargetValue()){
+								informationGain = 
+									informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+									nFalseTargetTrueTest, nFalseTargetFalseTest);
+								// Check if a new maximum information gain is found.
+								if(informationGain > maxInformationGain) {
+									maxInformationGain = informationGain;
+									maxAttributeIndex = k;
+									numericTestValue = 
+										(1+(int)example.getAttributeValue(kAttribute.position)
+											+(int)tempExample.getAttributeValue(kAttribute.position))/2;
+								}
+								// Update maxNumericGain.
+								System.out.printf(kAttribute.name);
+								System.out.print(informationGain);
+								System.out.println();
+								System.out.print(example.getAttributeValue(kAttribute.position));
+								System.out.println();
+								if(informationGain > maxNumericGain) {
+									maxNumericGain = informationGain;
+								}
 							}
 						}
 					}
@@ -440,7 +466,7 @@ public class Program {
 			
 			decisionTreeNode.attribute = attributes.get(maxAttributeIndex);
 
-			attributes.remove(maxAttributeIndex);
+			
 
 			// Split the examples to left and right branch. Left side examples
 			// give a true test result. Right side examples give a false test
@@ -451,6 +477,9 @@ public class Program {
 			// Perform the split in case of a boolean maximizing attribute.
 			switch(decisionTreeNode.attribute.type) {
 			case Boolean:
+				// only in this case remove the attribute:
+				attributes.remove(maxAttributeIndex);
+				
 				for(Example example : examples) {
 					testValue = (Boolean)example.getAttributeValue(
 						decisionTreeNode.attribute.position);
