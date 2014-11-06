@@ -187,6 +187,8 @@ public class Program {
 
 		double informationGain = 0;
 		double maxInformationGain = 0;
+		double maxNumericGain = 0;
+		double maxCategoricalGain = 0;
 
 		// Index of the information gain maximizer attribute w.r.t 
 		// ArrayList<AttributeDescriptor> attributes.
@@ -245,8 +247,18 @@ public class Program {
 					maxInformationGain = informationGain;
 					maxAttributeIndex = k;
 				}
+
+				// Print the best information gain for this boolean attribute.
+				System.out.printf("Information gain (%s, %s): ", 
+					attributes.get(k).type.toString(),
+					attributes.get(k).name.toString());
+				System.out.print(informationGain);
+				System.out.println();
 				break;
 			case Numeric:
+				// Reset. So we can find the best gain for this attribute and print to screen.
+				maxNumericGain = 0;
+
 				// Bubble sort:
 				int j;
 				boolean flag=true;
@@ -302,6 +314,7 @@ public class Program {
 							informationGain = 
 								informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
 								nFalseTargetTrueTest, nFalseTargetFalseTest);
+							// Check if a new maximum information gain is found.
 							if(informationGain > maxInformationGain) {
 								maxInformationGain = informationGain;
 								maxAttributeIndex = k;
@@ -309,12 +322,25 @@ public class Program {
 									((int)example.getAttributeValue(kAttribute.position)
 										+(int)tempExample.getAttributeValue(kAttribute.position))/2;
 							}
+							// Update maxNumericGain.
+							if(informationGain > maxNumericGain) {
+								maxNumericGain = informationGain;
+							}
 						}
 					}
 					j++;
 				}
+				// Print the best information gain for numeric attribute.
+				System.out.printf("Information gain (%s, %s): ", 
+					attributes.get(k).type.toString(),
+					attributes.get(k).name.toString());
+				System.out.print(maxNumericGain);
+				System.out.println();
 				break;
 			case Categorical:
+				// Reset.
+				maxCategoricalGain = 0;
+
 				HashMap<String,Vector<Integer>> valuesStatistics = new HashMap<>();
 				int totalPositive = 0;
 				int totalNegative = 0;
@@ -380,9 +406,20 @@ public class Program {
 						maxAttributeIndex = k;
 						categoricalDecisionValues = currentDecision;
 					}
+
+					// Update maxCategoricalGain.
+					if(gain > maxCategoricalGain) {
+						maxCategoricalGain = gain;
+					}
 					
 					combinations--;
-				}		
+				}
+				// Print the best information gain for categorical attribute.
+				System.out.printf("Information gain (%s, %s): ", 
+					attributes.get(k).type.toString(),
+					attributes.get(k).name.toString());
+				System.out.print(maxCategoricalGain);
+				System.out.println();	
 				break;
 			default:
 					System.out.println("unexpected attribute type: " + kAttribute.type);
@@ -470,6 +507,9 @@ public class Program {
 			}
 			if(nTrueTargets >= nFalseTargets) decisionTreeNode.classify = true;
 			else decisionTreeNode.classify = false;
+
+			System.out.print("This is a leaf node that classifies ");
+			System.out.println(decisionTreeNode.classify + ".\n");
 		}
 
 		return decisionTreeNode;
