@@ -4,12 +4,20 @@ import java.io.*;
 import java.util.*;
 
 public class Program {
-	private static ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
-	private static ArrayList<Example> trainingExamples = new ArrayList<>();
-	private static ArrayList<Example> testExamples = new ArrayList<>();
-	
 	public static void main(String[] args) throws Exception {
-		File input = new File("./data_exercise_1.csv");
+		buildTreeAndCheckCorrectness("./data_exercise_1.csv", true);
+		//buildTreeAndCheckCorrectness("./bool_1.csv", false);
+		//buildTreeAndCheckCorrectness("./numeric_1.csv", false);
+		//buildTreeAndCheckCorrectness("./categorical_1.csv", false);
+	}	// End of main
+
+	private static void buildTreeAndCheckCorrectness(String inputFileName, boolean checkCorrectness)
+			throws FileNotFoundException, Exception, IOException {
+		ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
+		ArrayList<Example> trainingExamples = new ArrayList<>();
+		ArrayList<Example> testExamples = new ArrayList<>();
+		
+		File input = new File(inputFileName);
 		BufferedReader reader = new BufferedReader(new FileReader(input));
 		
 		AttributeDescriptor[] descriptors = buildAttributeDescriptors(reader.readLine());
@@ -26,8 +34,10 @@ public class Program {
 				//generate random integer 0 <=randomInt <= 8
 			    randomInt = randGen.nextInt(9);
 				
-			    if (randomInt < 6)  trainingExamples.add(new Example(line, attributes));
-			    else testExamples.add(new Example(line, attributes));
+			    if (randomInt < 6 || !checkCorrectness)  
+			    	trainingExamples.add(new Example(line, attributes));
+			    else 
+			    	testExamples.add(new Example(line, attributes));
 			}
 			else
 				break;
@@ -38,14 +48,22 @@ public class Program {
 
 		System.out.println("== Decision tree output table ===");
 		decisionTree.print();
-
+		System.out.println("Training data correctness result:");
+		checkCorrectness(decisionTree, trainingExamples);
 		
+		if(checkCorrectness){
+			System.out.println("Test data correctness:");
+			checkCorrectness(decisionTree, testExamples);
+		}
+	}
+
+	private static void checkCorrectness(DecisionTreeNode decisionTree, ArrayList<Example> testExamples) {
 		int numTests = testExamples.size();
 		int numPosTests = evaluate(decisionTree, testExamples);
 		double percentage = ((int)(numPosTests/(float)numTests * 10000 +0.5))/100.0;
 		System.out.println("== Evalutation ===");
 		System.out.println(numPosTests+" out of "+ numTests+" tests were correct, i.e. "+percentage+"%");
-	}	// End of main
+	}
 
 	private static AttributeDescriptor[] buildAttributeDescriptors(
 			String descriptionLine) throws Exception {
