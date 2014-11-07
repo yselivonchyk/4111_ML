@@ -63,7 +63,7 @@ public class Program {
  		String outputFile = "output.txt";
 		
  		OutputStreamWriter out = new OutputStreamWriter(
- 		          new FileOutputStream(outputFile), "utf-8");
+ 		          new FileOutputStream(outputFile), "ASCII");
 		decisionTree.print(out);
 		out.close();
 
