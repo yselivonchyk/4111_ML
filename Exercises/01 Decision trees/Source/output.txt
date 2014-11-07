@@ -1,19 +1,19 @@
-         /----- [true]
- /----- i
- |       |       /----- [false]
- |       \----- f
- |               |       /----- [false]
- |               \----- e
- |                       \----- [false]
-d < 1
- |                       /----- [true]
- |               /----- h in [hd, hb, ha]
- |               |       |       /----- [true]
- |               |       \----- c in [ca, cc, cd]
- |               |               \----- [true]
- |       /----- g in [gb]
- |       |       |       /----- [true]
- |       |       \----- b in [bb]
- |       |               \----- [true]
- \----- a < 18
-         \----- [false]
+0 null d < 1 1 6
+1 yes b in {bc} 2 3
+2 yes true
+3 no c in {ca, cc, cd} 4 5
+4 yes true
+5 no true
+6 no a < 43 7 18
+7 yes h in {ha} 8 17
+8 yes g in {gb} 9 14
+9 yes i 10 13
+10 yes f 11 12
+11 yes true
+12 no false
+13 no true
+14 no e 15 16
+15 yes true
+16 no false
+17 no false
+18 no true

@@ -58,16 +58,21 @@ public class Program {
 	}
 
 	private static void printResults(DecisionTreeNode decisionTree)
-			throws UnsupportedEncodingException, FileNotFoundException,
-			IOException {
+			throws Exception {
 		
-		String outputFile = "output.txt";
+ 		String outputFile = "output.txt";
 		
-		OutputStreamWriter out = new OutputStreamWriter(
-		          new FileOutputStream(outputFile), "utf-8");
-		decisionTree.printTree(out);
+ 		OutputStreamWriter out = new OutputStreamWriter(
+ 		          new FileOutputStream(outputFile), "utf-8");
+		decisionTree.print(out);
 		out.close();
-		
+
+		outputFile = "output_tree.txt";
+		out = new OutputStreamWriter(
+			new FileOutputStream(outputFile), "utf-8");
+ 		decisionTree.printTree(out);
+ 		out.close();
+
 		File input = new File(outputFile);
 		BufferedReader reader = new BufferedReader(new FileReader(input));
 		String line = null;

@@ -81,37 +81,38 @@ public class DecisionTreeNode {
 	// TODO: writing print to text file
 
 	// Prints the decision table to the screen in a basic format.
-	public void print() {
-		System.out.printf(
-				"%d\t%s\t",
+	public void print(OutputStreamWriter out) throws Exception {
+		out.write(String.format(
+				"%d %s ",
 				this.nodeId,
-				this.parentTestResult != null ? this.parentTestResult
-						.toString() : "null");
+				this.parentTestResult != null 
+				? (this.parentTestResult ? "yes" : "no")
+						 : "null"));
 
 		if (this.isLeafNode) {
-			System.out.printf(">>%b<<\n", this.classify);
+			out.write(String.format("%b\n", this.classify));
 		} else {
 			switch (this.attribute.type) {
 			case Boolean:
-				System.out.printf("boolen\t\t%s\t", this.attribute.name);
+				out.write(String.format("%s", this.attribute.name));
 				break;
 			case Numeric:
-				System.out.printf("numeric\t\t%s < %d\t", this.attribute.name,
-						this.numericDecisionValue);
+				out.write(String.format("%s < %d", this.attribute.name,
+						this.numericDecisionValue));
 				break;
 			case Categorical:
-				System.out.printf("categorical\t%s in %s", this.attribute.name,
-						this.categoricalDecisoinValues.toString());
+				out.write(String.format("%s in %s", this.attribute.name,
+						this.categoricalDecisoinValues.toString()).replace('[', '{').replace(']', '}'));
 				break;
 			case Target:
 				break;
 			}
 
-			System.out.printf("\t%d\t%d\n", this.leftChild.nodeId,
-					this.rightChild.nodeId);
+			out.write(String.format(" %d %d\n", this.leftChild.nodeId,
+					this.rightChild.nodeId));
 
-			this.leftChild.print();
-			this.rightChild.print();
+			this.leftChild.print(out);
+			this.rightChild.print(out);
 		}
 	}
 	
