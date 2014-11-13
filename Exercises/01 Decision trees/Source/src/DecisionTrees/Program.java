@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Program {
 	public static void main(String[] args) throws Exception {
-		buildTreeAndCheckCorrectness("./data_exercise_1.csv", true);
+		buildTreeAndCheckCorrectness("./data_exercise_2.csv", false);
 		//buildTreeAndCheckCorrectness("./bool_1.csv", false);
 		//buildTreeAndCheckCorrectness("./numeric_1.csv", false);
 		//buildTreeAndCheckCorrectness("./categorical_2.csv", false);
@@ -130,17 +130,8 @@ public class Program {
 	private static double log2(double arg) {
 		return Math.log(arg)/Math.log(2.0d);
 	}
-
-	/*
-	Returns the information gain for a binary test with binary target value.
-	Function arguments (n_ij naming scheme):
-	n11: Number of "yes" target values given a true test result.
-	n12: Number of "yes" target values given a false test result.
-	n21: Number of "no" target values given a true test result.
-	n22: Number of "no" target values given a false test result.
-	*/
+	
 	private static double informationGain(int n11, int n12, int n21, int n22) {
-
 		int nTot = n11 + n12 + n21 + n22;
 
 		// if (nTot == 0) throw new Exception("Function call to " +
@@ -182,7 +173,44 @@ public class Program {
 		return entropy - conditionalEntropy;
 	}
 	
-
+	/*
+	Returns the information gain for a binary test with binary target value.
+	Function arguments (n_ij naming scheme):
+	n11: Number of "yes" target values given a true test result.
+	n12: Number of "yes" target values given a false test result.
+	n21: Number of "no" target values given a true test result.
+	n22: Number of "no" target values given a false test result.
+	*/
+	private static double calculateGain(int n11, int n12, int n21, int n22, Object... params) {
+		double totalTests = (double)n11 + n12 + n21 + n22;
+		double totalEntropy = entropy(n11 + n21, n12 + n22);
+		double positiveTests = (n11 + n12) / totalTests;
+		double negativeTests = (n21 + n22) / totalTests;
+		double positiveTestEntropy = positiveTests * entropy(n11, n12);
+		double negativeTestEntropy = negativeTests * entropy(n21, n22);
+		double result = totalEntropy - positiveTestEntropy - negativeTestEntropy;
+		
+		if(Math.round(informationGain(n11, n12, n21, n22) * 1000000000) != Math.round(result * 1000000000))
+			System.out.println(String.format("problems: %f  %f", informationGain(n11, n12, n21, n22), result));
+		
+		//Output some results if asked to
+		if(params.length >= 0) System.out.println(
+				String.format("%s (%d, %d, %d, %d):\t %6.5f - %6.5f - %6.5f = %6.5f",params[0], n11, n12, n21, n22, 
+				totalEntropy, positiveTestEntropy, negativeTestEntropy, result));
+		
+		return result;
+	}
+	
+	// Calculate entropy based on number of positive and negative outputs
+	private static double entropy(int positive, int negative) {
+		if(positive == 0 || negative == 0)
+			return 0;
+		double total = positive + negative;
+		double pPositive = positive/total;
+		double pNegative = negative/total;
+		
+		return pPositive * log2(1/pPositive) + pNegative*log2(1/pNegative);
+	}
 
 	private static DecisionTreeNode branchDecisionTree(
 		ArrayList<AttributeDescriptor> attributes,
@@ -249,8 +277,8 @@ public class Program {
 					}
 				}
 				informationGain = 
-					informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
-					nFalseTargetTrueTest, nFalseTargetFalseTest);
+					calculateGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+					nFalseTargetTrueTest, nFalseTargetFalseTest, kAttribute.name);
 
 				if(informationGain > maxInformationGain) {
 					maxInformationGain = informationGain;
@@ -341,8 +369,8 @@ public class Program {
 							if(example.getTargetValue()
 									!=tempExample.getTargetValue()){
 								informationGain = 
-									informationGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
-									nFalseTargetTrueTest, nFalseTargetFalseTest);
+									calculateGain(nTrueTargetTrueTest, nTrueTargetFalseTest,
+									nFalseTargetTrueTest, nFalseTargetFalseTest, kAttribute.name + " " + numericTestValue);
 								// Check if a new maximum information gain is found.
 								if(informationGain > maxInformationGain) {
 									maxInformationGain = informationGain;
@@ -424,11 +452,12 @@ public class Program {
 					}
 					
 					// >> Calculate gain and update maximum gain if needed
-					double gain = informationGain(
+					double gain = calculateGain(
 							currentPositive, 
 							currentNegative, 
 							totalPositive - currentPositive, 
-							totalNegative - currentNegative);
+							totalNegative - currentNegative,
+							kAttribute.name + " " + currentDecision);
 					//System.out.printf("combination %5d \t gain:  %10.9f \t%s\n", combinations,  gain, currentDecision.toString());
 					
 					if(gain > maxInformationGain) {
@@ -467,7 +496,7 @@ public class Program {
 			decisionTreeNode.attribute = attributes.get(maxAttributeIndex);
 			
 			// removing the attribute from the list:
-			attributes.remove(maxAttributeIndex);
+			//attributes.remove(maxAttributeIndex);
 			
 
 			// Split the examples to left and right branch. Left side examples
