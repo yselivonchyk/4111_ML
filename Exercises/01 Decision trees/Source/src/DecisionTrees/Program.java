@@ -190,6 +190,7 @@ public class Program {
 		double negativeTestEntropy = negativeTests * entropy(n21, n22);
 		double result = totalEntropy - positiveTestEntropy - negativeTestEntropy;
 		
+		// Check correctness using previous implementation
 		if(Math.round(informationGain(n11, n12, n21, n22) * 1000000000) != Math.round(result * 1000000000))
 			System.out.println(String.format("problems: %f  %f", informationGain(n11, n12, n21, n22), result));
 		
@@ -198,7 +199,9 @@ public class Program {
 				String.format("%s (%d, %d, %d, %d):\t %6.5f - %6.5f - %6.5f = %6.5f",params[0], n11, n12, n21, n22, 
 				totalEntropy, positiveTestEntropy, negativeTestEntropy, result));
 		
-		return result;
+		// replace once we are done with Exercise 2.
+		return informationGain(n11, n12, n21, n22);
+		//return result;
 	}
 	
 	// Calculate entropy based on number of positive and negative outputs
