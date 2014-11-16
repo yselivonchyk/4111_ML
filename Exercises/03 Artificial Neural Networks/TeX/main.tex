@@ -1,0 +1,49 @@
+\documentclass[a4paper]{article}
+
+% Set exercise number.
+\newcommand{\exnumber}{3}
+
+%%% Load base packages.
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+%%% Add specific functionality.
+\usepackage{qtree}		% Tree diagrams.
+
+%%% Adjust the style of the document.
+
+% Seperate paragraphs by vertical space instead of indents.
+\setlength{\parskip}{0.6\baselineskip}
+\setlength{\parindent}{0em}
+
+% Hanging section numbering
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\quad}}
+\makeatother
+
+% Header.
+\pagestyle{fancy}	
+\fancyhead[EOL]{ILAS 2014/15}
+\fancyhead[EOC]{Exercise 3}
+\fancyhead[EOR]{Group 11}
+
+
+\begin{document}
+
+\title{Intelligent Learning and Analysis Systems: Machine Learning\,---\,Exercise \exnumber}
+%\title{ILAS 2014/15\,---\,Exercise \exnumber}	% Alternative title.
+\author{Yauhen Selivonchyk\\ {\L}ukasz Segiet\\Duc Duy Pham\\Dominik Schindler}
+
+\maketitle
+
+\input{ex1-1.tex}
+\input{ex1-2.tex}
+\input{ex1-3.tex}
+\input{ex2.tex}
+\input{ex3.tex}
+
+\end{document}
