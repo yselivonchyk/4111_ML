@@ -6,19 +6,18 @@ $\vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma$
 
 \paragraph*{Proof by induction}
 
-Induction hypothesis: 
+Induction hypothesis:
 \[
 \vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma
 \]
-Base case: Show that the statement holds for $k=1$. 
+Base case: Show that the statement holds for $k=1$.
 \[
 \vec{w}^{(1)}\cdot\vec{u}=0\geq0\gamma
 \]
 Inductive step: Show that if the statement holds for $k$, it also
 holds for $k+1$ by using the induction hypothesis and the linear
 separability with finite margin. Let $i$ be the iteration step where
-the \emph{k}\textsuperscript{th} mistake was made. 
-
+the \emph{k}\textsuperscript{th} mistake was made.
 \begin{align*}
 \vec{w}^{(k+1)}\cdot\vec{u} & =(\vec{w}^{(k)}+y_{i}\vec{x}_{i})\cdot\vec{u}=\vec{w}^{(k)}\cdot\vec{u}+y_{i}\vec{x}_{i}\cdot\vec{u}\\
  & \geq(k-1)\gamma+y_{i}\vec{x}_{i}\cdot\vec{u}\\
@@ -30,14 +29,14 @@ Thus, the statement holds for all natural numbers $k$.
 
 \paragraph*{Lemma 2}
 
-$\left\Vert \vec{w}^{(k+1)}\right\Vert _{2}^{2}\leq\left\Vert \vec{w}^{(k)}\right\Vert _{2}^{2}+R^{2}$
+
+\paragraph*{$\left\Vert \vec{w}^{(k+1)}\right\Vert _{2}^{2}\leq\left\Vert \vec{w}^{(k)}\right\Vert _{2}^{2}+R^{2}$}
 
 
 \paragraph*{Proof}
 
 Let $i$ be the iteration step where the \emph{k}\textsuperscript{th}
 mistake was made.
-
 \begin{align*}
 \Vert\vec{w}^{(k+1)}\Vert_{2}^{2} & =\Vert\vec{w}^{(k)}+y_{i}\vec{x}_{i}\Vert_{2}^{2}\\
  & =\left(\vec{w}^{(k)}+y_{i}\vec{x}_{i}\right)\cdot\left(\vec{w}^{(k)}+y_{i}\vec{x}_{i}\right)\\
@@ -58,3 +57,30 @@ mistake was made.
 
 
 \paragraph*{Proof}
+
+The weights $w_{k}$ are able to correctly classify any example if
+\[
+\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}\leq\gamma.
+\]
+TODO: Elaborate on this formula. 
+
+Show that this condition is satisfied if $k\geq R^{2}/\gamma^{2}$.
+
+\[
+\begin{gathered}k\geq\frac{R^{2}}{\gamma^{2}}\\
+\Leftrightarrow(k-1)\gamma^{2}+\gamma^{2}\geq R^{2}\\
+\Leftrightarrow R^{2}-(k-1)\gamma^{2}\leq\gamma^{2}
+\end{gathered}
+\]
+\begin{align*}
+\Rightarrow\gamma^{2} & \geq R^{2}-(k-1)\gamma^{2}\\
+ & =R^{2}-\frac{\left(R\,\left(k-1\right)\gamma\right){}^{2}}{\left(k-1\right)R^{2}}\\
+ & \geq R^{2}-\frac{R^{2}}{\Vert\vec{w}_{k}\Vert_{2}^{2}}\left(\vec{u}\cdot\vec{w}_{k}\right)^{2}\qquad\text{by lemma 1 and 2}\\
+ & =\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}\\
+\Rightarrow\gamma & \geq\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}
+\end{align*}
+Therefore if $k\geq R^{2}/\gamma^{2}$ no classification errors are
+made. Since $k$ is the index variable which is increased after each
+error... TODO: Ask the TAs whether the given algorithm is correct
+(should have $\leq$instead of $<$). Also take care for indexing
+($w_{k}$implies that $k-1$ errors were made).
