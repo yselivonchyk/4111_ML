@@ -1,2 +1,60 @@
 \section{Convergence of the Perceptron Algorithm}
-Solution to problem 2 here.
+\paragraph{Lemma 1 }
+
+$\vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma$
+
+
+\paragraph*{Proof by induction}
+
+Induction hypothesis: 
+\[
+\vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma
+\]
+Base case: Show that the statement holds for $k=1$. 
+\[
+\vec{w}^{(1)}\cdot\vec{u}=0\geq0\gamma
+\]
+Inductive step: Show that if the statement holds for $k$, it also
+holds for $k+1$ by using the induction hypothesis and the linear
+separability with finite margin. Let $i$ be the iteration step where
+the \emph{k}\textsuperscript{th} mistake was made. 
+
+\begin{align*}
+\vec{w}^{(k+1)}\cdot\vec{u} & =(\vec{w}^{(k)}+y_{i}\vec{x}_{i})\cdot\vec{u}=\vec{w}^{(k)}\cdot\vec{u}+y_{i}\vec{x}_{i}\cdot\vec{u}\\
+ & \geq(k-1)\gamma+y_{i}\vec{x}_{i}\cdot\vec{u}\\
+ & \geq(k-1)\gamma+\gamma\\
+ & =k\gamma
+\end{align*}
+Thus, the statement holds for all natural numbers $k$.
+
+
+\paragraph*{Lemma 2}
+
+$\left\Vert \vec{w}^{(k+1)}\right\Vert _{2}^{2}\leq\left\Vert \vec{w}^{(k)}\right\Vert _{2}^{2}+R^{2}$
+
+
+\paragraph*{Proof}
+
+Let $i$ be the iteration step where the \emph{k}\textsuperscript{th}
+mistake was made.
+
+\begin{align*}
+\Vert\vec{w}^{(k+1)}\Vert_{2}^{2} & =\Vert\vec{w}^{(k)}+y_{i}\vec{x}_{i}\Vert_{2}^{2}\\
+ & =\left(\vec{w}^{(k)}+y_{i}\vec{x}_{i}\right)\cdot\left(\vec{w}^{(k)}+y_{i}\vec{x}_{i}\right)\\
+ & =\vec{w}^{(k)}\cdot\vec{w}^{(k)}+2y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}+y_{i}^{2}\vec{x}_{i}\cdot\vec{x}_{i}\\
+ & =\Vert\vec{w}^{(k)}\Vert_{2}^{2}+2y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}+\Vert\vec{x}_{i}\Vert_{2}^{2}\\
+ & \leq\Vert\vec{w}^{(k)}\Vert_{2}^{2}+\Vert\vec{x}_{i}\Vert_{2}^{2}\qquad\because y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}\leq0\\
+ & \leq\Vert\vec{w}^{(k)}\Vert_{2}^{2}+R^{2}\qquad\because\Vert\vec{x}_{i}\Vert\leq R
+\end{align*}
+
+
+
+\paragraph*{Claim}
+
+\[
+\left|\left\{ i:1\le i\le n,\, y_{i}\,(\vec{w}_{i}\cdot\vec{x}_{i})\leq0\right\} \right|\leq\left(\frac{R}{\gamma}\right)^{2}
+\]
+
+
+
+\paragraph*{Proof}
