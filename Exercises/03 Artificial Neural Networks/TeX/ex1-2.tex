@@ -1,2 +1,50 @@
 \subsection*{Problem 1.2}
-Solution to problem 1.2 here.
+\paragraph{Claim}
+
+It is not possible to construct a perceptron computing $(x_{1}\land x_{2}\land x_{3})\lor(\lnot x_{1}\land\lnot x_{2}\land\lnot x_{3})$.
+
+
+\paragraph{Proof by contradiction}
+
+For the sake of contradiction, assume it is possible to compute a
+perceptron in the most general form 
+\[
+(x_{1},x_{2},x_{3})\mapsto\begin{cases}
+1 & \text{if}\quad w_{0}+w_{1}x_{1}+w_{2}x_{2}+w_{3}x_{3}>0\\
+0 & \text{if}\quad w_{0}+w_{1}x_{1}+w_{2}x_{2}+w_{3}x_{3}\leq0
+\end{cases}
+\]
+ that represents the boolean function $f:\{0,1\}^{3}\rightarrow\{0,1\}$,
+\[
+(x_{1},x_{2},x_{3})\mapsto f(x_{1},x_{2},x_{3})=(x_{1}\land x_{2}\land x_{3})\lor(\lnot x_{1}\land\lnot x_{2}\land\lnot x_{3}).
+\]
+We have 
+\[
+f(0,0,0)=1\Rightarrow w_{0}+w_{1}0+w_{2}0+w_{3}0>0\Leftrightarrow w_{0}>0
+\]
+and
+
+\[
+f(1,1,1)=1\Rightarrow w_{0}+w_{1}+w_{2}+w_{3}>0.
+\]
+By combination of twice the first and once the second constraint
+\[
+3 w_{0}+w_{1}+w_{2}+w_{3}>0
+\]
+is obtained. On the other hand, the constraints
+\[
+f(1,0,0)=0\Rightarrow w_{0}+w_{1}\leq0,
+\]
+\[
+f(0,1,0)=0\Rightarrow w_{0}+w_{2}\leq0,
+\]
+\[
+f(0,0,1)=0\Rightarrow w_{0}+w_{3}\leq0
+\]
+sum up to to 
+\[
+3 w_{0}+w_{1}+w_{2}+w_{3}\leq0.
+\]
+ The two derived constraints on $3 w_{0}+w_{1}+w_{2}+w_{3}$ contradict
+each other and therefore the assumption is false. Hence, the claim
+is true.$\quad\blacksquare$
