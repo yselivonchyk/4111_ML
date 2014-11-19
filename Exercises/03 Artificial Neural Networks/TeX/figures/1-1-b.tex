@@ -1,0 +1,56 @@
+\documentclass[a4paper]{article}
+
+% Set exercise number.
+\newcommand{\exnumber}{3}
+
+%%% Load base packages.
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+
+\usepackage[pdf]{pstricks}
+\usepackage{pst-node}
+\psset
+{
+    rowsep=4mm,
+    colsep=8mm,
+    mnodesize=10mm,
+    mnode=r,
+}
+
+\newcommand{\C}[1]{[mnode=circle,fillstyle=solid]$#1$}
+\newcommand{\R}[1]{[mnode=r]\psframebox[fillstyle=solid]{\parbox{10mm}{\strut\centering$#1$}}}
+\def\Symbol{%
+\psset{unit=3mm}
+\pspicture(-1,-1)(1,1)
+    \psset{linewidth=0.4pt}
+    \psline(-1,0)(1,0)
+    \psline(0,-1)(0,1)
+    \psline[linewidth=3\pslinewidth](-0.75,-0.0)(0,-0.0)(0,0.5)(0.75,0.5)
+\endpspicture
+}
+
+
+\begin{document}
+\thispagestyle{empty} 
+
+\begin{psmatrix}
+    $1\:$           & \R{-\frac{1}{2}}\\
+    $x_1\:$         & \R{1}\\
+    $x_2\:$        	& \R{1}       & \C{\boldsymbol{\Sigma}}    & [mnode=circle,fillstyle=solid,name=symbol]\Symbol   &   $\:f(x)$ \\
+    \vdots          & \vdots & & & \text{output} \\
+    $x_n\:$         & \R{1}\\
+   \text{inputs}   & \text{weights}
+    \psset{arrows=->}
+    \ncline{1,1}{1,2}
+        \ncline{2,1}{2,2}
+            \ncline{3,1}{3,2}
+                \ncline{5,1}{5,2}
+    \ncdiagg{1,2}{3,3}
+        \ncdiagg{2,2}{3,3}
+            \ncdiagg{3,2}{3,3}
+                \ncdiagg{5,2}{3,3}
+    \ncline{3,3}{3,4}
+    \ncline{3,4}{3,5}
+\end{psmatrix}
+\end{document}
