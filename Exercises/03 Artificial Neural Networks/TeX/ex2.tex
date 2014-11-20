@@ -64,20 +64,20 @@ mistake was made.
 The weights $\vec{w}_{k}$ are able to correctly classify any example
 if
 \[
-\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert _{2}^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}<\gamma.
+\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vec{z}\cdot\vec{w}_{k}=0\right\} \cap\left\{ \vec{z}\in\mathbb{R}^{m}\mid\Vert\vec{z}\Vert_{2}=0\right\} \subseteq\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vert\vec{z}\cdot\vec{u}\vert<\gamma\right\} .
 \]
-TODO: Elaborate on this formula. 
-
-Show that this condition is satisfied if $k>R^{2}/\gamma^{2}$.
-
 \[
-\begin{gathered}k>\frac{R^{2}}{\gamma^{2}}\\
-\Leftrightarrow(k-1)\gamma^{2}+\gamma^{2}>R^{2}\\
-\Leftrightarrow R^{2}-(k-1)\gamma^{2}<\gamma^{2}
-\end{gathered}
+\Leftrightarrow\max_{\vec{z}\in\mathbb{R}^{m},\vec{z}\cdot\vec{w}_{k}=0,\Vert\vec{z}\Vert_{2}\leq R}\vec{z}\cdot\vec{u}=\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert _{2}^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}<\gamma.
 \]
+The Formula for the maximum of $\vec{z}\cdot\vec{u}$ can be derived
+by geometrical reasoning or by evaluating the Karush\textendash{}Kuhn\textendash{}Tucker
+(KKT) optimality conditions.
+
+Show that the above condition is satisfied if $k>R^{2}/\gamma^{2}$.
+
 \begin{align*}
-\Rightarrow\gamma^{2} & >R^{2}-(k-1)\gamma^{2}\\
+k & >\frac{R^{2}}{\gamma^{2}}\\
+\Leftrightarrow\gamma^{2} & >R^{2}-(k-1)\gamma^{2}\\
  & =R^{2}-\frac{\left(R\,\left(k-1\right)\gamma\right){}^{2}}{\left(k-1\right)R^{2}}\\
  & \geq R^{2}-\frac{R^{2}}{\Vert\vec{w}_{k}\Vert_{2}^{2}}\left(\vec{u}\cdot\vec{w}_{k}\right)^{2}\qquad\text{by lemma 1 and 2}\\
  & =\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}\\
