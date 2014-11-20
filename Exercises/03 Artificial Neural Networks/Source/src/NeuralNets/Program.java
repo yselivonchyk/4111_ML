@@ -7,10 +7,12 @@ public class Program {
 
 	
 	public static void main(String[] args) {
-		
 		fillInExamples();
 		
+		Network n = new Network(1);
 		
+		
+		System.out.println(n.test(learning));
 	}
 
 

@@ -8,4 +8,12 @@ public class Example {
 		this.values = values;
 		this.result = result;
 	}
+	
+	public double getTestValue(double[] weights){
+		double result = 0;
+		for(int i = 0; i < values.length; i++){
+			result += values[i] ? weights[i] : 0;
+		}
+		return result;
+	}
 }
