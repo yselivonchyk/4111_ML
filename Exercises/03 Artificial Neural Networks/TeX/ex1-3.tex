@@ -57,8 +57,8 @@ Thus $f$ has a representation in DNF.
 Any boolean function in DNF can be calculated by means of a 2 layer perceptron.
 
 \paragraph{Proof}
-First we prove that any disjunctive clause can be calculated by a 1 layer perceptron.\\
-Let $t = q_1 \wedge \ldots \wedge q_n$ be a disjunctive clause and $x\in\{0,1\}^n$ the input vector. Now formulate the inequality:
+First we prove that any conjunctive clause can be calculated by a 1 layer perceptron.\\
+Let $t = q_1 \wedge \ldots \wedge q_n$ be a conjunctive clause and $x\in\{0,1\}^n$ the input vector. Now formulate the inequality:
 \begin{align}
 	X_1 + X_2 + \ldots +X_n \geq n -\epsilon
 	\label{eq1}
@@ -75,8 +75,8 @@ Now (\ref{eq1}) can be easily rearranged to an inequation of the form:
 \begin{align*}
 	w_0 + w_1x_1 + \ldots + w_nx_n \geq 0
 \end{align*}
-Now we prove that any conjunctive clause can be calculated by a 1 layer perceptron.\\
-Let $t = q_1 \vee \ldots \vee q_n$ be a conjunctive clause and $x\in\{0,1\}^n$ the input vector. Now formulate the inequality:
+Now we prove that any disjunctive clause can be calculated by a 1 layer perceptron.\\
+Let $t = q_1 \vee \ldots \vee q_n$ be a disjunctive clause and $x\in\{0,1\}^n$ the input vector. Now formulate the inequality:
 \begin{align}
 X_1 + X_2 + \ldots +X_n \geq \epsilon
 \label{eq2}
