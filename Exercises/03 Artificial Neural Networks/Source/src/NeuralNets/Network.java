@@ -8,14 +8,14 @@ public class Network {
 	// 3 input weights and 1 bias
 	public double[] weights = new double[4];
 	public double n = 0;
-	public int iterationsCounter = 0;
+	public int iterationsCounter = -1;
 	
 	// n - gradient step
 	public Network(double n){
 		this.n = n;
 		
 		for(int i = 0; i < weights.length; i++){
-			weights[i] = 0.5;//Math.random() - 0.5;;
+			weights[i] = 0.5;//Math.random() - 0.5;
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class Network {
 	// Calculate portion or correct neuron executions
 	public double test(ArrayList<Example> examples){
 		double testres = test(examples, this.weights);
-		System.out.println(String.format("\ntest: %d%%\tcicles: %d\tn: %5.4f", (int)testres*100/1, iterationsCounter, n));
+		System.out.println(String.format("\ntest: %d%%  iterations: %d\tn: %5.4f", (int)testres*100/1, iterationsCounter, n));
 		for(int i = 0; i < weights.length; i++) System.out.print(String.format("%4.3f, ", weights[i]));
 		return testres;
 	}
