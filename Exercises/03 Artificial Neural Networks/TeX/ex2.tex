@@ -64,7 +64,7 @@ mistake was made.
 The weights $\vec{w}_{k}$ are able to correctly classify any example
 if
 \[
-\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vec{z}\cdot\vec{w}_{k}=0\right\} \cap\left\{ \vec{z}\in\mathbb{R}^{m}\mid\Vert\vec{z}\Vert_{2}=0\right\} \subseteq\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vert\vec{z}\cdot\vec{u}\vert<\gamma\right\} .
+\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vec{z}\cdot\vec{w}_{k}=0\right\} \cap\left\{ \vec{z}\in\mathbb{R}^{m}\mid\Vert\vec{z}\Vert_{2}=0\right\} \subseteq\left\{ \vec{z}\in\mathbb{R}^{m}\mid\vert\vec{z}\cdot\vec{u}\vert<\gamma\right\}
 \]
 \[
 \Leftrightarrow\max_{\vec{z}\in\mathbb{R}^{m},\vec{z}\cdot\vec{w}_{k}=0,\Vert\vec{z}\Vert_{2}\leq R}\vec{z}\cdot\vec{u}=\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert _{2}^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}<\gamma.
@@ -95,5 +95,5 @@ the index $k=1$, this means that the maximum number of wrong classifications
 is $R^{2}/\gamma^{2}.$ Thus,
 
 \[
-\left|\left\{ i:1\le i\le n,\, y_{i}\,(\vec{w}_{i}\cdot\vec{x}_{i})\leq0\right\} \right|\leq\left(\frac{R}{\gamma}\right)^{2}.\quad\blacksquare
+\left|\left\{ i:1\le i\le n,\, y_{i}\,(\vec{w}_{i}\cdot\vec{x}_{i})\leq0\right\} \right|\leq\left(\frac{R}{\gamma}\right)^{2}\!\!\!.\quad\blacksquare
 \]
