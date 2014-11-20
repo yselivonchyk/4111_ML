@@ -1,7 +1,9 @@
 \section{Convergence of the Perceptron Algorithm}
-\paragraph{Lemma 1 }
-
-$\vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma$
+\paragraph{Lemma 1 
+\[
+\vec{w}^{(k+1)}\cdot\vec{u}\geq k\gamma
+\]
+}
 
 
 \paragraph*{Proof by induction}
@@ -27,10 +29,11 @@ the \emph{k}\textsuperscript{th} mistake was made.
 Thus, the statement holds for all natural numbers $k$.
 
 
-\paragraph*{Lemma 2}
-
-
-\paragraph*{$\left\Vert \vec{w}^{(k+1)}\right\Vert _{2}^{2}\leq\left\Vert \vec{w}^{(k)}\right\Vert _{2}^{2}+R^{2}$}
+\paragraph*{Lemma 2
+\[
+\left\Vert \vec{w}^{(k+1)}\right\Vert _{2}^{2}\leq\left\Vert \vec{w}^{(k)}\right\Vert _{2}^{2}+R^{2}
+\]
+}
 
 
 \paragraph*{Proof}
@@ -43,7 +46,7 @@ mistake was made.
  & =\vec{w}^{(k)}\cdot\vec{w}^{(k)}+2y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}+y_{i}^{2}\vec{x}_{i}\cdot\vec{x}_{i}\\
  & =\Vert\vec{w}^{(k)}\Vert_{2}^{2}+2y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}+\Vert\vec{x}_{i}\Vert_{2}^{2}\\
  & \leq\Vert\vec{w}^{(k)}\Vert_{2}^{2}+\Vert\vec{x}_{i}\Vert_{2}^{2}\qquad\because y_{i}\vec{w}^{(k)}\cdot\vec{x}_{i}\leq0\\
- & \leq\Vert\vec{w}^{(k)}\Vert_{2}^{2}+R^{2}\qquad\because\Vert\vec{x}_{i}\Vert\leq R
+ & \leq\Vert\vec{w}^{(k)}\Vert_{2}^{2}+R^{2}\qquad\because\Vert\vec{x}_{i}\Vert_{2}\leq R
 \end{align*}
 
 
@@ -58,29 +61,39 @@ mistake was made.
 
 \paragraph*{Proof}
 
-The weights $w_{k}$ are able to correctly classify any example if
+The weights $\vec{w}_{k}$ are able to correctly classify any example
+if
 \[
-\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}\leq\gamma.
+\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert _{2}^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}<\gamma.
 \]
 TODO: Elaborate on this formula. 
 
-Show that this condition is satisfied if $k\geq R^{2}/\gamma^{2}$.
+Show that this condition is satisfied if $k>R^{2}/\gamma^{2}$.
 
 \[
-\begin{gathered}k\geq\frac{R^{2}}{\gamma^{2}}\\
-\Leftrightarrow(k-1)\gamma^{2}+\gamma^{2}\geq R^{2}\\
-\Leftrightarrow R^{2}-(k-1)\gamma^{2}\leq\gamma^{2}
+\begin{gathered}k>\frac{R^{2}}{\gamma^{2}}\\
+\Leftrightarrow(k-1)\gamma^{2}+\gamma^{2}>R^{2}\\
+\Leftrightarrow R^{2}-(k-1)\gamma^{2}<\gamma^{2}
 \end{gathered}
 \]
 \begin{align*}
-\Rightarrow\gamma^{2} & \geq R^{2}-(k-1)\gamma^{2}\\
+\Rightarrow\gamma^{2} & >R^{2}-(k-1)\gamma^{2}\\
  & =R^{2}-\frac{\left(R\,\left(k-1\right)\gamma\right){}^{2}}{\left(k-1\right)R^{2}}\\
  & \geq R^{2}-\frac{R^{2}}{\Vert\vec{w}_{k}\Vert_{2}^{2}}\left(\vec{u}\cdot\vec{w}_{k}\right)^{2}\qquad\text{by lemma 1 and 2}\\
  & =\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}\\
-\Rightarrow\gamma & \geq\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}
+\Rightarrow\gamma & >\sqrt{\left\Vert \frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right\Vert ^{2}-\left(\vec{u}\cdot\frac{\vec{w}_{k}}{\Vert\vec{w}_{k}\Vert_{2}}R\right)^{2}}
 \end{align*}
-Therefore if $k\geq R^{2}/\gamma^{2}$ no classification errors are
-made. Since $k$ is the index variable which is increased after each
-error... TODO: Ask the TAs whether the given algorithm is correct
-(should have $\leq$instead of $<$). Also take care for indexing
-($w_{k}$implies that $k-1$ errors were made).
+Therefore, if $k>R^{2}/\gamma^{2}$, no classification errors are
+made. According to this bound, if $k\leq R^{2}/\gamma^{2}$, it is
+possible that the algorithm makes a wrong classification. It follows
+that 
+\[
+k_{\max}=\frac{R^{2}}{\gamma^{2}}+1
+\]
+ is the largest possible index. Since we start with no errors and
+the index $k=1$, this means that the maximum number of wrong classifications
+is $R^{2}/\gamma^{2}.$ Thus,
+
+\[
+\left|\left\{ i:1\le i\le n,\, y_{i}\,(\vec{w}_{i}\cdot\vec{x}_{i})\leq0\right\} \right|\leq\left(\frac{R}{\gamma}\right)^{2}.\quad\blacksquare
+\]
