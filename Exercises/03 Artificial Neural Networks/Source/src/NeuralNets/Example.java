@@ -9,7 +9,7 @@ public class Example {
 		this.result = result;
 	}
 	
-	public double getTestValue(double[] weights){
+	public double test(double[] weights){
 		double result = 0;
 		for(int i = 0; i < values.length; i++){
 			result += values[i] ? weights[i] : 0;
