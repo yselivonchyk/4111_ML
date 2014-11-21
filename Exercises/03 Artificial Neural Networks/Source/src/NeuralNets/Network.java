@@ -15,8 +15,12 @@ public class Network {
 		this.n = n;
 		
 		for(int i = 0; i < weights.length; i++){
-			weights[i] = 0.5;//Math.random() - 0.5;
+			weights[i] = Math.random() - 0.5;
 		}
+		
+		System.out.println("             w1      w2     w3     bias ");
+		System.out.print("initial: ");
+		for(int i = 0; i < weights.length; i++) System.out.print(String.format("%+4.3f, ", weights[i]));
 	}
 	
 	//Train network
@@ -47,8 +51,9 @@ public class Network {
 	// Calculate portion or correct neuron executions
 	public double test(ArrayList<Example> examples){
 		double testres = test(examples, this.weights);
+		System.out.print("\nresult:  ");
+		for(int i = 0; i < weights.length; i++) System.out.print(String.format("%+4.3f, ", weights[i]));
 		System.out.println(String.format("\ntest: %d%%  iterations: %d\tn: %5.4f", (int)testres*100/1, iterationsCounter, n));
-		for(int i = 0; i < weights.length; i++) System.out.print(String.format("%4.3f, ", weights[i]));
 		return testres;
 	}
 	
