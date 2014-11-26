@@ -1,0 +1,36 @@
+\section{The Perceptron Algorithm}
+
+\paragraph{Claim}
+
+Let $i<j<k$ and $w_{i}=w_{k}$, $w_{i}\neq w_{j}$ during the the
+execution of the perceptron algorithm on the set $S$ of training
+examples. Then $S$ is not linearly separable, i.\,e., there does
+not exist a vector $\vec{u}\in\mathbb{R}^{m}$, such that $y_{l}\,(\vec{u}\cdot\vec{x_{l}})>0\;\forall l\in\{1,\ldots,n\}$.
+
+
+\paragraph{Proof by contradiction}
+
+For the sake of contradiction, assume that $S$ is linearly separable
+and thus
+\[
+\exists\;\vec{u}\in\mathbb{R}^{m},\text{ such that }y_{l}\,(\vec{u}\cdot\vec{x_{l}})>0\;\forall l\in\{1,\ldots,n\}
+\]
+Let $\vec{x}^{(l)}$ denote the training example, that was wrongly
+classified with the weights $\vec{w}_{l}$ and therefore caused the
+iteration from $\vec{w}_{l}$ to $\vec{w}_{l+1}$. By the perceptron
+algorithm we have
+\[
+\vec{w}_{j}=\vec{w}_{i}+\sum_{i\leq l<j}y_{l}\,\vec{x}^{(l)}
+\]
+and
+\[
+\vec{w}_{k}=\vec{w}_{j}+\sum_{j\leq l<k}y_{l}\,\vec{x}^{(l)}=\vec{w}_{i}+\sum_{i\leq l<k}y_{l}\,\vec{x}^{(l)}.
+\]
+Because $\vec{w}_{k}=\vec{w}_{i}$,
+\[
+\sum_{i\leq l<k}y_{l}\,\vec{x}^{(l)}=0
+\]
+We arrive at a contradiction by
+\[
+0=\vec{u}\,0=\vec{u}\sum_{i\leq l<k}y_{l}\,\vec{x}^{(l)}=\sum_{i\leq l<k}y_{l}\left(\vec{u}\cdot\vec{x}^{(l)}\right)>0\quad\blacksquare
+\]
