@@ -51,7 +51,8 @@ public class Main {
 			System.out.println("####################################################");
 			long stopTime = System.currentTimeMillis();
 		    long elapsedTime = stopTime - startTime;
-		    System.out.println("Elapsed Time: "+elapsedTime+"s");
+		    System.out.println("Elapsed Time: "+elapsedTime+"ms");
+		    System.out.println("Learning rate: "+i*0.1);
 		    System.out.println("####################################################");
 		    System.out.println();
 		    System.out.println();
