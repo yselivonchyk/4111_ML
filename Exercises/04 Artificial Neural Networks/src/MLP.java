@@ -55,8 +55,12 @@ public class MLP {
 	}
 	
 	private ArrayList<ArrayList<double[]>> calcOutputForTraining(double[] input) throws Exception{
+		//stores the outputs of each neuron in each layer
 		ArrayList<double[]>layerOuts = new ArrayList<double[]>();
+		
+		//stores the nets = weighted sums of each neuron in each layer
 		ArrayList<double[]>nets = new ArrayList<double[]>();
+		
 		double[] temp = input;
 		double[] temp2 = input;
 		layerOuts.add(temp);
@@ -78,9 +82,7 @@ public class MLP {
 	}
 	
 	public void printWeights(){
-//		System.out.println("===================================");
-	//	System.out.println("Input Layer: ");
-//		inputBuffer.printWeights();
+
 		for (int i=0; i< L  ; i++){
 			System.out.println("===================================");
 			System.out.println("Hidden Layer "+i+":");

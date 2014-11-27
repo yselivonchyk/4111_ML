@@ -1,8 +1,5 @@
 import java.util.Random;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
-
 public class Neuron {
 	private int inputDimension;
 	private double[] weights;
