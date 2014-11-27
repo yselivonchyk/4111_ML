@@ -3,7 +3,7 @@ import java.util.Random;
 
 
 public class SimpleXOR {
-	final double LEARNING_RATE = 0.5;
+	double rate;
 
 	int N;								//N dimensional input
 	int H;								//H hidden neurons
@@ -26,7 +26,8 @@ public class SimpleXOR {
 	int counter;						//counter for averaging in batch learning mode
 	
 	//Constructor
-	public SimpleXOR(int n, int h, int m) {
+	public SimpleXOR(int n, int h, int m, double rate) {
+		this.rate = rate;
 		N = n;
 		H = h;
 		M = m;
@@ -131,16 +132,16 @@ public class SimpleXOR {
 	public void cumulateWeights(){
 		for(int h =0; h<H; h++){
 			for(int n =0; n<N; n++){
-				hiddenWeightChange[n][h]+= LEARNING_RATE*hiddenDelta[h]*input[n];
+				hiddenWeightChange[n][h]+= rate*hiddenDelta[h]*input[n];
 			}
-			hiddenWeightChange[N][h]+= LEARNING_RATE*hiddenDelta[h];
+			hiddenWeightChange[N][h]+= rate*hiddenDelta[h];
 		}
 		
 		for(int m =0; m<M; m++){
 			for(int h =0; h<H; h++){
-				outputWeightChange[h][m]+= LEARNING_RATE*outputDelta[m]*hiddenOuts[h];
+				outputWeightChange[h][m]+= rate*outputDelta[m]*hiddenOuts[h];
 			}
-			outputWeightChange[H][m]+= LEARNING_RATE*outputDelta[m];
+			outputWeightChange[H][m]+= rate*outputDelta[m];
 		}
 		//counts how often cumulation is used
 		counter++;
@@ -217,13 +218,15 @@ public class SimpleXOR {
 			error /= M;
 			
 			//termination criterion
-			notGoodEnough = (error > Math.pow(10, -4))&& (counter < Math.pow(10, 10));
+			notGoodEnough = (error > Math.pow(10, -3))&& (counter < Math.pow(10, 6));
 		}
 	}
 	
 	//prints information about current state of MLP
 	public void print(){
 		System.out.println("===================================================");
+		System.out.println(N+"-"+H+"-"+M+"- Multi Layer Perceptron");
+		System.out.println("---------------------------------------------------");
 		System.out.println("Hidden Layer: ");
 		for(int n =0; n<=N; n++){
 			for(int h =0; h<H; h++){
