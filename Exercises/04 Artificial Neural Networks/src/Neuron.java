@@ -26,7 +26,6 @@ public class Neuron {
 		for(int i=0; i< inputDimension+1;i++){
 			//random weight in range [-0.5,0.5]
 			weights[i]= -0.5+rand.nextDouble();
-			//weights[i]= 1.0;
 		}
 	}
 	
@@ -59,6 +58,7 @@ public class Neuron {
 		return transferFunction(weightedSum);
 	}
 	
+	
 	public void deltaRule(double rate,double delta, double out[]){
 		weights[0]+=rate*delta;
 		for (int i = 0; i< inputDimension; i++){
@@ -66,6 +66,7 @@ public class Neuron {
 		}
 	}
 	
+	//gets weight from upper layer
 	public double getWeight(int k){
 		return weights[k];
 	}
