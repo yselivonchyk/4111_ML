@@ -195,15 +195,39 @@ public class SimpleXOR {
 			processAll( input1);
 			backpropagate(output1);
 			
+			//calculate averaged squared error
+			double error1 = 0;
+			for(int m =0; m<M;m++)
+				error1+=Math.pow(output1[m]-outputOuts[m], 2);
+			error1 /= 2;
+			
 			
 			processAll(input2);
 			backpropagate(output2);
+			
+			//calculate averaged squared error
+			double error2 = 0;
+			for(int m =0; m<M;m++)
+				error2+=Math.pow(output2[m]-outputOuts[m], 2);
+			error2 /= 2;
 
 			processAll( input3);
 			backpropagate(output3);
+			
+			//calculate averaged squared error
+			double error3 = 0;
+			for(int m =0; m<M;m++)
+				error3+=Math.pow(output3[m]-outputOuts[m], 2);
+			error3 /= 2;
 
 			processAll( input4);
 			backpropagate(output4);
+			
+			//calculate averaged squared error
+			double error4 = 0;
+			for(int m =0; m<M;m++)
+				error4+=Math.pow(output4[m]-outputOuts[m], 2);
+			error4 /= 2;
 			
 			//optional batch learning
 			if(counter%1 == 0){
@@ -211,12 +235,7 @@ public class SimpleXOR {
 			}
 			counter++;
 			
-			//calculate averaged squared error
-			double error = 0;
-			for(int m =0; m<M;m++)
-				error+=Math.pow(output4[m]-outputOuts[m], 2);
-			error /= M;
-			
+			double error = (error1+error2+error3+error4)/4;
 			//termination criterion
 			notGoodEnough = (error > Math.pow(10, -3))&& (counter < Math.pow(10, 6));
 		}
