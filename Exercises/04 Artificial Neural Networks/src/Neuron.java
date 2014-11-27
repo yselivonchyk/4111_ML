@@ -4,43 +4,24 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 
 public class Neuron {
-	public boolean isInput;
 	private int inputDimension;
 	private double[] weights;
 	private int transferFunction;
 	
 	public Neuron(int inputDimension){
-		this.isInput = false;
 		this.inputDimension = inputDimension;
 		this.transferFunction = 0; // default transferFunction
 		init();
 	}
 	
-	public Neuron(){
-		this.isInput = true;
-		this.inputDimension = 1;
-		this.transferFunction = 1; // identity
-		init();
-	}
-	
 	
 	public Neuron(int inputDimension,int transferFunction){
-		this.isInput = false;
 		this.inputDimension = inputDimension;
 		this.transferFunction = transferFunction; // some other transfer function
 		init();
 	}
 	
-	public Neuron(boolean isInput,int inputDimension,int transferFunction){
-		this.isInput = isInput;
-		this.inputDimension = inputDimension;
-		this.transferFunction = transferFunction; // some other transfer function
-		if (isInput){
-			this.inputDimension = 1;
-			this.transferFunction = 1;
-		}
-		init();
-	}
+
 	
 	private void init(){
 		weights = new double[inputDimension+1];
@@ -48,16 +29,17 @@ public class Neuron {
 		for(int i=0; i< inputDimension+1;i++){
 			//random weight in range [-0.5,0.5]
 			weights[i]= -0.5+rand.nextDouble();
+			//weights[i]= 1.0;
 		}
 	}
 	
 	public double weightedSum(double[] incomingVector)throws Exception{
 		if (incomingVector.length != inputDimension)
 			throw new Exception("Dimension mismatch!"
-							+incomingVector.length+":"+inputDimension+isInput);
+							+incomingVector.length+":"+inputDimension);
 		
 		double weightedSum = weights[0];
-		for (int i = 0; i< incomingVector.length; i++){
+		for (int i = 0; i< inputDimension; i++){
 			weightedSum += weights[i+1]*incomingVector[i];
 		}
 		return weightedSum;
@@ -81,8 +63,9 @@ public class Neuron {
 	}
 	
 	public void deltaRule(double rate,double delta, double out[]){
+		weights[0]+=rate*delta;
 		for (int i = 0; i< inputDimension; i++){
-			weights[i]+=rate*delta* out[i];
+			weights[i+1]+=rate*delta* out[i];
 		}
 	}
 	

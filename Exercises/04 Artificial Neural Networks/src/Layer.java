@@ -3,19 +3,9 @@ public class Layer {
 	private int inputDimension;
 	private int size;
 	private Neuron[] neurons;
-	
-	public Layer(boolean isInputLayer,int inputDimension, int size) {
-		this.isInputLayer = isInputLayer;
-		this.inputDimension = inputDimension;
-		this.size = size;
-		if(isInputLayer)
-			this.inputDimension = 1;
-		init();
-	}
-	
+		
 	
 	public Layer(int inputDimension, int size) {
-		this.isInputLayer = false;
 		this.inputDimension = inputDimension;
 		this.size = size;
 		init();
@@ -24,7 +14,7 @@ public class Layer {
 	private void init(){
 		neurons = new Neuron[size];
 		for(int i = 0; i<size;i++){
-			neurons[i] = new Neuron(isInputLayer,inputDimension,0);
+			neurons[i] = new Neuron(inputDimension,0);
 		}
 	}
 	
@@ -67,8 +57,8 @@ public class Layer {
 		}
 	}
 	
-	public double getWeight(int h, int k){
-		return neurons[h].getWeight(k);
+	public double getWeight(int h, int g){
+		return neurons[h].getWeight(g);
 	}
 	
 	public void printWeights(){

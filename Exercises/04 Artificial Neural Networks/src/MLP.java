@@ -13,7 +13,7 @@ public class MLP {
 	private int M;
 	private int L;
 	
-	private Layer inputBuffer;
+//	private Layer inputBuffer;
 	private ArrayList<Layer> hiddenLayers;
 	private Layer outputLayer;
 	
@@ -30,22 +30,23 @@ public class MLP {
 	}
 	
 	private void init(){
-		inputBuffer = new Layer(true,1,N);
-		outputLayer =  new Layer(false,Hs[Hs.length-1],M);
+//		inputBuffer = new Layer(true,1,N);
+		outputLayer =  new Layer(Hs[Hs.length-1],M);
 		hiddenLayers = new ArrayList<Layer>(L); 
 		
 
-		Layer firstHiddenLayer = new Layer(false,N,Hs[0]);	
+		Layer firstHiddenLayer = new Layer(N,Hs[0]);	
 		hiddenLayers.add(firstHiddenLayer);
 		
 		for (int l = 1; l<L;l++ ){
-			Layer hiddenLayer = new Layer(false,Hs[l-1],Hs[l]);
+			Layer hiddenLayer = new Layer(Hs[l-1],Hs[l]);
 			hiddenLayers.add(hiddenLayer);
 		}
 	}
 	
 	public double[] calcOutput(double[] input) throws Exception{
-		double[] temp = inputBuffer.processInput(input);
+		//double[] temp = inputBuffer.processInput(input);
+		double[] temp = input;
 		for (int l = 0; l<L; l++){
 			temp = hiddenLayers.get(l).processInput(temp);
 		}
@@ -56,8 +57,8 @@ public class MLP {
 	private ArrayList<ArrayList<double[]>> calcOutputForTraining(double[] input) throws Exception{
 		ArrayList<double[]>layerOuts = new ArrayList<double[]>();
 		ArrayList<double[]>nets = new ArrayList<double[]>();
-		double[] temp = inputBuffer.processInput(input);
-		double[] temp2 = inputBuffer.getNets(input);
+		double[] temp = input;
+		double[] temp2 = input;
 		layerOuts.add(temp);
 		nets.add(temp2);
 		for (int l = 0; l<L; l++){
@@ -77,9 +78,9 @@ public class MLP {
 	}
 	
 	public void printWeights(){
-		System.out.println("===================================");
-		System.out.println("Input Layer: ");
-		inputBuffer.printWeights();
+//		System.out.println("===================================");
+	//	System.out.println("Input Layer: ");
+//		inputBuffer.printWeights();
 		for (int i=0; i< L  ; i++){
 			System.out.println("===================================");
 			System.out.println("Hidden Layer "+i+":");
@@ -94,7 +95,7 @@ public class MLP {
 		if (teacherInput[0].length != N || teacherOutput[0].length != M)
 			throw new Exception("Training Data: Dimension mismatch!");
 		
-		int P = teacherInput[0].length;
+		int P = teacherInput.length;
 		for (int p=0; p<P;p++){
 			//getting p-th teacher data
 			double[] inputVec = new double[N];	
@@ -122,11 +123,14 @@ public class MLP {
 		double[] outs = layerOuts.get(layerOuts.size() -1);
 		double[] nets = layerNets.get(layerNets.size() -1);
 		double[] deltas = new double[M];
+		
+		ArrayList<double[]> layerDeltas = new ArrayList<double[]>();
+		
 		for (int m = 0; m < M; m++){
 			// case: transfer function is hyperbolic tangent
 			deltas[m] = (teacherOut[m]-outs[m])*(1-Math.pow(outputLayer.transferFunction(nets[m]),2));
 		}
-		outputLayer.deltaRule(LEARNING_RATE, deltas, layerOuts.get(layerOuts.size() -2));
+		layerDeltas.add(deltas);
 		
 		//last hiddenLayer
 		nets = layerNets.get(layerNets.size() -2 );
@@ -134,12 +138,12 @@ public class MLP {
 		for (int h = 0; h < Hs[L-1]; h++){
 			double weightedDeltaSum = 0;
 			for(int k = 0; k< M ;k++)
-				weightedDeltaSum += hiddenLayers.get(L-1).getWeight(h, k)*deltas[k];
+				weightedDeltaSum += getWeight(L-1,h, k)*deltas[k];
 			// case: transfer function is hyperbolic tangent
 			deltasCur[h] = weightedDeltaSum*(1-Math.pow(outputLayer.transferFunction(nets[h]),2));
 		}
 		deltas = deltasCur;
-		hiddenLayers.get(L-1).deltaRule(LEARNING_RATE, deltas, layerOuts.get(layerOuts.size() -3));
+		layerDeltas.add(deltas);
 		
 		//hidden Layers
 		for (int i = L-2; i>=0; i-- ){
@@ -148,16 +152,32 @@ public class MLP {
 			for (int h = 0; h < Hs[i]; h++){
 				double weightedDeltaSum = 0;
 				for(int k = 0; k<Hs[i+1];k++)
-					weightedDeltaSum += hiddenLayers.get(i).getWeight(h, k)*deltas[k];
+					weightedDeltaSum += getWeight(i,h, k)*deltas[k];
 				// case: transfer function is hyperbolic tangent
 				deltasCur[h] = weightedDeltaSum*(1-Math.pow(outputLayer.transferFunction(nets[h]),2));
 			}
 			deltas = deltasCur;
-			hiddenLayers.get(i).deltaRule(LEARNING_RATE, deltas, layerOuts.get(layerOuts.size() -2 -(L-1-i)-1));
-			
+			layerDeltas.add(deltas);		
+		}
+		
+		outputLayer.deltaRule(LEARNING_RATE, layerDeltas.get(0), layerOuts.get(layerOuts.size() -2));
+		hiddenLayers.get(L-1).deltaRule(LEARNING_RATE, layerDeltas.get(1), layerOuts.get(layerOuts.size() -3));
+		
+		for (int i = L-2; i>=0; i-- ){
+			hiddenLayers.get(i).deltaRule(LEARNING_RATE, layerDeltas.get(2+(L-2-i)), layerOuts.get(layerOuts.size() -3 -(L-1-i)));	
 		}
 
 	}
+	
+	private double getWeight(int l,int h, int k){
+		Layer layer;
+		if (l<L-1)
+			layer = hiddenLayers.get(l+1);
+		else
+			layer = outputLayer;
+		return layer.getWeight(k, h+1);
+	}
+		
 	
 	private void readTrainigdata(String path){
 		try {
