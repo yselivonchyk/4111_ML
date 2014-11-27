@@ -5,47 +5,27 @@ import java.util.Random;
 public class SimpleXOR {
 	final double LEARNING_RATE = 0.5;
 
-	int N;
-	int H;
-	int M;
+	int N;								//N dimensional input
+	int H;								//H hidden neurons
+	int M;								//M dimensional output
 	
-	double[][] hiddenWeights;
-	double[][] outputWeights;
-	double[] input;
-	double[] hiddenOuts;
-	double[] hiddenNets;
-	double[] outputOuts;
-	double[] outputNets;
+	double[][] hiddenWeights;			//weights from input to hidden layer	
+	double[][] outputWeights;			//weights from hidden to output layer
+	double[] input;						//input buffer
+	double[] hiddenOuts;				//buffer of outputs of hidden layer
+	double[] hiddenNets;				//buffer of nets (weighted sums) of hidden layer
+	double[] outputOuts;				//buffer of outputs of output layer
+	double[] outputNets;				//buffer of nets (weighted sums) of output layer
 	
-	double[][]hiddenWeightChange;
+	double[][]hiddenWeightChange;		//weight change arrays for batch learning 
 	double[][]outputWeightChange;
 	
-	double[] outputDelta;
+	double[] outputDelta;				//buffers for delta values
 	double[] hiddenDelta;
 	
-	int counter;
+	int counter;						//counter for averaging in batch learning mode
 	
-	public void print(){
-		System.out.println("===================================================");
-		System.out.println("Hidden Layer: ");
-		for(int n =0; n<=N; n++){
-			for(int h =0; h<H; h++){
-				System.out.print("w_("+n+","+h+"): "+hiddenWeights[n][h] +"\t");
-			}
-			System.out.print("\n");
-		}
-		
-		System.out.println();
-		System.out.println("Output Layer: ");
-		for(int h =0; h<=H; h++){
-			for(int m =0; m<M; m++){
-				System.out.print("w_("+h+","+m+"): "+outputWeights[h][m] +"\t");
-			}
-			System.out.print("\n");
-		}
-		System.out.println("===================================================");
-	}
-	
+	//Constructor
 	public SimpleXOR(int n, int h, int m) {
 		N = n;
 		H = h;
@@ -53,7 +33,8 @@ public class SimpleXOR {
 		init();
 	}
 	
-	public void init() {
+	//initializes everything necessary
+	private void init() {
 		hiddenWeights = new double[N+1][H];
 		outputWeights = new double[H+1][M];
 		hiddenOuts = new double[H];
@@ -86,7 +67,8 @@ public class SimpleXOR {
 		
 	}
 	
-	public void processHiddenLayer(){
+	//process step of hidden layer using input buffer
+	private void processHiddenLayer(){
 		for(int h=0; h<H;h++){
 			hiddenNets[h]= 0;
 			hiddenOuts[h]= 0;
@@ -100,7 +82,8 @@ public class SimpleXOR {
 		}
 	}
 	
-	public void processOutputLayer(){
+	//process step of output layer using hidden buffer
+	private void processOutputLayer(){
 		for(int m=0; m<M;m++){
 			outputNets[m]= 0;
 			outputOuts[m]= 0;
@@ -114,6 +97,7 @@ public class SimpleXOR {
 		}
 	}
 	
+	//calculates output of MLP given an input
 	public double[] processAll(double[] input){
 		this.input =input;
 		processHiddenLayer();
@@ -121,6 +105,7 @@ public class SimpleXOR {
 		return outputOuts;
 	}
 	
+	//calculates delta values for output layer
 	public void getDeltaOutput(double[] output){
 		for (int m = 0; m < M; m++){
 			double diff = (output[m]-outputOuts[m]);
@@ -128,6 +113,8 @@ public class SimpleXOR {
 		}
 	}
 	
+	//calculates delta values for hidden layer
+	//getDeltaOutput is a prerequisite!!
 	public void getDeltaHidden(){
 		for (int h = 0; h < H; h++){		
 			//delta values are calculated from delta values of output layer 
@@ -140,12 +127,7 @@ public class SimpleXOR {
 		}
 	}
 	
-	public void backpropagate(double output[]){
-		getDeltaOutput(output);
-		getDeltaHidden();
-		cumulateWeights();
-	}
-	
+	//cumulates weight changes in arrays
 	public void cumulateWeights(){
 		for(int h =0; h<H; h++){
 			for(int n =0; n<N; n++){
@@ -160,10 +142,18 @@ public class SimpleXOR {
 			}
 			outputWeightChange[H][m]+= LEARNING_RATE*outputDelta[m];
 		}
+		//counts how often cumulation is used
 		counter++;
-		
 	}
 	
+	//backpropagation
+	public void backpropagate(double output[]){
+		getDeltaOutput(output);
+		getDeltaHidden();
+		cumulateWeights();
+	}
+	
+	//applies weight change by means of change arrays
 	public void updateWeights(){
 		
 		for(int h =0; h<H; h++){
@@ -183,8 +173,10 @@ public class SimpleXOR {
 		counter = 0;	
 	}
 	
+	//trains MLP for XOR
 	public void trainXOR(){
-		
+	
+		//create training data
 		double[] input1 = {0,0};
 		double[] input2 = {0,1};
 		double[] input3 = {1,0};
@@ -195,8 +187,8 @@ public class SimpleXOR {
 		double[] output3 = {1};
 		double[] output4 = {-1};
 		
-		boolean notGoodEnough=true;
 		int counter = 1;
+		boolean notGoodEnough=true;
 		while(notGoodEnough){
 
 			processAll( input1);
@@ -218,12 +210,37 @@ public class SimpleXOR {
 			}
 			counter++;
 			
+			//calculate averaged squared error
 			double error = 0;
 			for(int m =0; m<M;m++)
 				error+=Math.pow(output4[m]-outputOuts[m], 2);
 			error /= M;
+			
+			//termination criterion
 			notGoodEnough = (error > Math.pow(10, -4))&& (counter < Math.pow(10, 10));
 		}
+	}
+	
+	//prints information about current state of MLP
+	public void print(){
+		System.out.println("===================================================");
+		System.out.println("Hidden Layer: ");
+		for(int n =0; n<=N; n++){
+			for(int h =0; h<H; h++){
+				System.out.print("w_("+n+","+h+"): "+hiddenWeights[n][h] +"\t");
+			}
+			System.out.print("\n");
+		}
+		
+		System.out.println();
+		System.out.println("Output Layer: ");
+		for(int h =0; h<=H; h++){
+			for(int m =0; m<M; m++){
+				System.out.print("w_("+h+","+m+"): "+outputWeights[h][m] +"\t");
+			}
+			System.out.print("\n");
+		}
+		System.out.println("===================================================");
 	}
 
 }
