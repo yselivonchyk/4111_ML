@@ -44,7 +44,8 @@ public class Layer {
 		}
 	}
 	
-	public double getWeight(int h, int g){
+	//gets weight from (g-1)-th neuron from upper layer to h-th neuron in this layer 
+	public double getWeight(int g, int h){
 		return neurons[h].getWeight(g);
 	}
 	

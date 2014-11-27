@@ -171,13 +171,14 @@ public class MLP {
 
 	}
 	
+	//gets weight from h-th neuron in l-th layer to k-th neuron in next layer  
 	private double getWeight(int l,int h, int k){
 		Layer layer;
 		if (l<L-1)
 			layer = hiddenLayers.get(l+1);
 		else
 			layer = outputLayer;
-		return layer.getWeight(k, h+1);
+		return layer.getWeight(h+1,k);
 	}
 		
 	
