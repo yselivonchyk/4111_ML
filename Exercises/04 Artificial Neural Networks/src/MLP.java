@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MLP {
 
-	private final double LEARNING_RATE = 0.51;
+	private final double LEARNING_RATE = 0.5;
 	private int N;
 	private int H;
 	private int M;
@@ -99,6 +99,8 @@ public class MLP {
 			
 	}
 	
+	
+	
 	private void backpropagate(double[] teacherOut, ArrayList<ArrayList<double[]>> tuple){
 		
 		//get nets and outputs of eaach layer
@@ -109,18 +111,18 @@ public class MLP {
 		//calculate deltas in Output Layer
 		double[] outs = layerOuts.get(2);
 		double[] nets = layerNets.get(2);
-		double[] deltas = new double[M];
+		double[] deltasOutput = new double[M];
 		
 		//iterate through output layer
 		for (int m = 0; m < M; m++){
 			// case: transfer function is hyperbolic tangent
-			deltas[m] = (teacherOut[m]-outs[m])*(1.0-Math.pow(outputLayer.transferFunction(nets[m]),2));
+			deltasOutput[m] = (teacherOut[m]-outs[m])*(1.0-Math.pow(outputLayer.transferFunction(nets[m]),2));
 		}
 		
 
 		//calculate deltas in hidden Layer
 		nets = layerNets.get(1);
-		double[] deltasCur = new double[H];
+		double[] deltasHidden = new double[H];
 		//iterate through hidden layer
 		for (int h = 0; h < H; h++){
 			
@@ -128,16 +130,77 @@ public class MLP {
 			//and weights between hidden and output layer
 			double weightedDeltaSum = 0;
 			for(int m = 0; m< M ;m++)
-				weightedDeltaSum += outputLayer.getWeight(h+1,m)*deltas[m];
+				weightedDeltaSum += outputLayer.getWeight(h+1,m)*deltasOutput[m];
 			
 			// case: transfer function is hyperbolic tangent
-			deltasCur[h] = weightedDeltaSum*(1-Math.pow(outputLayer.transferFunction(nets[h]),2));
+			deltasHidden[h] = weightedDeltaSum*(1-Math.pow(outputLayer.transferFunction(nets[h]),2));
 		}
 
 		
-		outputLayer.deltaRule(LEARNING_RATE, deltas, layerOuts.get(1));
-		hiddenLayer.deltaRule(LEARNING_RATE, deltasCur, layerOuts.get(0));
+		outputLayer.deltaRule(LEARNING_RATE, deltasOutput, layerOuts.get(1));
+		hiddenLayer.deltaRule(LEARNING_RATE, deltasHidden, layerOuts.get(0));
 		
+		
+	}
+	
+public void trainXOR()throws Exception{
+		
+		int P = 1000;
+		for (int p=0; p<P;p++){
+			double[] input1 = {0,0};
+			double[] input2 = {0,1};
+			double[] input3 = {1,0};
+			double[] input4 = {1,1};
+			
+			double[] output1 = {-1};
+			double[] output2 = {1};
+			double[] output3 = {1};
+			double[] output4 = {-1};
+			
+			
+			ArrayList<ArrayList<double[]>> tuple = calcOutputForTraining(input1);
+			/*
+			System.out.println("===============================================");
+			System.out.println(tuple.get(0).get(2)[0]);
+			System.out.println(calcOutput(input2)[0]);
+			System.out.println(calcOutput(input3)[0]);
+			System.out.println(calcOutput(input4)[0]);
+			*/
+			backpropagate(output1, tuple);
+			
+			
+			tuple = calcOutputForTraining(input2);
+			/*
+			System.out.println("===============================================");
+			System.out.println(calcOutput(input1)[0]);
+			System.out.println(tuple.get(0).get(2)[0]);
+			System.out.println(calcOutput(input3)[0]);
+			System.out.println(calcOutput(input4)[0]);
+			*/
+			backpropagate(output2, tuple);
+
+			tuple = calcOutputForTraining(input3);
+			/*
+			System.out.println("===============================================");
+			System.out.println(calcOutput(input1)[0]);
+			System.out.println(calcOutput(input2)[0]);
+			System.out.println(tuple.get(0).get(2)[0]);
+			System.out.println(calcOutput(input4)[0]);
+			*/
+			backpropagate(output3, tuple);
+
+			tuple = calcOutputForTraining(input4);
+			/*
+			System.out.println("===============================================");
+			System.out.println(calcOutput(input1)[0]);
+			System.out.println(calcOutput(input2)[0]);
+			System.out.println(calcOutput(input3)[0]);
+			System.out.println(tuple.get(0).get(2)[0]);
+			*/
+			backpropagate(output4, tuple);
+		
+		}
+			
 	}
 
 	private void readTrainigdata(String path){

@@ -26,6 +26,7 @@ public class Neuron {
 		for(int i=0; i< inputDimension+1;i++){
 			//random weight in range [-0.5,0.5]
 			weights[i]= -0.5+rand.nextDouble();
+			//weights[i]= 0;
 		}
 	}
 	
