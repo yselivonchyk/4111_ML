@@ -1,1 +1,35 @@
 \section{Distances}
+\begin{itemize}
+\item \(l_1\) norm is defined as: \(l_1(x,y) = \sum_i |x_i-y_i|\) for \(x,y \in \mathbb R ^m\). We can use this norm on the subset \(\{0,1\}^m \subset \mathbb R ^m\), call this induced norm \(D_{\mathrm{Hamming}}\).
+\\
+Claim: \(D_{\mathrm{Hamming}}\) is a metric.
+\\
+Proof: Assume \(x,y,z \in \{0,1\}^m\), then:
+\begin{itemize}
+\item \(l_1(x,y) = \sum_i |x_i-y_i| \geq 0\) and \(l_1(x,y) = 0 \iff x_i = y_i\ \forall i \iff x= y\) \checkmark\(_{\mathrm{non-negativity}}\)
+\item \(l_1(x,y) = \sum_i |x_i-y_i| = l_1(y,x) \) \checkmark\(_{\mathrm{symmetry}}\)
+\item \(l_1(x,y)+l_1(y,z) = \sum_i |x_i-y_i| + \sum_i |y_i-z_i| \geq \sum_i |x_i-z_i| = l_1(x,z)\) \checkmark\(_{\mathrm{\triangle -ineq.}}\) \(\blacksquare\)
+\end{itemize}
+\item \(U\) is a finite set and \(D_\Delta : 2^U \times 2^U \to \mathbb N_0\), s.t.
+\[ D_\Delta(S_1,S_2) = |S_1 \Delta S_2| \]
+for all \(S_1,S_2 \subseteq U\).
+\\
+Claim: \(D_\Delta\) is a metric on \(2^U\).
+\\
+Proof: Assume \(S_1,S_2,S_3 \subseteq U\), then:
+\begin{itemize}
+\item \(D_\Delta(S_1,S_2) =  |S_1 \Delta S_2| \geq 0\) and \(D_\Delta(S_1,S_2) = 0 \iff S_1 \Delta S_2 = \emptyset \iff S_1 = S_2\) (by definition of \(\Delta\)) \checkmark\(_{\mathrm{non-negativity}}\)
+\item \(D_\Delta(S_1,S_2) =  |S_1 \Delta S_2| = |S_2 \Delta S_1|  = D_\Delta(S_2,S_1)\) \checkmark\(_{\mathrm{symmetry}}\)
+\item First notice that \(x\in S_1 \Delta S_3 \implies x\in S_1 \Delta S_2\) or \(x \in S_3 \Delta S_2\) (w.l.o.g. we may assume that \(x\in S_1\) and \(x\not\in S_3\), then if \(x\not\in S_2\), we have \(x\in S_1 \Delta S_2\) and if \(x \in S_2\), then \(x\in S_3 \Delta S_2\)).
+\\
+Hence we have:
+\[ D_\Delta(S_1,S_2) + D_\Delta(S_2,S_3) =  |S_1 \Delta S_2| +  |S_2 \Delta S_3| \geq  |S_1 \Delta S_3| =
+ D_\Delta(S_1,S_3) \]
+\checkmark\(_{\mathrm{\triangle -ineq.}}\) \(\blacksquare\)
+
+
+
+\end{itemize}
+
+
+\end{itemize}
