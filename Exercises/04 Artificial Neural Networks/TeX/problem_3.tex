@@ -1,1 +1,62 @@
 \section{Backpropagation for the XOR Function}
+
+\begin{table}[h]
+\begin{centering}
+\caption{Learned weights $w_{i,j}$ and run time $T$ (in milliseconds) of
+the program for different learning rates $\eta$.\label{tab:table}}
+
+\par\end{centering}
+
+\centering{}%
+\begin{tabular}{ccrrrrrrrrr}
+\toprule 
+\multirow{2}{*}{$\eta$} & \multirow{2}{*}{$T$ (ms)} & \multicolumn{3}{c}{Hidden layer 1 } & \multicolumn{3}{c}{Hidden layer 2} & \multicolumn{3}{c}{Output layer}\tabularnewline
+\cmidrule{3-11} 
+ &  & $w_{0,1}^{(h)}$ & $w_{1,1}^{(h)}$ & $w_{2,1}^{(h)}$ & $w_{0,2}^{(h)}$ & $w_{1,2}^{(h)}$ & $w_{2,2}^{(h)}$ & $w_{0}^{(o)}$ & $w_{1,2}^{(o)}$ & $w_{2,2}^{(o)}$\tabularnewline
+\midrule
+$0.1$ & 65 & 2.7 & 2.7 & -1.5 & -1.6 & -1.6 & 2.3 & 2.9 & 3.0 & -2.5\tabularnewline
+$0.2$ & 20 & 2.7 & 2.7 & -1.2 & 1.6 & 1.6 & -2.3 & 2.9 & -3.1 & -2.5\tabularnewline
+$0.3$ & 17 & 1.7 & 1.7 & -2.4 & 2.6 & 2.6 & -1.1 & -3.0 & 2.9 & -2.5\tabularnewline
+$0.4$ & 9 & -1.7 & -1.7 & 2.4 & 2.6 & 2.6 & -1.1 & 3.0 & 2.9 & -2.5\tabularnewline
+$0.5$ & 12 & -2.1 & 2.1 & 1.0 & -2.4 & 2.4 & -1.2 & -2.7 & 2.6 & 2.3\tabularnewline
+$0.6$ & 8 & -1.7 & -1.7 & 2.4 & -2.6 & -2.5 & 1.1 & 3.0 & -2.8 & -2.5\tabularnewline
+$0.7$ & 7 & 1.6 & 1.6 & -2.3 & -2.7 & -2.7 & 1.2 & -3.1 & -2.9 & -2.5\tabularnewline
+$0.8$ & 8 & -3.5 & -2.8 & 1.3 & 1.6 & 1.5 & -2.1 & -2.9 & -3.1 & -2.4\tabularnewline
+$0.9$ & 5 & -2.1 & 1.0 & -2.0 & -2.5 & 2.5 & 1.2 & 2.7 & -2.6 & 2.3\tabularnewline
+$10$ & 6 & 2.7 & 2.7 & -1.1 & 1.8 & 1.8 & -2.6 & 2.8 & -2.8 & -2.4\tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+
+The backpropagation algorithm was implemented to learn the XOR function
+\[
+f(x_{1},x_{2})=(x_{1}\land\lnot x_{2})\lor(\lnot x_{1}\land x_{2}).
+\]
+The network consist of one hidden layer with two perceptrons and one
+output layer with a single perceptron. All perceptrons use the hyperbolic
+tangent function for thresholding. We assume $x_{1},\, x_{2}\in\{0,1\}$
+and $o\in\{-1,1\}$. For the hidden layer we have
+\[
+\begin{gathered}z_{1}=\arctan\left(w_{0,1}^{(h)}+w_{1,1}^{(h)}\, x_{1}+w_{2,1}^{(h)}\, x_{2}\right),\\
+z_{2}=\arctan\left(w_{0,2}^{(h)}+w_{1,2}^{(h)}\, x_{1}+w_{2,2}^{(h)}\, x_{2}\right),
+\end{gathered}
+\]
+and for the output layer
+\[
+o=\arctan\left(w_{0}^{(o)}+w_{1,2}^{(o)}\, z_{1}+w_{2,2}^{(o)}\, z_{2}\right).
+\]
+The program terminates the network training if
+\[
+\frac{1}{4}\sum_{i=1}^{4}(o(\vec{x}_{i})-t_{i})^{2}<10^{-3}
+\]
+with 
+\[
+\begin{gathered}(\vec{x}_{1},t_{1})=\left((0,0),0\right),\\
+(\vec{x}_{2},t_{2})=\left((0,1),1\right),\\
+(\vec{x}_{3},t_{3})=\left((1,0),1\right),\\
+(\vec{x}_{4},t_{4})=\left((1,1),0\right)
+\end{gathered}
+\]
+or if the number of iterations exceeds $10^{6}$. Table \ref{tab:table}
+summarizes the results and run time of the program for different learning
+rates.
