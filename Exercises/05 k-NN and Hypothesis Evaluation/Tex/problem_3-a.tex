@@ -1,1 +1,47 @@
 \subsection*{Problem (a)}
+
+Out of $n=100$ examples, $r=87$ are correctly classified. By the
+given assumptions, the number of correctly classified examples $X$
+is binomial distributed with unknown parameter $p$.
+\[
+\mathbb{P}(X=k)=\frac{n!}{k!(n-k)!}p^{k}(1-p)^{n-k}.
+\]
+The binomial distribution has mean
+\[
+\mathbb{E}(X)=\sum_{k=0}^{n}k\,\mathbb{P}(X=k)=np
+\]
+and standard deviation 
+\[
+\sigma_{X}=\sqrt{np\,(1-p)}.
+\]
+This motivates to estimate $p$ as $\hat{p}=r/n=0.87$ and $\sigma_{X}$%
+\footnote{I have also seen the formula with a correction factor of $n/(n-1)$.
+Does anyone know more about that?%
+} as 
+\[
+\sigma_{X}\approx\sqrt{n\hat{p}\,(1-\hat{p})}=0.0336.
+\]
+ The standard deviation of estimate $\hat{p}$ (this is a random variable)
+is
+\[
+\sigma_{\hat{p}}=\frac{\sigma_{X}}{n}\approx\sqrt{\frac{\hat{p}\,(1-\hat{p})}{n}}.
+\]
+Since $n\geq5$, the binomial distribution can be approximated with
+a Gaussian distribution. Therefore the distribution for $\hat{p}=r/n$
+is also well approximated by a Gaussian distribution. We have
+\[
+\hat{p}\sim\mathcal{N}(p,\sigma_{\hat{p}}).
+\]
+The boundaries for the shortest interval, that contains $\hat{p}$
+with $95\,\%$ probability, are found with the table.
+\[
+\mathbb{P}\left(\hat{p}\in\left[p-1.96\,\sigma_{X},p+1.96\,\sigma_{X}\right]\right)=0.95
+\]
+We find the confidence interval by 
+\begin{align*}
+\mathbb{P}\left(\hat{p}\in\left[p-1.96\,\sigma_{X},p+1.96\,\sigma_{X}\right]\right) & =\mathbb{P}\left(\vert p-\hat{p}\vert\leq1.96\,\sigma_{X}\right)\\
+ & =\mathbb{P}\left(\vert\hat{p}-p\vert\leq1.96\,\sigma_{X}\right)\\
+ & =\mathbb{P}\left(p\in\left[\hat{p}-1.96\,\sigma_{X},\hat{p}+1.96\,\sigma_{X}\right]\right)\\
+ & =0.95
+\end{align*}
+Thus, the $95\,\%$ confidence interval is $\left[\hat{p}-1.96\,\sigma_{X},\hat{p}+1.96\,\sigma_{X}\right]\approx\left[0.804,0.936\right]$.
