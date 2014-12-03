@@ -16,9 +16,16 @@ two examples $x$ and $y$
 0 & \text{if}\; C_{x,j}=C_{y,j}\\
 \frac{m_{j}}{2} & \text{otherwise}
 \end{cases}\\
-\eta_{k}(x,y) & =\frac{1}{\sigma_{k}}\,\vert N_{x,k} - N_{y,k}\vert
+\eta_{k}(x,y) & =\frac{1}{\sigma_{k}}\,\vert N_{x,k}-N_{y,k}\vert
 \end{align*}
 From these quantities a metric $\delta$ is derived.
 \[
 \delta(x,y)=\sum_{i=1}^{n_{B}}\beta_{i}(x,y)+\sum_{j=1}^{n_{C}}\gamma_{j}(x,y)+\sum_{k=1}^{n_{N}}\eta_{k}(x,y)
+\]
+Maybe we should also try the even simpler way with
+\[
+\gamma_{j}(x,y)=\begin{cases}
+0 & \text{if}\; C_{x,j}=C_{y,j}\\
+1 & \text{otherwise}
+\end{cases}
 \]
