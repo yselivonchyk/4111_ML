@@ -9,14 +9,14 @@ deviation $\sigma_{k}$ in the training set $S$. Then we define for
 two examples $x$ and $y$
 \begin{align*}
 \beta_{i}(x,y) & =\begin{cases}
-1 & \text{if}\; B_{x,i}=B_{y,i}\\
-0 & \text{otherwise}
+0 & \text{if}\; B_{x,i}=B_{y,i}\\
+1 & \text{otherwise}
 \end{cases}\\
 \gamma_{j}(x,y) & =\begin{cases}
-\frac{m_{j}}{2} & \text{if}\; C_{x,j}=C_{y,j}\\
-0 & \text{otherwise}
+0 & \text{if}\; C_{x,j}=C_{y,j}\\
+\frac{m_{j}}{2} & \text{otherwise}
 \end{cases}\\
-\eta_{k}(x,y) & =\sigma_{k}\,\vert N_{x,k},N_{y,k}\vert
+\eta_{k}(x,y) & =\frac{1}{\sigma_{k}}\,\vert N_{x,k},N_{y,k}\vert
 \end{align*}
 From these quantities a metric $\delta$ is derived.
 \[
