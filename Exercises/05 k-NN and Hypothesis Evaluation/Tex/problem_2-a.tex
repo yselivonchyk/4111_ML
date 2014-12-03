@@ -1,1 +1,24 @@
 \subsection*{Problem (a)}
+
+Let the example $x$ from the Training set $S$ have boolean attributes
+$B_{x,i},\, i\in\{1,\ldots,n_{B}\}$, categorical attributes $C_{x,j},\, j\in\{1,\ldots,n_{C}\}$
+and numerical attributes $N_{x,k},\, k\in\{1,\ldots,n_{N}\}$. Assume
+that the categorical attribute $C_{j}$ contains $m_{j}$ different
+attributes and that the the numerical attribute $N_{k}$ has standard
+deviation $\sigma_{k}$ in the training set $S$. Then we define for
+two examples $x$ and $y$
+\begin{align*}
+\beta_{i}(x,y) & =\begin{cases}
+1 & \text{if}\; B_{x,i}=B_{y,i}\\
+0 & \text{otherwise}
+\end{cases}\\
+\gamma_{j}(x,y) & =\begin{cases}
+\frac{m_{j}}{2} & \text{if}\; C_{x,j}=C_{y,j}\\
+0 & \text{otherwise}
+\end{cases}\\
+\eta_{k}(x,y) & =\sigma_{k}\,\vert N_{x,k},N_{y,k}\vert
+\end{align*}
+From these quantities a metric $\delta$ is derived.
+\[
+\delta(x,y)=\sum_{i=1}^{n_{B}}\beta_{i}(x,y)+\sum_{j=1}^{n_{C}}\gamma_{j}(x,y)+\sum_{k=1}^{n_{N}}\eta_{k}(x,y)
+\]
