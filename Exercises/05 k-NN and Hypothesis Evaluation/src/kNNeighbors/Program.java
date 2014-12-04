@@ -170,20 +170,33 @@ public class Program {
 	private static double distance(Example ex1, Example ex2, 
 		AttributeDescriptor[] descriptors) {
 
-		for(AttributeDescriptor attribute : descriptors) {
+		double distance = 0;
+
+		for(int k = 0; k < descriptors.length - 1; k++) {
+			AttributeDescriptor attribute = descriptors[k];
+
+			int attIdx = attribute.position;
+
 			switch(attribute.type) {
 			case Boolean:
+				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
+					distance += 1;
+				}
 				break;
+
 			case Numeric:
+				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
+					distance += 1;
+				}
 				break;
+
 			case Categorical:
-					break;
+				break;
 			default:
-					System.out.println("unexpected attribute type: " + attribute.type);
+				System.out.println("unexpected attribute type: " + attribute.type);
 			}
 		}
-
-		return 42;
+		return distance;
 	}
 
 
