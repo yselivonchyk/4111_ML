@@ -1,1 +1,17 @@
 \subsection*{Problem (b)}
+Let us write \(v\) for the number of vertices of the Voronoi diagram \(V\) and \(e\) the number of edges and clearly by the definition of the Voronoi diagram it will have \(n\) cells (faces). Let us also notice that a graph \(G\) is planar if and only if it can be drawn on a sphere. The Voronoi diagram can be thought of as a planar graph with some edges going to infinity, so let us join all these unbounded edges at a vertex at infinity, this new graph will be planar and it will have the same number of edges and faces as \(V\) and it will have \(v' = v+1\) vertices (all the vertices of the Voronoi diagram plus the vertex at infinity). We can notice that the number of faces is \(n\) in this new graph. As the new graph is planar, we can use the Euler's formula, i.e.:
+\[v' - e + n = 2.\]
+What's more, since all vertices have at least three neighboring edges and each edge has exactly two adjecent vertices, we get the inequality:
+\[3v' \leq 2e\]
+Now substituting \(e=v' + n - 2 \) gives us:
+\[3v' \leq 2v' +2n - 4,\]
+so we get: 
+\[v' \leq 2n - 4,\]
+but \(v'=v+1\), so we get:
+\[v \leq 2n - 5,\]
+as required.
+\\\\Now substituting \(v'=2 + e - n \) to the inequality above gives us:
+\[6 + 3e - 3n \leq 2e\]
+i.e.
+\[e\leq 3n-6,\]
+as required.
