@@ -30,7 +30,7 @@ public class Program {
 		while(true){
 			String line = reader.readLine();
 			if(line != null){
-				System.out.println(line);
+				// System.out.println(line);
 				Example example = new Example(line, attributes);
 				Examples.add(example);
 			}
@@ -96,13 +96,12 @@ public class Program {
 	
 	private static boolean getWinnerLabel(ArrayList<Example> neighbors){
 		HashMap<Boolean, Integer> countingMap = new HashMap<>();
+		countingMap.put(true, 0);
+		countingMap.put(false, 0);
 		for (int j = 0; j<neighbors.size(); j++){
 			boolean label = neighbors.get(j).getTargetValue();
-			if (countingMap.containsKey(label)){
-				countingMap.put(label, countingMap.get(label)+1);
-			}else{
-				countingMap.put(label, 1);
-			}
+
+			countingMap.put(label, countingMap.get(label)+1);
 		}
 
 		return countingMap.get(true) > countingMap.get(false);
