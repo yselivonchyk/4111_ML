@@ -36,7 +36,7 @@ public class Program {
 		}
 
 		// TODO: Exercise 5.2 (b) here.
-		
+
 		Example ex1 = Examples.get(0);
 		Example ex2 = Examples.get(1);
 		double d = distance(ex1, ex2, descriptors);
@@ -46,6 +46,30 @@ public class Program {
 
 		// TODO: Exercise 5.3 (c) here.
 		
+	}
+
+	// TODO: Find k nearest neighbors.
+	private static ArrayList<Example> findNearestNeighbor(Example ex, int k,
+		ArrayList<Example> Examples, AttributeDescriptor[] descriptors) {
+
+		double biggestNearestDistance = 1e10;
+		double[] nearestDistances = new double[k];
+		for(int i = 0; i < k; i++) {
+			nearestDistances[i] = 1e10;
+		}
+
+		int N = Examples.size();
+		for(int i = 0; i < N; i++){
+			Example exTest = Examples.get(i);
+			double d = distance(ex, exTest, descriptors);
+
+			if(d < biggestNearestDistance) {
+				;
+			}
+		}
+
+		ArrayList<Example> nearestNeighbors = new ArrayList<>();
+		return nearestNeighbors;
 	}
 
 
