@@ -14,17 +14,15 @@ and standard deviation
 \[
 \sigma_{X}=\sqrt{np\,(1-p)}.
 \]
-This motivates to estimate $p$ as $\hat{p}=r/n=0.87$ and $\sigma_{X}$%
-\footnote{I have also seen the formula with a correction factor of $n/(n-1)$.
-Does anyone know more about that?%
-} as 
+This motivates to estimate $p$ as $\hat{p}=r/n=0.87$ and $\sigma_{X}$
+ as 
 \[
-\sigma_{X}\approx\sqrt{n\hat{p}\,(1-\hat{p})}.
+\sigma_{X}\approx\sqrt{n\hat{p}\,(1-\hat{p})}=0.0336.
 \]
  The standard deviation of estimate $\hat{p}$ (this is a random variable)
 is
 \[
-\sigma_{\hat{p}}=\frac{\sigma_{X}}{n}\approx\sqrt{\frac{\hat{p}\,(1-\hat{p})}{n}}=0.0336.
+\sigma_{\hat{p}}=\frac{\sigma_{X}}{n}\approx\sqrt{\frac{\hat{p}\,(1-\hat{p})}{n}}.
 \]
 Since $n\geq5$, the binomial distribution can be approximated with
 a Gaussian distribution. Therefore the distribution for $\hat{p}=r/n$
