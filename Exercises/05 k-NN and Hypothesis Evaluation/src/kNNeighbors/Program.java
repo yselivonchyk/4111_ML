@@ -13,8 +13,8 @@ public class Program {
 		String inputFileName = "./data_exercise_1.csv";
 
 		ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
-		ArrayList<Example> trainingExamples = new ArrayList<>();
-		ArrayList<Example> testExamples = new ArrayList<>();
+		//ArrayList<Example> trainingExamples = new ArrayList<>();
+		ArrayList<Example> Examples = new ArrayList<>();
 		
 		File input = new File(inputFileName);
 		BufferedReader reader = new BufferedReader(new FileReader(input));
@@ -23,8 +23,37 @@ public class Program {
 		
 		for(AttributeDescriptor attDesc : descriptors) attributes.add(attDesc);
 
-		// TODO: Start exercise 5 here.
+		while(true){
+			String line = reader.readLine();
+			if(line != null){
+				System.out.println(line);
+				Example example = new Example(line, attributes);
+				Examples.add(example);
+			}
+			else
+				break;
+
+		}
+
+		// TODO: Exercise 5.2 (b) here.
 		
+		Example ex1 = Examples.get(0);
+		Example ex2 = Examples.get(1);
+		double d = distance(ex1, ex2, descriptors);
+		System.out.println(d);
+
+
+
+		// TODO: Exercise 5.3 (c) here.
+		
+	}
+
+
+	// TODO: Distance function.
+	private static double distance(Example ex1, Example ex2, 
+		AttributeDescriptor[] descriptors) {
+
+		return 42;
 	}
 
 
