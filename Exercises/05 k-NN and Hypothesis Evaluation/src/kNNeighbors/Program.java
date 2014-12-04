@@ -84,7 +84,7 @@ public class Program {
 						Examples, descriptors);
 				
 				boolean winnerLabel = getWinnerLabel(neighbors);
-				if (winnerLabel == curExample.getTargetValue())
+				if (winnerLabel != curExample.getTargetValue())
 					counter++;
 				
 				Examples.add(curExample);
