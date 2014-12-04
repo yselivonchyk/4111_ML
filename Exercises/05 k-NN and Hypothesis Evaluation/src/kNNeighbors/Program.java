@@ -47,7 +47,7 @@ public class Program {
 			System.out.println("-----------------------------------");
 			Random rand = new Random();
 			for (int i = 1; i<=5; i++){
-				ArrayList<Example> ExamplesCopy = Examples;
+				ArrayList<Example> ExamplesCopy = new ArrayList<Example>(Examples);
 				int randomInstanceIndex = rand.nextInt(ExamplesCopy.size());
 				System.out.println("Choose Instance No: "+randomInstanceIndex);
 				
@@ -198,6 +198,7 @@ public class Program {
 				System.out.println("unexpected attribute type: " + attribute.type);
 			}
 		}
+		// distance = Math.random();
 		return distance;
 	}
 
