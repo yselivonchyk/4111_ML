@@ -112,16 +112,16 @@ public class Program {
 	private static ArrayList<Example> findNearestNeighbor(Example ex, int k,
 		ArrayList<Example> Examples, AttributeDescriptor[] descriptors) {
 
-
 		double biggestNearestDistance = 1e10;
-		double[] nearestDistances = new double[k];
-		for(int i = 0; i < k; i++) {
-			nearestDistances[i] = 1e10;
-		}
-		
+
 		ArrayList<Example> nearestNeighbors = new ArrayList<>();
 		for(int i = 0; i < k; i++) {
 			nearestNeighbors.add(Examples.get(i));
+		}
+
+		double[] nearestDistances = new double[k];
+		for(int i = 0; i < k; i++) {
+			nearestDistances[i] = distance(ex, Examples.get(i), descriptors);
 		}
 
 		// Loop over all Examples to find the k nearest neigbors.
@@ -150,14 +150,17 @@ public class Program {
 
 				// Update biggestNearestDistance.
 				jDistMax = nearestDistances[0];
-								biggestNearestDistance = d;
+				
 				for(int j = 0; j < k; j++) {
 					jDist = nearestDistances[j];
 					if(jDist > jDistMax) {
 						jDistMax = jDist;
 					}
 				}
-				biggestNearestDistance = jDistMax;				
+				biggestNearestDistance = jDistMax;
+				// System.out.print(biggestNearestDistance);
+				// System.out.print("\t");
+				// System.out.println(d);
 			}
 		}	
 
@@ -184,12 +187,12 @@ public class Program {
 				break;
 
 			case Numeric:
-				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
-					distance += 1;
-				}
 				break;
 
 			case Categorical:
+				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
+					distance += 1;
+				}
 				break;
 			default:
 				System.out.println("unexpected attribute type: " + attribute.type);
