@@ -69,12 +69,28 @@ public class Program {
 
 		// TODO: Exercise 5.3 (c) here.
 		// Leave One Out Validation;
-		for (int i = 0; i< Examples.size(); i++){
-			Example curExample = Examples.get(0);
-			Examples.remove(0);
-			
-			
-			Examples.add(curExample);
+		System.out.println("###################################################");
+		System.out.println("Leave One Out Validation");
+		System.out.println("###################################################");
+		for (int k = 1; k<=3; k++){
+			System.out.println("===================================");
+			System.out.println("kNN: k = "+k);
+			System.out.println("-----------------------------------");	
+			int counter = 0;
+			for (int i = 0; i< Examples.size(); i++){
+				Example curExample = Examples.get(0);
+				Examples.remove(0);
+				ArrayList<Example> neighbors = findNearestNeighbor(curExample, k,
+						Examples, descriptors);
+				
+				boolean winnerLabel = getWinnerLabel(neighbors);
+				if (winnerLabel == curExample.getTargetValue())
+					counter++;
+				
+				Examples.add(curExample);
+			}
+			double error = (double)counter/(double)Examples.size();
+			System.out.println("Error: "+error);
 		}
 	}
 	
