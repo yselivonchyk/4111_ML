@@ -48,27 +48,60 @@ public class Program {
 		
 	}
 
-	// TODO: Find k nearest neighbors.
+	// TODO: Find k nearest neighbors. Untested!
 	private static ArrayList<Example> findNearestNeighbor(Example ex, int k,
 		ArrayList<Example> Examples, AttributeDescriptor[] descriptors) {
+
 
 		double biggestNearestDistance = 1e10;
 		double[] nearestDistances = new double[k];
 		for(int i = 0; i < k; i++) {
 			nearestDistances[i] = 1e10;
 		}
+		
+		ArrayList<Example> nearestNeighbors = new ArrayList<>();
+		for(int i = 0; i < k; i++) {
+			nearestNeighbors.add(Examples.get(i));
+		}
 
-		int N = Examples.size();
-		for(int i = 0; i < N; i++){
+		// Loop over all Examples to find the k nearest neigbors.
+		for(int i = k; i < Examples.size(); i++) {
 			Example exTest = Examples.get(i);
 			double d = distance(ex, exTest, descriptors);
 
 			if(d < biggestNearestDistance) {
-				;
+
+				// Find the farthest of the nearest neighbors.
+				int jIdx = 0;
+				double jDistMax = nearestDistances[0];
+				double jDist;
+
+				for(int j = 0; j < k; j++) {
+					jDist = nearestDistances[j];
+					if(jDist > jDistMax) {
+						jDistMax = jDist;
+						jIdx = j;
+					}
+				}
+
+				// Replace the farthest of the nearest neighbors.
+				nearestNeighbors.set(jIdx, exTest);
+				nearestDistances[jIdx] = d;
+
+				// Update biggestNearestDistance.
+				jDistMax = nearestDistances[0];
+								biggestNearestDistance = d;
+				for(int j = 0; j < k; j++) {
+					jDist = nearestDistances[j];
+					if(jDist > jDistMax) {
+						jDistMax = jDist;
+					}
+				}
+				biggestNearestDistance = jDistMax;				
 			}
 		}
 
-		ArrayList<Example> nearestNeighbors = new ArrayList<>();
+		
 		return nearestNeighbors;
 	}
 
