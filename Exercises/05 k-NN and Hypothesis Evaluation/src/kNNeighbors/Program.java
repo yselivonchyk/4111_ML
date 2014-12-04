@@ -40,18 +40,16 @@ public class Program {
 		}
 
 		// TODO: Exercise 5.2 (b) here.
-
-		Example ex1 = Examples.get(0);
-		Example ex2 = Examples.get(1);
-		double d = distance(ex1, ex2, descriptors);
-		System.out.println(d);
-		
 		int maxK = 3;
 		for (int k = 1; k<=maxK; k++){
+			System.out.println("===================================");
+			System.out.println("Iteration k = "+k);
+			System.out.println("-----------------------------------");
 			Random rand = new Random();
 			for (int i = 1; i<=5; i++){
 				ArrayList<Example> ExamplesCopy = Examples;
 				int randomInstanceIndex = rand.nextInt(ExamplesCopy.size());
+				System.out.println("Choose Instance No: "+randomInstanceIndex);
 				
 				Example randomInstance = ExamplesCopy.get(randomInstanceIndex);
 				ExamplesCopy.remove(randomInstanceIndex);
@@ -61,14 +59,23 @@ public class Program {
 				
 				boolean winnerLabel = getWinnerLabel(neighbors);
 				
-				
+				System.out.println("Target Label: "+ randomInstance.getTargetValue());
+				System.out.println("kNN Label: "+ winnerLabel);
+
 			}
 		}
 
 
 
 		// TODO: Exercise 5.3 (c) here.
-		
+		// Leave One Out Validation;
+		for (int i = 0; i< Examples.size(); i++){
+			Example curExample = Examples.get(0);
+			Examples.remove(0);
+			
+			
+			Examples.add(curExample);
+		}
 	}
 	
 	private static boolean getWinnerLabel(ArrayList<Example> neighbors){
