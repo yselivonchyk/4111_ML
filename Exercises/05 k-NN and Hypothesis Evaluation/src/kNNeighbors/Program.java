@@ -99,9 +99,8 @@ public class Program {
 				}
 				biggestNearestDistance = jDistMax;				
 			}
-		}
+		}	
 
-		
 		return nearestNeighbors;
 	}
 
@@ -109,6 +108,19 @@ public class Program {
 	// TODO: Distance function.
 	private static double distance(Example ex1, Example ex2, 
 		AttributeDescriptor[] descriptors) {
+
+		for(AttributeDescriptor attribute : descriptors) {
+			switch(attribute.type) {
+			case Boolean:
+				break;
+			case Numeric:
+				break;
+			case Categorical:
+					break;
+			default:
+					System.out.println("unexpected attribute type: " + attribute.type);
+			}
+		}
 
 		return 42;
 	}
