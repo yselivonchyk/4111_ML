@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import com.sun.org.apache.xpath.internal.axes.HasPositionalPredChecker;
 
 
 public class Program {
@@ -41,11 +45,45 @@ public class Program {
 		Example ex2 = Examples.get(1);
 		double d = distance(ex1, ex2, descriptors);
 		System.out.println(d);
+		
+		int maxK = 3;
+		for (int k = 1; k<=maxK; k++){
+			Random rand = new Random();
+			for (int i = 1; i<=5; i++){
+				ArrayList<Example> ExamplesCopy = Examples;
+				int randomInstanceIndex = rand.nextInt(ExamplesCopy.size());
+				
+				Example randomInstance = ExamplesCopy.get(randomInstanceIndex);
+				ExamplesCopy.remove(randomInstanceIndex);
+				
+				ArrayList<Example> neighbors = findNearestNeighbor(randomInstance, k,
+						ExamplesCopy, descriptors);
+				
+				boolean winnerLabel = getWinnerLabel(neighbors);
+				
+				
+			}
+		}
 
 
 
 		// TODO: Exercise 5.3 (c) here.
 		
+	}
+	
+	private static boolean getWinnerLabel(ArrayList<Example> neighbors){
+		HashMap<Boolean, Integer> countingMap = new HashMap<>();
+		for (int j = 0; j<neighbors.size(); j++){
+			boolean label = neighbors.get(j).getTargetValue();
+			if (countingMap.containsKey(label)){
+				countingMap.put(label, countingMap.get(label)+1);
+			}else{
+				countingMap.put(label, 1);
+			}
+		}
+
+		return countingMap.get(true) > countingMap.get(false);
+
 	}
 
 	// TODO: Find k nearest neighbors.
