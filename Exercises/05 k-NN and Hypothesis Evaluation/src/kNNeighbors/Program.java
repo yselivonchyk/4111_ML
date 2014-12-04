@@ -78,8 +78,8 @@ public class Program {
 			System.out.println("-----------------------------------");	
 			int counter = 0;
 			for (int i = 0; i< Examples.size(); i++){
-				Example curExample = Examples.get(0);
-				Examples.remove(0);
+				Example curExample = Examples.get(i);
+				Examples.remove(i);
 				ArrayList<Example> neighbors = findNearestNeighbor(curExample, k,
 						Examples, descriptors);
 				
