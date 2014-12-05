@@ -197,14 +197,14 @@ public class Program {
 			switch(attribute.type) {
 			case Boolean:
 				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
-					distance += 1;
+					distance += 1* attribute.getWeight();
 				}
 				break;
 
 			case Numeric:
 				int attr1 = (int)ex1.getAttributeValue(attIdx);
 				int attr2 = (int)ex2.getAttributeValue(attIdx);
-				int diff = attr1-attr2;
+				double diff = (attr1-attr2) * attribute.getWeight();
 				if (diff < 0)
 					diff = -diff;
 				distance += diff;
@@ -212,7 +212,7 @@ public class Program {
 
 			case Categorical:
 				if(!ex1.getAttributeValue(attIdx).equals(ex2.getAttributeValue(attIdx))) {
-					distance += 1;
+					distance += 1* attribute.getWeight();
 				}
 				break;
 			default:

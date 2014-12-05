@@ -18,7 +18,11 @@ public class Example {
 			AttributeDescriptor jDescriptor = attributes.get(j);
 			String jValue = values[j];
 
-			attributeValues.add(convertToType(jDescriptor, jValue));
+			Object convertedValue = convertToType(jDescriptor, jValue);
+			
+			jDescriptor.registerEntry(convertedValue);
+			
+			attributeValues.add(convertedValue);
 		}
 	}
 
