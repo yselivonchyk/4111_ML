@@ -17,7 +17,6 @@ public class Program {
 		String inputFileName = "./data_exercise_1.csv";
 
 		ArrayList<AttributeDescriptor> attributes = new ArrayList<>();
-		//ArrayList<Example> trainingExamples = new ArrayList<>();
 		ArrayList<Example> Examples = new ArrayList<>();
 		
 		File input = new File(inputFileName);
@@ -39,7 +38,7 @@ public class Program {
 
 		}
 
-		// TODO: Exercise 5.2 (b) here.
+		// Exercise 5.2 (b).
 		int maxK = 3;
 		for (int k = 1; k<=maxK; k++){
 			System.out.println("===================================");
@@ -66,8 +65,7 @@ public class Program {
 		}
 
 
-
-		// TODO: Exercise 5.3 (c) here.
+		// Exercise 5.2 (c).
 		// Leave One Out Validation;
 		System.out.println("###################################################");
 		System.out.println("Leave One Out Validation");
@@ -103,12 +101,21 @@ public class Program {
 
 			countingMap.put(label, countingMap.get(label)+1);
 		}
-
 		return countingMap.get(true) > countingMap.get(false);
-
 	}
 
-	// TODO: Find k nearest neighbors. Untested!
+	// private static boolean getWinnerLabel(ArrayList<Example> neighbors){
+	// int counter = 0;
+	// for (int j = 0; j<neighbors.size(); j++){
+	// 	boolean label = neighbors.get(j).getTargetValue();
+	// 	if(label) counter += 1;
+	// 	else counter -= 1;
+	// 	}
+	// while(counter == 0) counter += -1 + (int)(Math.random() * ((1 - -1) + 1));
+	// return counter > 0;
+	// }
+
+	// Find k nearest neighbors.
 	private static ArrayList<Example> findNearestNeighbor(Example ex, int k,
 		ArrayList<Example> Examples, AttributeDescriptor[] descriptors) {
 
@@ -124,7 +131,7 @@ public class Program {
 			nearestDistances[i] = distance(ex, Examples.get(i), descriptors);
 		}
 
-		// Loop over all Examples to find the k nearest neigbors.
+		// Loop over all Examples to find the k nearest neighbors.
 		for(int i = k; i < Examples.size(); i++) {
 			Example exTest = Examples.get(i);
 			double d = distance(ex, exTest, descriptors);
@@ -144,7 +151,7 @@ public class Program {
 					}
 				}
 
-				// Replace the farthest of the nearest neighbors.
+				// Replace the farthest of the nearest neighbors
 				nearestNeighbors.set(jIdx, exTest);
 				nearestDistances[jIdx] = d;
 
@@ -160,15 +167,22 @@ public class Program {
 				biggestNearestDistance = jDistMax;
 				// System.out.print(biggestNearestDistance);
 				// System.out.print("\t");
+				// System.out.print(distance(ex, nearestNeighbors.get(jIdx), descriptors));
+				// System.out.print("\t");
 				// System.out.println(d);
 			}
-		}	
-
+		}
+		// for(int i = 0; i < k; i++) {
+		// 	Example exTest = nearestNeighbors.get(i);
+		// 	double d = distance(ex, exTest, descriptors);
+		// 	System.out.print(d + "/" + nearestDistances[i] + "\t");
+		// }
+		// System.out.println();
 		return nearestNeighbors;
 	}
 
 
-	// TODO: Distance function.
+	// Distance function.
 	private static double distance(Example ex1, Example ex2, 
 		AttributeDescriptor[] descriptors) {
 
@@ -190,7 +204,7 @@ public class Program {
 				break;
 
 			case Categorical:
-				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
+				if(!ex1.getAttributeValue(attIdx).equals(ex2.getAttributeValue(attIdx))) {
 					distance += 1;
 				}
 				break;
