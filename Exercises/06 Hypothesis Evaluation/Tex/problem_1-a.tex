@@ -1,1 +1,23 @@
 \subsection*{Problem (a)}
+
+Because total number of independent experiments exceeds 50 and number of both positive and negative outputs is at least 10 we are allowed to use central limit theorem and say that we have normal distribution. Lets use if for calculating the confidence interval.
+
+Lets calculate probability of committing an error and probability of correctly classifying an example within the given set:
+\[
+p=\frac{65-10}{65}=0.846
+\]
+For given number of experiments standard deviation can be calculated as follows:
+ \[
+\sigma=\sqrt{n*p\,(1-p)}=\sqrt{65*0.846(1-0.846)}=2.91
+\]
+
+We can look up required z-value for one-sided interval that will cover at least 95\% of the area under normal curve:
+ \[
+z_1=1.65, P(x\in Z_1)=0.9505
+\]
+One-sided confidence interval in our case will look as follows:
+ \[
+x\in \{0, \bar{x}+z_1*\sigma\},
+x\in \{0, 14.8\}
+\]
+Therefore, we can say that true error is upper-bounded by value 15 with probability at least 95\%.

@@ -1,0 +1,34 @@
+Lets look up value z, that allows to build the two-sided confidence interval for 95\% probability.
+ \[
+z_1=1.96, P(x\in Z_1)=0.9500
+\]
+In this case width of confidence interval will be as follows:
+ \[
+w = 2*z*\sigma= 3.92*\sigma
+\]
+But we would like to have it at most 0.1*n wide
+ \[
+3.92*\sigma<0.1*n,
+\]
+ \[
+\sigma<0.0255*n
+\]
+We know that
+ \[
+\sigma=\sqrt{n*p*q}<0.0255*n,
+\]
+ \[
+\frac{p*q}{0.0255^2}<n,
+\]
+ \[
+n>1,537.9*pq,\textvisiblespace where\textvisiblespace pq = p*(1-p)=p - p^2
+\]
+Lets take a look at function 
+ \[
+f(p) = p*(1-p)=p - p^2
+\]
+This function has single critical point p = 0.5 on the interval [0.2, 0.6] and this point is absolute maximum of the function. Lets use this point to upper bound the n:
+ \[
+n>1,537.9*0.5^2, n>384.475
+\]
+Therefore, regardless of the actual error value we need to performs at least 385 experiments to guarantee, that width of the confidence interval of the actual error is at most 0.1.
