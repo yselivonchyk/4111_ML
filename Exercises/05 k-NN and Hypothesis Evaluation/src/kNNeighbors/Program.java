@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import com.sun.org.apache.xpath.internal.axes.HasPositionalPredChecker;
+
 
 
 public class Program {
@@ -42,7 +42,7 @@ public class Program {
 		int maxK = 3;
 		for (int k = 1; k<=maxK; k++){
 			System.out.println("===================================");
-			System.out.println("Iteration k = "+k);
+			System.out.println("kNN with k = "+k);
 			System.out.println("-----------------------------------");
 			Random rand = new Random();
 			for (int i = 1; i<=5; i++){
@@ -59,7 +59,8 @@ public class Program {
 				boolean winnerLabel = getWinnerLabel(neighbors);
 				
 				System.out.println("Target Label: "+ randomInstance.getTargetValue());
-				System.out.println("kNN Label: "+ winnerLabel);
+				System.out.println("kNN result: "+ winnerLabel);
+				System.out.println();
 
 			}
 		}
@@ -196,16 +197,22 @@ public class Program {
 			switch(attribute.type) {
 			case Boolean:
 				if(ex1.getAttributeValue(attIdx) != ex2.getAttributeValue(attIdx)) {
-					distance += 1;
+					distance += 1* attribute.getWeight();
 				}
 				break;
 
 			case Numeric:
+				int attr1 = (int)ex1.getAttributeValue(attIdx);
+				int attr2 = (int)ex2.getAttributeValue(attIdx);
+				double diff = (attr1-attr2) * attribute.getWeight();
+				if (diff < 0)
+					diff = -diff;
+				distance += diff;
 				break;
 
 			case Categorical:
 				if(!ex1.getAttributeValue(attIdx).equals(ex2.getAttributeValue(attIdx))) {
-					distance += 1;
+					distance += 1* attribute.getWeight();
 				}
 				break;
 			default:
