@@ -1,0 +1,40 @@
+\paragraph*{Claim}
+
+For any finite concept class $\mathcal{C}$ and for any finite concept
+class $\mathcal{H}$, if we draw
+\[
+m\geq\frac{1}{\epsilon}\left(\ln\left(\vert\mathcal{H}\vert\right)+\ln\left(\frac{1}{\delta}\right)\right)
+\]
+random examples, and find a consistent hypothesis from $\mathcal{H}$,
+then we PAC-learn $\mathcal{C}$ using $\mathcal{H}$.
+
+
+\paragraph*{Proof}
+
+Let $c\in\mathcal{C}$ be a concept and $E(c,D):X\rightarrow\{0,1\}$
+an oracle that return an example from the instance space $X$ under
+the probability distribution $D$.
+
+Let $h_{\mathrm{bad}}\in\mathcal{H}$ be a bad hypothesis, i.$\,$e.,
+\[
+\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x)\neq c(x))>\epsilon.
+\]
+The probability that $h_{\mathrm{bad}}$ classifies $m$ examples
+$\{x_{1},\ldots,x_{m}\}$ returned by $E(c,D)$ correctly is
+\[
+\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x_{i})=c(x_{i}),\, i\in\{1,\ldots m\})=\left(1-\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x)=c(x))\right)^{m}\leq(1-\epsilon)^{m}.
+\]
+The probability that there exists a bad hypothesis in $\mathcal{H}$
+that classifies $\{x_{1},\ldots,x_{m}\}$ correctly is bounded by
+\[
+\mathrm{Pr}_{D}(\exists\; h_{\mathrm{bad}}\in\mathcal{H})\leq\vert\mathcal{H}\vert\,(1-\epsilon)^{m}.
+\]
+If we apply an upper bound $\delta$, we can solve for $m$.
+
+\[
+\begin{aligned} & \vert\mathcal{H}\vert\,(1-\epsilon)^{m}\leq\delta\\
+\Rightarrow\; & \vert\mathcal{H}\vert\,(\mathrm{e}^{-\epsilon})^{m}\leq\delta\\
+\Leftrightarrow\; & m\,(-\epsilon)\leq\ln\left(\frac{\delta}{\vert\mathcal{H}\vert}\right)\\
+\Leftrightarrow\; & m\geq\frac{1}{\epsilon}\left(\ln(\vert\mathcal{H}\vert)+\ln\left(\frac{1}{\delta}\right)\right)\quad\blacksquare
+\end{aligned}
+\]
