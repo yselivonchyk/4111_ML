@@ -22,7 +22,7 @@ Let $h_{\mathrm{bad}}\in\mathcal{H}$ be a bad hypothesis, i.$\,$e.,
 The probability that $h_{\mathrm{bad}}$ classifies $m$ examples
 $\{x_{1},\ldots,x_{m}\}$ returned by $E(c,D)$ correctly is
 \[
-\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x_{i})=c(x_{i}),\, i\in\{1,\ldots m\})=\left(1-\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x)=c(x))\right)^{m}\leq(1-\epsilon)^{m}.
+\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x_{i})=c(x_{i}),\, i\in\{1,\ldots m\})=\left(1-\mathrm{Pr}_{D}(h_{\mathrm{bad}}(x)\neq c(x))\right)^{m}\leq(1-\epsilon)^{m}.
 \]
 The probability that there exists a bad hypothesis in $\mathcal{H}$
 that classifies $\{x_{1},\ldots,x_{m}\}$ correctly is bounded by
