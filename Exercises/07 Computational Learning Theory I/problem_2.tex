@@ -1,0 +1,49 @@
+Let define an algorithm for learning the concept:
+\begin{enumerate}
+
+  \item start from learning concept that contains all possible 3 element conjunctions.
+  \item  for each learning example over $\{x_{1},\ldots,x_{n}\}$ we generate all possible 3-element conjunctions that can be deduced from the example.
+  \item Remove from the learning concept all the conjunctions that does not correspond to the learning example.
+
+\end{enumerate}
+
+
+Lets analyse the algorithm.
+\[\]
+On step 1 learning concept will contain all possible conjunctions. Having 2n possible elements we can find this number N and knowing that after one literal has been used we can not use neither the same literal nor its inverse we can calculate:
+$\{x_{1},\ldots,x_{n}\}$
+\[
+N = 2n*(2n-2)*(2n-4)/3!=(4/3)(n^3-3n^2+2n)
+\]
+
+On step 2 for input example we generate next number of conjunctions:
+$\{x_{1},\ldots,x_{n}\}$
+\[
+n*(n-1)*(n-2)/3!=1/6(n^3-3n^2+2n)
+\]
+Step 3 analyses. Let assume that target learning concept contains total number of $m$ conjunctions in its  structure. Then the probability that a random conjunctions that is within within the current concept but is not included in learning concept is
+\[
+\frac{(4/3)(n^3-3n^2+2n) - 1/6(n^3-3n^2+2n) - m}{(4/3)(n^3-3n^2+2n) - m}  = 
+\frac{7(n^3-3n^2+2n) - 6m}{8(n^3-3n^2+2n) - 6m} =p 
+\] 
+Where $p$ is a constant number that is polynomially dependent on the size of the example space and the constant characteristic of concept to be learned.
+
+Then the probability to discard an a single wrong conjunctions within $i$ steps is $p^i$. Then using standard limit theorem we can formulate the expected number of disjunctions that we discard after i examples:
+\[
+E(n) = (N - m)*p^i, \delta(n) = \sqrt{np^i(1-p^i)}
+\] 
+To show that we find a true concept with requested probability $\delta$ we just need to show that probability of $E(n) - z\delta(n)$ is greater or equal then $1-\delta$. Corresponding value of $p^i$ would always exist because $E(n) - z\delta(n)$ is monotonously increasing function on $p^i \in [0, 1]$ because $(N - m)*p^i$ is always increasing and $\sqrt{np^i(1-p^i)}$ is decreasing.
+\[
+\]
+Therefore, we can always peak proper value of $p^i$ that allows us to find the learning concept with no error with confidence of $\delta$. $p^i$ is a polynomial because $p$ itself is a polynomial. If we can find a solution for $error = 0$ then this solution will be as well true for any $error  \geq 0$. Therefore, without loss of generality we can claim that problem is PAC solvable for any requested values of $error, \delta, n$.
+\[
+\]
+To make the reasoning sound we to remove dependence of function $p$ on hidden variable $m$. We can show, that 
+\[
+m < (7/8)(4/3)(n^3-3n^2+2n)
+\]
+because otherwise the target C will contain at least 8 disjunction of the same literals $x_i, x_j, x_k$ and this disjunctions will always yeald "false". In this case target concept can be expressed with any expression that returns "false", for example, any 8 distinct disjunctions of the same literals. Therefore
+\[
+p \geq \frac{1}{(n^3-3n^2+2n)},
+\]
+for any learning concept
