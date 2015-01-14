@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+
+% Set exercise number.
+\newcommand{\exnumber}{8}
+
+%%% Load base packages.
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+%%% Add specific functionality.
+\usepackage{qtree}		% Tree diagrams.
+
+%%% Adjust the style of the document.
+
+% Seperate paragraphs by vertical space instead of indents.
+\setlength{\parskip}{0.6\baselineskip}
+\setlength{\parindent}{0em}
+
+% Hanging section numbering
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\quad}}
+\makeatother
+
+% Header.
+\pagestyle{fancy}	
+\fancyhead[EOL]{ILAS 2014/15}
+\fancyhead[EOC]{Exercise \exnumber}
+\fancyhead[EOR]{Group 11\,B}
+
+% Fix tabular spacing issue.
+\setlength\belowcaptionskip{\abovecaptionskip}
+
+\providecommand{\tabularnewline}{\\}
+
+
+\begin{document}
+
+\title{Intelligent Learning and Analysis Systems: Machine Learning\,---\,Exercise \exnumber}
+%\title{ILAS 2014/15\,---\,Exercise \exnumber}	% Alternative title.
+\author{Yauhen Selivonchyk\\ {\L}ukasz Segiet\\Duc Duy Pham\\Dominik Schindler}
+
+\maketitle
+
+\section{VC-dimension of some concept classes over $\boldsymbol{\mathbb{R}^2}$.}
+\input{problem_1a.tex}
+\input{problem_1b.tex}
+\input{problem_1c.tex}
+
+\section{Some basic properties of the VC-dimension.}
+\input{problem_2a.tex}
+\input{problem_2b.tex}
+\input{problem_2c.tex}
+
+\section{Application of the BEHW-Theorem.}
+\input{problem_3.tex}
+
+\section{Application of the BEHW-Theorem.}
+\input{problem_4.tex}
+
+\end{document}
