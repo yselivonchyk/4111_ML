@@ -1,1 +1,11 @@
 \subsection*{Problem b)}
+Let $\mathcal{C}_1, \mathcal{C}_2 \subseteq 2^X$ be concept classes over some instance space $X$.\\
+Show that if $\mathcal{C}_1 \subseteq \mathcal{C}_2$ then $VC_{dim}(\mathcal{C}_1) \leq VC_{dim}(\mathcal{C}_2)$.\\
+\\
+\textbf{\underline{\textit{Proof:}}}\\
+Let $VC_{dim}(\mathcal{C}_1) = d_1$ with $d_1\in \mathbb{N}$.\\
+Let $S_1$ be the largest subset of $X$ that is shattered by $\mathcal{C}_1$.\\ This means that any subset of  $S_1$ can be \textit{realized} by some concept in $\mathcal{C}_1$.\\ 
+Since $\mathcal{C}_1 \subseteq \mathcal{C}_2$, $S_1$ is also shattered by $\mathcal{C}_2$.\\ 
+So $VC_{dim}(\mathcal{C}_2)$ is obviously bounded by $|S_1| = VC_{dim}(\mathcal{C}_1)$,\\ 
+thus $VC_{dim}(\mathcal{C}_1) \leq VC_{dim}(\mathcal{C}_2)$.
+\hfill $\square$

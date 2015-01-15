@@ -1,1 +1,22 @@
 \subsection*{Problem a)}
+$VC_{dim}(Circles) = 3$\\
+\\
+\textbf{\underline{\textit{Proof:}}}\\
+It is clear that any 2 points can be shattered. For this, just choose any cirlce, s.t. on point is within the circle and the other one outside of it, or a circle that contains both or none of them\\
+For 3 non-colinear points, we can also always find a circle, s.t. 2 of then are inside the circle, leaving one out, and vice verca. One simple method is to first choose a circle, s.t. all 3 points lie on the border of the circle. 
+To leave one point outside the circle, just move the circle towards the other two points in perpendicular direction to the line going through these two points. To keep this one point inside, move the circle in opposite direction.
+The fact that there also always exist circles that contain either none or all of the points is trivial.\\
+For 4 points we need to consider 3 cases:
+\begin{itemize}
+\item The 4 points are colinear:\\
+It is clear that we can not find any cirlces, that only contain the first and the third point on the line and exclude the second and the forth.
+\item The 4 points form a triangle (convex hull):\\
+In this case 3 points are the corner points of the triangle. Here it is also impossible to find a cirlce that contains the corner points and excludes the non corner point.
+\item The 4 points form a quadrilateral (convex hull):\\
+For each point consider the opposing point with greatest distance. This way we achieve the two diagonals of the quadrilateral.
+It is not possible to find a circle that contains the two points forming the longer diagonal while excluding the other two.
+\end{itemize}
+So we have shown that we can not find any subset of $\mathbb{R}^2$ with magnitude 4, that can be shattered by the concept class of circles.\\
+Thus we get $VC_{dim}(Circles) = 3$.
+\hfill$\square$
+

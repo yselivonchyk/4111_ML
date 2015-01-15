@@ -1,1 +1,16 @@
 \subsection*{Problem c)}
+Let $\mathcal{P}^(k)$ be the class of convex polygons consisting of $k$ vertices.\\
+$VC_{dim}(\mathcal{P}^(k)) = 2k+1$\\
+\\
+\textbf{\underline{\textit{Proof (sketch):}}}\\
+Place $d$ points on a circle and label them arbitrarily $+$ or $-$.
+We want to find or construct a polygon that contains all points labeled with $+$ und excludes all points labeled with $-$.\\
+Let $P$ be the set of positively labeled points and $N$ the set of negatively labeled points.\\
+Construct the polygon as follows:\\
+If $|P|\leq |N|$ , create a convex polygon with $|P|$ vertices, s.t. the points in $P$ are its vertices. This way every point labeled $+$ is in the polygon and every other point outside of it.\\
+If $|P|>|N|$, create a convex polygon with |N| sides, s.t. the sides of the polygon are tangent to the circle in the points of N. This way the circle is within the constructed polycon, so every point labeled $+$ is in the polygon and every point labeled $-$ exactly on one side of the polygon. Now move each side by a very small amount $\epsilon > 0$ towards the center of the circle, s.t. now every point labeled $+$ is still in the polygon but every point labeled $-$ is outside of the polygon.\\
+If we have $2k+1$ points, the constructed polygon consists of at most $k$ points. Since we labeled the points arbitrarily, we have found a subset of size $2k+1$ that is shattered by $\mathcal{P}^(k)$.\\
+So we can conclude $VC_{dim}(\mathcal{P}^(k)) \geq 2k+1$
+We now still need to show that $VC_{dim}(\mathcal{P}^(k)) \neq 2k+2$.
+This can be done by firstly showing that placing the points an a circle maximizes the number of possible subsets of this particular subset that can be \textit{realized} by $\mathcal{P}^(k)$. Secondly we would just need to add another point to the circle arbitrarily and find a subset of these $2k+2$ points that can not be \textit{realized} by $\mathcal{P}^(k)$.
+\hfill$\square$

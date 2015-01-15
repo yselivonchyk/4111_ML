@@ -1,1 +1,15 @@
 \subsection*{Problem a)}
+Let $\mathcal{C}$ be a concept class with $|\mathcal{C}| < \infty$.\\
+Show that $VC_{dim}(\mathcal{C}) \leq \log _2 |\mathcal{C}|$.\\
+\\
+\textbf{\underline{\textit{Proof:}}}\\
+Let $X$ be the instance space and
+let $VC_{dim}(\mathcal{C}) = d$ with $d\in \mathbb{N}$.\\
+This means that the largest subset $S$ of $X$ that is shattered by $\mathcal{C}$ is of size $d$, i.e. $|S|=d$.\\ 
+This again means that any(!!!) subset of  $S$ can be \textit{realized} by some concept in $\mathcal{C}$.\\ 
+Since $|S|$ is bounded by $d$, the number of its subsets is bounded by
+$|2^{S}|= 2^{|S|} = 2^d$.\\ 
+Because for each subset of $S$ there must exist a concept in $\mathcal{C}$ that \textit{realizes} it,\\ 
+we can conclude $|\mathcal{C}| \geq |2^{S}|= 2^d$,\\ 
+thus $\log _2|\mathcal{C}| \geq d$.
+\hfill $\square$
