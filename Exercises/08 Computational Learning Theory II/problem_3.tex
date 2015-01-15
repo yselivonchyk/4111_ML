@@ -1,0 +1,65 @@
+\paragraph*{Claim}
+
+The concept class $\mathcal{C}=\left\{ x\in\mathbb{R}^{2}\mid a\leq x_{1}\leq b,\, c\leq x_{2}\leq d\right\} $
+consisting of all axis parallel (aligned) rectangles is polynomially
+PAC-learnable.
+
+
+\paragraph*{Proof}
+
+By corollary 1 of slide 12 of lecture 2014-12-19, a concept class
+$\text{\ensuremath{\mathcal{C}}}$ is polynomially PAC-learnable if 
+\begin{enumerate}
+\item the VC-dimension of $\mathcal{C}$ is bounded by polynomial of the
+parameters of $\mathcal{C}$, and
+\item the problem of finding a hypothesis consistent with a sample $S$
+can be solved in time polynomial in $\vert S\vert$ and the parameters
+of $\mathcal{C}$.
+\end{enumerate}
+Show (1):
+
+To show that $\mathrm{VC_{dim}}(\mathcal{C})\geq4$, consider the points
+$\{(1,0),(0,1),(-1,0),(0,-1)\}$ on the unit circle. This set can
+be shattered by $\mathcal{C}$. All four points are realized by $\left\{ x\in\mathbb{R}^{2}\mid-m\leq x_{1}\leq m,\,-m\leq x_{2}\leq m\right\} $
+and the empty set is realized by $\left\{ x\in\mathbb{R}^{2}\mid-m\leq x_{1}\leq m,\,-m\leq x_{2}\leq m\right\} $
+for some $m\geq1$ and some $m<1$, respectivley. Single points $y$
+(and thus also three points) are realized by $\left\{ x\in\mathbb{R}^{2}\mid y_{1}-\epsilon\leq x_{1}\leq y_{1}+\epsilon,\, y_{2}-\epsilon\leq x_{2}\leq y_{2}+\epsilon\right\} $
+for some $\epsilon<1$. The case of two adjacent points can be realized
+by unit squares with a vertex in the origin. The case of two points
+on the same coordinate axis can be realized by rectangles of sufficiently
+large extent along the corresponding coordinate axis and sufficiently
+small extent along the perpendicular axis.
+
+Five and more points can not be shattered by $\mathcal{C}$. If the
+convex hull of five points form a quadrilateral (or a polygon with
+less than four vertices), it is not possible to realize the set of
+the quadrilateral vertices without the point in the interior (or the
+point on an edge if the remaining point is not in the interior) because
+the rectangles in $\mathcal{C}$ are convex. If the convex hull of
+five points forms a pentagon, one may try to realize single points
+by starting with a sufficiently large rectangle to realize all points.
+Thereafter, the rectangle is scaled from one edge until a vertex of
+the pentagon is not realized anymore. Since the rectangle only has
+four edges, it is impossible to do this procedure individually for
+all five vertices of a pentagon.
+
+Show (2):
+
+Such an algorithm is given by the FIND\_S algorithm:
+\begin{enumerate}
+\item Initialize concept $c=\left\{ x\in\mathbb{R}^{2}\mid\infty\leq x_{1}\leq-\infty,\,\infty\leq x_{2}\leq-\infty\right\} $.
+\item For all positive training examples $x\in S$ do:
+
+\begin{enumerate}
+\item If $x\in c$, do nothing.
+\item Otherwise, shift $(a,b,c,d)$ of $c=\left\{ x\in\mathbb{R}^{2}\mid a\leq x_{1}\leq b,\, c\leq x_{2}\leq d\right\} $
+by the least possible amount to $(a',b',c',d')$ such that 
+\[
+x\in\left\{ x\in\mathbb{R}^{2}\mid a'\leq x_{1}\leq b',\, c'\leq x_{2}\leq d'\right\} .
+\]
+Update $c=\left\{ x\in\mathbb{R}^{2}\mid a'\leq x_{1}\leq b',\, c'\leq x_{2}\leq d'\right\} $.
+\end{enumerate}
+\item Return $c$.
+\end{enumerate}
+This algorithm is time constant in the parameter of $\mathcal{C}$
+and time linear in $\vert S\vert$.\newline \phantom{x}\hfill $\square$
