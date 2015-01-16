@@ -2,4 +2,20 @@
 Let $\mathcal{C} \subseteq 2^X$ be a concept class over $X$ and let $\bar{\mathcal{C}} := \{X \backslash c : c \in \mathcal{C}\}$. Is it
 true that $VC_{dim}(\mathcal{C}) = VC_{dim}(\bar{\mathcal{C}})$? Argue why or why not.\\
 \\
+\textbf{\underline{\textit{Claim:}}}\\
+$VC_{dim}(\mathcal{C}) = VC_{dim}(\bar{\mathcal{C}})$\\
+\\
 \textbf{\underline{\textit{Proof:}}}\\
+Let $S$ be a subset of $X$ that is shattered by $\mathcal{C}$.
+Let $T \subseteq S$ be any arbitrary subset of $S$.
+Since $S$ is shattered by $\mathcal{C}$, we can find a concept in $\mathcal{C}$ that realizes $T$, i.e. $T\in\Pi _{\mathcal{C}}(S)$.\\
+\textit{Can we also find a concept in $\mathcal{C}$ that realizes $T$}?\\
+To answer this question consider the subset $S\backslash T \subseteq S$ of $S$. Since $S$ is shattered by  $\mathcal{C}$, we can also find a concept $c \in\mathcal{C}$ that realizes $S\backslash T$.
+Let $\bar{c}$ be defined as $\bar{c}:= X\backslash c$, which lies in $\bar{\mathcal{C}}$. By definition $\bar{c}$ realizes $X\backslash (S\backslash T)$ w.r.t $X$.
+Since $S \subseteq X$, we get $T = S\backslash (S\backslash T) \subseteq (X\backslash (S\backslash T))$. So $\bar{c}$ also realizes $T$ w.r.t. $S$, so $T\in\Pi _{\bar{\mathcal{C}}}(S)$.
+Since we have chosen $T\in\Pi _{\mathcal{C}}(S)$ arbitrarilily, we can conclude $\Pi _{\mathcal{C}}(S) \subseteq \Pi  _{\bar{\mathcal{C}}}(S)$.
+Thus, any subset of $X$ that is shattered by $\mathcal{C}$ is also shattered by $\bar{\mathcal{C}}$.\\
+Apply the same thoughts to $\bar{\mathcal{C}}$ and we get, that any subset of $X$ that is shattered by $\bar{\mathcal{C}}$ is also shattered by $\bar{\bar{\mathcal{C}}} = \mathcal{C}$.\\ 
+This leaves us with $VC_{dim}(\mathcal{C}) = VC_{dim}(\bar{\mathcal{C}})$.
+\hfill$\square$
+
