@@ -1,0 +1,24 @@
+Let consider the function g(x) which is the compact representation of symmetric boolean function:
+\[
+g:\{y\} \to \{0, 1\},where \ y\in N, 0 \leq y \leq n
+\]
+Clearly,
+\[
+f(\vec x) = g(\sum\limits_{i=1}^n x_i)=g(y)
+\]
+Any function g(y) can be represented with a table of size equal to n.
+Table of size n can perfectly classify any set of inputs of size at most n, therefore we can state that VC(g) <= n. And, as follows, VC(f) <= n.
+\[
+\]
+Now lets introduce binary function h(z).
+\[
+\vec z \in {0, 1}^j, \ where \ j \in N, j < \sqrt n +1
+\]
+Where vector z is a binary representation of number k, which corresponds to a number of entry of table representation of function g(y).
+\[
+\]
+Function h(z) can be represented in a CNF with at most $j\leq(\sqrt(n)+1)^2$ underlying disjunctions. Let us introduce conjunctive function i(t), where every element of vector t corresponds to a disjunction of a CNF representation of h(z). 
+\[
+i(\vec t)| \ t_i \in \{0, 1\}, i \in [0, (\sqrt n+1)^2]
+\]
+It is already shown, that function i(t) is polynomialy PAC learnable. Learning function i(t) we can reconstruct every presiding function up to f(x) in polynomial time, because every conversion was done in polynomial time.
