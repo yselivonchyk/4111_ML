@@ -1,1 +1,0 @@
-Reflexivity and antisymmetry are trivial, so we will just show transitivity. Assume \(a\leq b\) and \(b \leq c\) then we have \(\forall_{x\in X} c(x) = 1 \RightArrow b(x) = 1 \RightArrow a(x) = 1\), where the first implication follows from \(b \leq c\) and the second from \(a\leq b\). Hence, we get \(a\leq c\), as required. 
