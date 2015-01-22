@@ -1,1 +1,42 @@
 \subsection*{Problem (i)}
+
+For the candidate algorithm we start with the general boundary 
+\[
+G_{0}=\left\{ 1\right\} 
+\]
+and the specific boundary
+\[
+S_{0}=\left\{ \bigwedge_{i\in\{1,\ldots,6\}}\left(x_{i}\land\lnot x_{i}\right)\right\} 
+\]
+of the version space $\mathit{VS}_{\mathcal{H}_{6},E}$. After observing
+the three positive example $\in E^{+}$, the general boundary is not
+iterated. 
+\[
+G_{3}=G_{2}=G_{1}=G_{0}
+\]
+The specific boundary is iterated after each positive example, such
+that
+\[
+S_{1}=\left\{ \bigwedge_{i\in\{1,\ldots,6\}}\left(x_{i}\right)\right\} ,
+\]
+\[
+S_{2}=\left\{ \bigwedge_{i\in\{1,\ldots,6\}\setminus3}x_{i}\right\} ,
+\]
+
+
+\[
+S_{3}=\left\{ \bigwedge_{i\in\{1,2,4\}}x_{i}\right\} .
+\]
+The observation of the negative example $\in E^{-}$ does not cause
+the algorithm to modify the specific boundary.
+\[
+S_{4}=S_{3}=\left\{ \bigwedge_{i\in\{1,2,4\}}x_{i}\right\} 
+\]
+However, the general boundary becomes
+\[
+G_{4}=\left\{ x_{1},x_{2},x_{3},\lnot x_{4},\lnot x_{5},x_{6}\right\} .
+\]
+The algorithm returns the sets of conjunctions
+\[
+S=\left\{ x_{1}\land x_{2}\land x_{4}\right\} ,\; G=\left\{ x_{1},x_{2},x_{3},\lnot x_{4},\lnot x_{5},x_{6}\right\} .
+\]
