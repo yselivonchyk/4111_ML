@@ -9,8 +9,8 @@ and the specific boundary
 S_{0}=\left\{ \bigwedge_{i\in\{1,\ldots,6\}}\left(x_{i}\land\lnot x_{i}\right)\right\} 
 \]
 of the version space $\mathit{VS}_{\mathcal{H}_{6},E}$. After observing
-the three positive example $\in E^{+}$, the general boundary is not
-iterated. 
+the three positive examples $\in E^{+}$, the general boundary is
+not iterated. 
 \[
 G_{3}=G_{2}=G_{1}=G_{0}
 \]
@@ -34,9 +34,18 @@ S_{4}=S_{3}=\left\{ \bigwedge_{i\in\{1,2,4\}}x_{i}\right\}
 \]
 However, the general boundary becomes
 \[
-G_{4}=\left\{ x_{1},x_{2},x_{3},\lnot x_{4},\lnot x_{5},x_{6}\right\} .
+G_{4}=\left\{ x_{1},x_{2},x_{3}\right\} .
+\]
+The hypotheses $\lnot x_{4},\lnot x_{5},x_{6}\not\not\in G_{4}$ because
+$\nexists s\in S_{4}$ such that $\lnot x_{4}<s$ or $\lnot x_{5}<s$
+or $x_{6}<s$, i.$\,$e., 
+\[
+\begin{gathered}\left\{ \left(?,?,?,0,?,?\right)\right\} \not\supseteq\left\{ \left(1,1,?,1,?,?\right)\right\} ,\\
+\left\{ \left(?,?,?,?,0,?\right)\right\} \not\supseteq\left\{ \left(1,1,?,1,?,?\right)\right\} ,\\
+\left\{ \left(?,?,?,?,?,1\right)\right\} \not\supseteq\left\{ \left(1,1,?,1,?,?\right)\right\} .
+\end{gathered}
 \]
 The algorithm returns the sets of conjunctions
 \[
-S=\left\{ x_{1}\land x_{2}\land x_{4}\right\} ,\; G=\left\{ x_{1},x_{2},x_{3},\lnot x_{4},\lnot x_{5},x_{6}\right\} .
+S=\left\{ x_{1}\land x_{2}\land x_{4}\right\} ,\; G=\left\{ x_{1},x_{2},x_{3}\right\} .
 \]
