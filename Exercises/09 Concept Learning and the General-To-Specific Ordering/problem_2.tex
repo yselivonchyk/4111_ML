@@ -1,0 +1,56 @@
+\paragraph*{Claim}
+
+Every member of the version space lies between $G$ and $S$, i.$\,$e.,
+
+\[
+h\in\mathit{VS}_{\mathcal{H},E}\Rightarrow\exists\, g\in G,\, s\in S:g\leq h\leq s
+\]
+where
+\[
+g\in G\Leftrightarrow\left(g\text{ consistent with }E\right)\land\left(\forall h\in\mathcal{H}:h<g\Rightarrow h\text{ is inconsistent with }E\right)
+\]
+\[
+s\in S\Leftrightarrow\left(s\text{ consistent with }E\right)\land\left(\forall h\in\mathcal{H}:s<h\Rightarrow h\text{ is inconsistent with }E\right)
+\]
+
+
+
+\paragraph*{Proof by contrapositive}
+
+The contrapositive of the claim is
+\[
+\lnot\left(\exists\, g\in G,\, s\in S:g\leq h\leq s\right)\Rightarrow\lnot\left(h\in\mathit{VS}_{\mathcal{H},E}\right)
+\]
+which is identical to 
+\[
+\nexists\, g\in G,\, s\in S:g\leq h\leq s\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}.
+\]
+Using the definition for the set $G$
+\[
+\begin{aligned}G & =\left\{ g\in\mathit{VS}_{\mathcal{H},E}\mid\forall h\in\mathcal{H}:h<g\Rightarrow h\text{ is inconsistent with }E\right\} \\
+ & =\left\{ g\in\mathit{VS}_{\mathcal{H},E}\mid\forall h\in\mathcal{H}:h<g\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}\right\} \\
+ & =\left\{ g\in\mathit{VS}_{\mathcal{H},E}\mid g\leq h\;\forall h\in\mathit{VS}_{\mathcal{H},E}\right\} 
+\end{aligned}
+\]
+we arrive at 
+\[
+\nexists\, g\in G:g\text{\ensuremath{\leq}}h\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}.
+\]
+Similarly, for the set $S$
+\[
+\begin{aligned}S & =\left\{ s\in\mathit{VS}_{\mathcal{H},E}\mid\forall h\in\mathcal{H}:s<h\Rightarrow h\text{ is inconsistent with }E\right\} \\
+ & =\left\{ s\in\mathit{VS}_{\mathcal{H},E}\mid\forall h\in\mathcal{H}:s<h\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}\right\} \\
+ & =\left\{ s\in\mathit{VS}_{\mathcal{H},E}\mid h\leq s\;\forall h\in\mathit{VS}_{\mathcal{H},E}\right\} 
+\end{aligned}
+\]
+we obtain
+\[
+\nexists\, s\in S:h\leq s\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}.
+\]
+Thus, 
+\[
+\nexists\, g\in G,\, s\in S:g\leq h\leq s\Rightarrow h\not\in\mathit{VS}_{\mathcal{H},E}
+\]
+ which proofs that the contrapositive of the claim and therefore the
+claim itself are true. \newline \phantom{x}\hfill $\blacksquare$
+\end{document}
