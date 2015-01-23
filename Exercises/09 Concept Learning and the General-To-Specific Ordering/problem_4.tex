@@ -1,0 +1,28 @@
+Invariants to be defined: 
+\[\]
+1. Current set of general bounds $g_i$ after processing of example $i$. Every hypothesis within $g_i$ must be consistent with set of examples $E_i$
+\[\]
+2. Current set of specific bounds $c_i$ after processing of example $i$
+
+\paragraph*{Claim 1}
+After step $i$ set $g_i$ contains general bounds for the set of already processed examples $E_i$ if $g_{i-1}$ contained general bounds of set $E_{i-1}$ .
+
+\paragraph*{Proof}
+If before step $i$ every hypothesis in $g_{i-1}$ is consistent with set of processed examples $E_{i-1}$. For positive example, when we remove hypothesis inconsistent with example $e_i$ remaining hypothesis are consistent with $E_{i-1} \cup e_i = E_i$. For negative example, every hypothesis $g_{i,j}$ that covers $e_i$ is removed and remaining subset of $E_{i-1}'$ is consistent with  $E_{i-1} \cup e_i = E_i$. Every new hypothesis $g_{i,j}$ that is added to set $g_{i-1}'$ is consistent with the set of examples $E_{i-1} \cup e_i$ because it is a specialisation of a hypothesis consistent with $E_{i-1}$ and it consistent with $e_i$ by definition. Therefore after step $i$ set $g_i$ will contain hypothesis consistent with $E_i$.
+\[\]
+If before step $i$ every hypothesis in $g_{i-1}$ was a general bound of $E_{i-1}$, than after step $i$ every hypothesis is a general bound of $E_i$. Because every hypothesis of $g_i$ either was present in $g_{i-1}$ or was added by algorithm. Every hypothesis $g_{i, j}$ that is a general bound for set $E_{i-1}$ is general bounds bound of set $E_{i} = E_{i-1} \cup e_i$ as long as it is consistent with newly added example $e_i$, which was shown above. 
+\[\]
+Every hypothesis $g_{i,j,k}$ that was added on the step $i$ is a general bound of $E_i$ by definition of algorithm. Meaning there does not exist an hypothesis $g_{i,j,k}'$ that is a specialisation of $g_{i,j}$ and a generalisation of $g_{i,j,k}$ and at the same time consistent with $e_i$
+\[\]
+Therefore, after step $i$ set $g_i$ contains general bounds of set $E_i$.
+\paragraph*{Claim 2}
+After step $i$ set $s_i$ contains specific bounds for the set of already processed examples if $s_{i-1}$ contained specific bounds of set $E_{i-1}$ .
+\paragraph*{Proof}
+
+Proof by analogy with claim 1.
+
+\[\]
+
+At the step 0, before any example processed $g_i$ consist of only element $\{?, ... ,?\}$ which is the general bound of an empty set of examples i.e. $\nexists g' \| g'<g_0$. Also at the step 0, before any example processed $s_i$ consist of only element $\{\emptyset, ... ,\emptyset\}$ which is the specific bound of an empty set of examples i.e. $\nexists s' \| s'>s_0$.
+\[\]
+Therefore, if set $g_0$ contains general bounds and on step 0 and set $s_0$ contains specific bounds on step 0 and claim 1 and claim 2 holds, than after n steps for N existing examples we will still have sets of general and specific examples that will be returned by algorithm
