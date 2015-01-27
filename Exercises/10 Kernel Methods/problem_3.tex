@@ -1,0 +1,44 @@
+First, let
+
+\[
+\mathrm{coin}:\mathbb{R}^{d}\rightarrow\{+,-\},\; x\mapsto\mathrm{coin}(x)=\begin{cases}
++ & \text{with probability }1/2\\
+- & \text{with probability }1/2
+\end{cases}
+\]
+and the euclidean distance
+\[
+d:\mathbb{R}^{d}\times\mathbb{R}^{d}\rightarrow\mathbb{R},\; d(x,y)=\Vert x-y\Vert_{2}=\sqrt{\langle x-y,x-y\rangle}.
+\]
+Then the desired decision function $f:\mathbb{R}^{d}\rightarrow\{+,-\}$
+is 
+\[
+f(x)=\begin{cases}
++ & \text{if }\: d(x,c^{+})<d(x,c^{-})\\
+- & \text{if }\: d(x,c^{+})>d(x,c^{-})\\
+\mathrm{coin}(x) & \text{if }\: d(x,c^{+})=d(x,c^{-}).
+\end{cases}
+\]
+\[
+\Leftrightarrow f(x)=\begin{cases}
++ & \text{if }\: d^{2}(x,c^{+})-d^{2}(x,c^{-})<0\\
+- & \text{if }\: d^{2}(x,c^{+})-d^{2}(x,c^{-})>0\\
+\mathrm{coin}(x) & \text{if }\: d^{2}(x,c^{+})-d^{2}(x,c^{-})=0
+\end{cases}
+\]
+\[
+\Leftrightarrow f(x)=\begin{cases}
++ & \text{if }\:\langle x-c^{+},x-c^{+}\rangle-\langle x-c^{-},x-c^{-}\rangle<0\\
+- & \text{if }\:\langle x-c^{+},x-c^{+}\rangle-\langle x-c^{-},x-c^{-}\rangle>0\\
+\mathrm{coin}(x) & \text{if }\:\langle x-c^{+},x-c^{+}\rangle-\langle x-c^{-},x-c^{-}\rangle=0.
+\end{cases}
+\]
+The constraint can also be written by a separating hyperplane.
+
+\[
+f(x)=\begin{cases}
++ & \text{if }\:\langle x,\left(c^{-}-c^{+}\right)\rangle+\frac{1}{2}\left(\langle c^{+},c^{+}\rangle-\langle c^{-},c^{-}\rangle\right)<0\\
+- & \text{if }\:\langle x,\left(c^{-}-c^{+}\right)\rangle+\frac{1}{2}\left(\langle c^{+},c^{+}\rangle-\langle c^{-},c^{-}\rangle\right)>0\\
+\mathrm{coin}(x) & \text{if }\:\langle x,\left(c^{-}-c^{+}\right)\rangle+\frac{1}{2}\left(\langle c^{+},c^{+}\rangle-\langle c^{-},c^{-}\rangle\right)=0
+\end{cases}
+\]
